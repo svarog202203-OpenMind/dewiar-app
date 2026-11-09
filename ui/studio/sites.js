@@ -1,11 +1,11 @@
-/* Студия → «Работа» → «Сайты» (03.11, владелец: «Лира должна научиться делать сайты… переделать сайт в любой момент —
+/* Студия → «Работа» → «Сайты» (03.11, владелец: «Мира должна научиться делать сайты… переделать сайт в любой момент —
    от структуры до дизайна — одной командой; публикация на dewiar.pro; посещаемость и аналитика — красивые»).
-   Список: «Расскажите о своём деле» (Лира делает сайт по описанию), мои сайты карточками с живым превью, 11 шаблонов.
+   Список: «Расскажите о своём деле» (Мира делает сайт по описанию), мои сайты карточками с живым превью, 11 шаблонов.
    Редактор: слева — разделы (перетаскивание, вариант вёрстки, фон, поля и карточки), оформление (палитры, шрифтовые
    пары, углы, шапка), шапка (логотип, знак, меню), контакты и описание для поисковиков; справа — живой предпросмотр
-   (компьютер/телефон; щелчок по разделу открывает его настройку) и «Сказать Лире». «Верни как было», «История»,
+   (компьютер/телефон; щелчок по разделу открывает его настройку) и «Сказать Мире». «Верни как было», «История»,
    «Опубликовать» (имя.dewiar.pro, проверка занятости, QR). Вкладки: «Аналитика» (посещения по дням, откуда, страницы,
-   устройства, заявки), «Заявки» (в «Клиентах»), «Продвижение» (проверка и «Попросить Лиру исправить»).
+   устройства, заявки), «Заявки» (в «Клиентах»), «Продвижение» (проверка и «Попросить Миру исправить»).
    Ядро — sites.py: sites_list, sites_meta, sites_get, sites_render, sites_template, sites_create, sites_apply, sites_say,
    sites_undo, sites_restore, sites_image, sites_open, sites_check, sites_suggest, sites_publish, sites_unpublish,
    sites_stats, sites_audit, sites_leads, sites_logos, sites_delete; событие «sites». */
@@ -70,12 +70,12 @@ window.addEventListener("resize", () => { $$("#p-sites .st-card, #p-sites .st-tp
 
 async function stCreate(a, btn) {
   const was = btn ? btn.textContent : "";
-  if (btn) { btn.disabled = true; btn.textContent = a.describe ? "Лира делает сайт…" : "Создаю…"; }
+  if (btn) { btn.disabled = true; btn.textContent = a.describe ? "Мира делает сайт…" : "Создаю…"; }
   try {
     const r = await core.call("sites_create", a);
     SITES.items = (await core.call("sites_list")).items || [];
     stOpen(r.site.id, false, r);
-    toast(a.describe ? "Сайт готов — меняйте что угодно фразой внизу" : "Готово — замените тексты своими или скажите Лире", 3500);
+    toast(a.describe ? "Сайт готов — меняйте что угодно фразой внизу" : "Готово — замените тексты своими или скажите Мире", 3500);
   } catch (e) { toast(e.message, 5000); }
   if (btn) { btn.disabled = false; btn.textContent = was; }
 }
@@ -410,7 +410,7 @@ function stInfo() {
   };
 }
 
-/* ---------- «Сказать Лире», история, открыть ---------- */
+/* ---------- «Сказать Мире», история, открыть ---------- */
 async function stSay(text) {
   const b = $("#st-sayb"), inp = $("#st-sayt");
   if (!text) { inp.focus(); return; }
@@ -615,7 +615,7 @@ async function stLeads() {
   $$("#st-leads [data-cl]").forEach(b => b.onclick = () => { if (window.CR) CR.cur = b.dataset.cl; const n = $('nav button[data-p="clients"]'); if (n) { n.hidden = false; n.click(); } });
 }
 
-/* «Продвижение»: проверка без внешних служб — что улучшить и «Попросить Лиру исправить» */
+/* «Продвижение»: проверка без внешних служб — что улучшить и «Попросить Миру исправить» */
 async function stSeo() {
   const box = $("#st-seo");
   box.innerHTML = `<div class="st-loading">Проверяю сайт…</div>`;
@@ -624,29 +624,29 @@ async function stSeo() {
   const bad = a.items.filter(x => !x.ok), good = a.items.filter(x => x.ok);
   $("#st-nseo").textContent = bad.filter(x => x.level === "важно").length || "";
   const ring = (s) => { const r = 52, c = 2 * Math.PI * r; return `<svg viewBox="0 0 128 128" class="st-ring" role="img" aria-label="${s} из 100"><circle cx="64" cy="64" r="${r}" class="bg"/><circle cx="64" cy="64" r="${r}" class="fg ${s >= 85 ? "ok" : s >= 60 ? "mid" : "low"}" stroke-dasharray="${(c * s / 100).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 64 64)"/><text x="64" y="70" text-anchor="middle">${s}</text></svg>`; };
-  const say = s => s >= 85 ? "Сайт готов к продвижению — осталось немного." : s >= 60 ? "Хорошая основа: поправьте отмеченное — и поисковикам, и людям станет понятнее." : "Начните с важного — это быстро, Лира поможет.";
+  const say = s => s >= 85 ? "Сайт готов к продвижению — осталось немного." : s >= 60 ? "Хорошая основа: поправьте отмеченное — и поисковикам, и людям станет понятнее." : "Начните с важного — это быстро, Мира поможет.";
   box.innerHTML = `<div class="st-seohd">${ring(a.score)}<div><h3>${stE(say(a.score))}</h3><p class="hint">Проверка без внешних служб: заголовки и описания страниц, главный заголовок, подписи к фото, вес, контакты и форма, карточка для соцсетей, заглушки.</p></div></div>
     ${bad.length ? `<h4 class="st-h4">Что улучшить</h4><ul class="st-chk2">${bad.map((x, i) => `<li class="${x.level === "важно" ? "hi" : ""}"><span class="st-ci" aria-hidden="true">${stI(x.level === "важно" ? '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16.4v.1"/>' : '<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12h7"/>')}</span>
-      <span class="st-cw"><b>${stE(x.title)}</b><span>${stE(x.detail)}</span></span>${x.fix ? `<button type="button" class="btn small" data-i="${i}">${x.title === "Сайт в интернете" ? "Опубликовать" : x.title === "Фото в галерее" ? "Добавить фото" : "Попросить Лиру исправить"}</button>` : ""}</li>`).join("")}</ul>` : ""}
+      <span class="st-cw"><b>${stE(x.title)}</b><span>${stE(x.detail)}</span></span>${x.fix ? `<button type="button" class="btn small" data-i="${i}">${x.title === "Сайт в интернете" ? "Опубликовать" : x.title === "Фото в галерее" ? "Добавить фото" : "Попросить Миру исправить"}</button>` : ""}</li>`).join("")}</ul>` : ""}
     <details class="st-goodd"${bad.length ? "" : " open"}><summary>Уже хорошо — ${good.length}</summary><ul class="st-chk2 good">${good.map(x => `<li><span class="st-ci ok" aria-hidden="true">${stI('<path d="M5 12.5l4 4 10-10"/>')}</span><span class="st-cw"><b>${stE(x.title)}</b><span>${stE(x.detail)}</span></span></li>`).join("")}</ul></details>
     <div class="st-tips"><h4 class="st-h4">Где рассказать о сайте</h4><ul><li><b>Яндекс Бизнес и Карты, 2ГИС</b> — карточка с адресом, часами и ссылкой на сайт: по ним ищут «рядом».</li>
       <li><b>Соцсети и мессенджеры</b> — ссылка в профиле, закреплённый пост, подпись в каналах.</li><li><b>На месте</b> — QR-код на кассе, визитке, витрине (есть в окне после публикации).</li>
       <li><b>В письмах</b> — ссылка в подписи и в рассылке клиентам.</li></ul>
-      <button type="button" class="btn" id="st-askl">Спросить Лиру, как продвигать</button></div>`;
+      <button type="button" class="btn" id="st-askl">Спросить Миру, как продвигать</button></div>`;
   $$("#st-seo .st-chk2 [data-i]").forEach(b => b.onclick = async () => {
     const x = bad[+b.dataset.i];
     if (x.title === "Сайт в интернете") { stPublish(); return; }
     if (x.title === "Фото в галерее") { const g = stBlocks().find(q => q.type === "gallery"); stTab("edit"); stSeg("blocks"); if (g) { SITES.open = SITES.sel = g.uid; stBlocksList(); stShow(g.uid); } return; }
-    b.disabled = true; b.textContent = "Лира исправляет…";
+    b.disabled = true; b.textContent = "Мира исправляет…";
     try { const r = await core.call("sites_say", { id: SITES.sid, text: x.fix }); SITES.cur = r.site; SITES.hist = r.history; stBar(); stSide(); stPreview(); toast(r.said || "Исправлено", 4000); stSeo(); }
-    catch (e) { toast(e.message, 5000); b.disabled = false; b.textContent = "Попросить Лиру исправить"; }
+    catch (e) { toast(e.message, 5000); b.disabled = false; b.textContent = "Попросить Миру исправить"; }
   });
   $("#st-askl").onclick = () => { if (typeof qaAsk === "function") qaAsk(`Оцени мой сайт «${SITES.cur.name}» и подскажи, как его продвигать`); };
 }
 
 (function stInit() {
   if (!$("#p-sites")) return;
-  // №552: «Сайт-образец» — ссылка на сайт, который нравится: Лира возьмёт разделы и стиль, тексты и бренды — свои
+  // №552: «Сайт-образец» — ссылка на сайт, который нравится: Мира возьмёт разделы и стиль, тексты и бренды — свои
   $("#st-ask").onsubmit = (e) => { e.preventDefault(); const d = $("#st-desc").value.trim(), ref = ($("#st-ref") || { value: "" }).value.trim();
     if (!d) { $("#st-desc").focus(); toast("Опишите дело в паре фраз — чем занимаетесь, где, для кого"); return; }
     stCreate(Object.assign({ describe: d }, ref ? { ref } : {}), $("#st-make")); };

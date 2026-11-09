@@ -87,8 +87,8 @@ function render() {
   const days = S.days.slice(-period);
   const you = days.reduce((s, d) => s + d.you, 0), lira = days.reduce((s, d) => s + d.lira, 0);
   if (!S.total.you && !S.total.lira) {
-    app.innerHTML = `<div class="state"><div class="big">💬</div><h2>Разговоров пока нет</h2><p>Поговорите с Лирой голосом или напишите в «Чате» — здесь появятся графики: по дням, по часам, с кем и о чём.</p>
-      <button class="btn primary" id="hi">Написать Лире «Привет!»</button></div>`;
+    app.innerHTML = `<div class="state"><div class="big">💬</div><h2>Разговоров пока нет</h2><p>Поговорите с Мирой голосом или напишите в «Чате» — здесь появятся графики: по дням, по часам, с кем и о чём.</p>
+      <button class="btn primary" id="hi">Написать Мире «Привет!»</button></div>`;
     $("#hi").onclick = () => dewiar.ask("Привет! Как дела?").catch(e => dewiar.toast(e.message));
     return;
   }
@@ -164,7 +164,7 @@ function daily(days) {
 
 function needAccess(msg) {
   $("#app").innerHTML = `<div class="state"><div class="big">🔒</div><h2>Нужен доступ к статистике разговоров</h2>
-    <p>Плагин покажет, сколько и когда вы говорите с Лирой, с кем из персонажей и частые слова. Текст сообщений он не видит, а у страницы нет интернета.</p>
+    <p>Плагин покажет, сколько и когда вы говорите с Мирой, с кем из персонажей и частые слова. Текст сообщений он не видит, а у страницы нет интернета.</p>
     <button class="btn primary" id="again">Разрешить и показать</button><p class="hint" style="margin-top:12px">${esc(msg)}</p></div>`;
   $("#again").onclick = load;
 }

@@ -2,7 +2,7 @@
 между компами?»). Вид синхронизации «plugin» — только между компьютерами (телефон его не просит, узел «Дома по Wi-Fi» не
 знает), см. core/sync.py: _snap_plugins, _apply_plugin.
 
-Что переносится: плагины, сделанные Лирой («Сделай плагин», правки словами, плагины из готовых шаблонов — у них в
+Что переносится: плагины, сделанные Мирой («Сделай плагин», правки словами, плагины из готовых шаблонов — у них в
 plugin.json есть made, core/plugin_maker.py), — plugin.json, ui.html, skill.md, своя программа server.py, если есть, и
 версии (.versions/, последние 10). Не переносятся: данные страницы (dewiar.store — в папке данных плагина), разрешения
 (settings.plugins.grants), установлен ли плагин, его настройки и дела по расписанию — это у каждого компьютера своё.
@@ -41,7 +41,7 @@ def user_dir(P):
 
 
 def _made(d: Path):
-    """plugin.json папки -> словарь, если это плагин Лиры (made), иначе None."""
+    """plugin.json папки -> словарь, если это плагин Миры (made), иначе None."""
     try:
         m = json.loads((d / "plugin.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
@@ -50,7 +50,7 @@ def _made(d: Path):
 
 
 def made_dirs(P):
-    """[(id, папка)] своих плагинов Лиры. Встроенный с тем же id — не наш (свой его и не перекрывает)."""
+    """[(id, папка)] своих плагинов Миры. Встроенный с тем же id — не наш (свой его и не перекрывает)."""
     root, out = user_dir(P), []
     if not root.is_dir():
         return out
@@ -100,7 +100,7 @@ def bundle(d: Path, pid):
     """Папка плагина -> (сжатая сборка, {name, code}) или (None, причина)."""
     man = _made(d)
     if man is None:
-        return None, "не плагин Лиры"
+        return None, "не плагин Миры"
     if man.get("id") not in (None, pid):               # папка одного плагина, а в plugin.json — другой: такой не шлём
         return None, "id в plugin.json не совпадает с папкой"
     files = {}
@@ -343,7 +343,7 @@ def _trash(P, d: Path):
 
 
 def remove(host, pid):
-    """Плагин удалили на другом компьютере — удалить и здесь (только свой плагин Лиры)."""
+    """Плагин удалили на другом компьютере — удалить и здесь (только свой плагин Миры)."""
     P = getattr(host, "plugins", None)
     if P is None or not present(P, pid) or _made(user_dir(P) / pid) is None:
         return

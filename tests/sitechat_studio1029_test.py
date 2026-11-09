@@ -35,12 +35,12 @@ with sync_playwright() as p:
     st.route(re.compile(r"^https?://"), lambda r: r.abort())
     st.add_init_script(FAKE_CORE)
     st.goto((ROOT / "ui/settings.html").as_uri() + "?port=1"); st.wait_for_timeout(1500)
-    st.evaluate("""() => { personas = [{ id: "lira", name: "Лира", color: "#5aa9e6", character: "тёплая", knowledge: [{ kind: "folder", path: "/home/u/Прайс", label: "Прайс" }] },
+    st.evaluate("""() => { personas = [{ id: "lira", name: "Мира", color: "#5aa9e6", character: "тёплая", knowledge: [{ kind: "folder", path: "/home/u/Прайс", label: "Прайс" }] },
         { id: "patrik", name: "Патрик", color: "#e59a1f", character: "деловой", knowledge: [] }]; if (!S) S = {}; S.persona = "lira"; S.features = { clients: true }; featuresApply(); }""")
     ok(st.locator('nav button[data-p="sitechat"]').is_visible(), "в меню «Работа» — «Чат для сайта» (когда включены «Клиенты»)")
     st.evaluate("document.querySelector('nav button[data-p=\"sitechat\"]').click()"); st.wait_for_timeout(600)
     ok(st.locator("#sc-ps .co-m").count() == 2 and "on" in st.get_attribute("#sc-ps .co-m[data-id=lira]", "class"), "персонажи на выбор, текущий — отмечен")
-    ok(st.is_enabled("#sc-fold") and "Прайс" in st.inner_text("#sc-foldtip"), "у Лиры есть папка «Прайс» — её можно добавить в знания")
+    ok(st.is_enabled("#sc-fold") and "Прайс" in st.inner_text("#sc-foldtip"), "у Миры есть папка «Прайс» — её можно добавить в знания")
     st.fill("#sc-title", "Чайный двор"); st.fill("#sc-greet", "Здравствуйте! Помогу выбрать чай."); st.wait_for_timeout(800)
     pv = st.inner_text("#sc-prev")
     ok("Чайный двор · ИИ-помощник" in pv and "Помогу выбрать чай" in pv and "Оставить контакт" in pv, f"окно чата справа — на лету: {pv[:120]!r}")

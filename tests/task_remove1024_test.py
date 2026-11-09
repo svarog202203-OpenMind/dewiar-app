@@ -1,4 +1,4 @@
-"""24.10, владелец: «Лира меня замучила напоминанием про задачу „Исследование“, я даже не знаю, откуда она… попросил
+"""24.10, владелец: «Мира меня замучила напоминанием про задачу „Исследование“, я даже не знаю, откуда она… попросил
 удалить — она долго рассказывала, что не умеет; попробовал сам — на телефоне не понятно, где удалить».
 - компьютер: инструмент remove_task удаляет задачу по части названия;
 - телефон: на карточке задачи в «Мой день» → «Сделанное» — «Удалить задачу» и, если ждёт ответа, поле «Ответить»;
@@ -99,12 +99,12 @@ with sync_playwright() as p:
     # голосом: «удали задачу исследование»
     pg.evaluate(PREP)
     names = pg.evaluate("toolSpecs().map(t => t.name)")
-    ok("remove_task" in names and "answer_task" in names, "есть задачи — у Лиры инструменты remove_task и answer_task")
+    ok("remove_task" in names and "answer_task" in names, "есть задачи — у Миры инструменты remove_task и answer_task")
     r = pg.evaluate("runTool('remove_task', { name: 'исследование' })")
     ok("удалена" in r and "t1" not in pg.evaluate("Object.keys(mind().tasks)"), f"«удали задачу исследование»: {r}")
     r = pg.evaluate("runTool('remove_task', { name: 'отчёт' })")
     ok("Тестовая задача" in r, f"нет такой — список задач: {r}")
-    ok("remove_task" in pg.evaluate("recentPrompt()"), "в подсказке Лиры — как удалить задачу")
+    ok("remove_task" in pg.evaluate("recentPrompt()"), "в подсказке Миры — как удалить задачу")
     ok(not errs, f"без ошибок: {errs[:2]}")
     b.close()
 if fails:

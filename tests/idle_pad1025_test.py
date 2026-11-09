@@ -180,12 +180,12 @@ with sync_playwright() as p:
         pg.route(re.compile(r"^https?://"), lambda r: r.abort())
         pg.goto((www / "index.html").as_uri()); pg.wait_for_timeout(900)
         pg.evaluate(f"""S.skin = '{skin}'; try {{ applyLook(); }} catch (e) {{}}
-          newsShow([{{ phone: '0.6.98', items: [{{ icon: '⚫', title: 'Пять в ряд', text: 'Игра.', try: '«Лира, давай поиграем в пять в ряд»' }}] }}])""")
+          newsShow([{{ phone: '0.6.98', items: [{{ icon: '⚫', title: 'Пять в ряд', text: 'Игра.', try: '«Мира, давай поиграем в пять в ряд»' }}] }}])""")
         pg.wait_for_timeout(600)
         n = pg.locator("#news-body .nwtry").count()
         bad = contrast_lib.audit(pg, "#news-body", 3.0) if n else ["нет кнопки"]
         ok(n == 1 and not bad, f"«Что нового», тема {skin}: «Попробовать…» читается: {bad[:2]}")
-        if skin == "neusky":       # №241: Лира спросила «…?» — слушание включилось само; ответ остаётся на экране
+        if skin == "neusky":       # №241: Мира спросила «…?» — слушание включилось само; ответ остаётся на экране
             pg.evaluate("closeSheets()")
             long = "Давай так: открой Dewiar на телефоне, нажми «Ещё» и поищи там пункт «Сообщить об ошибке». " * 3 + "Нашёл?"
             pg.evaluate("(t) => { showBot(t); frameAnswer(t); }", long); pg.wait_for_timeout(200)

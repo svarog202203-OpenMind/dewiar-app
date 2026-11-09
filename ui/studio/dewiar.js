@@ -168,7 +168,7 @@ async function dwRef() {
     : d.bonus > 0 ? ` Вам +${refTal(d.bonus)} тал. за каждого друга, который попользуется Dewiar ${d.days} дн.` : "");
 }
 $("#dw-ref-open").onclick = () => $('nav button[data-p="ref"]').click();
-/* «Сеть Лиры» (04.11, core/liranet.py → server/dwrapp/liranet.php): переключатель «Пускать мои общие вопросы», правила с
+/* «Сеть Миры» (04.11, core/liranet.py → server/dwrapp/liranet.php): переключатель «Пускать мои общие вопросы», правила с
    проверенной подписью (отпечаток ключа сети), «Мой узел» и «Поделиться мощностью» — команда для Ubuntu по приглашению. */
 const lnTal = (x) => String(Math.round((+x || 0) * 10000) / 10000).replace(".", ",");
 const lnDate = (ts) => ts ? new Date(ts * 1000).toLocaleDateString("ru-RU", { day: "numeric", month: "long" }) : "";
@@ -200,7 +200,7 @@ async function lnLoad(trustNew) {
 }
 $("#dw-ln-share").onchange = async (e) => {
   const on = e.target.checked, res = $("#dw-ln-res");
-  try { await core.call("lnet_share", { on }); res.className = "res ok"; res.textContent = on ? "Общие вопросы иногда будет отвечать Сеть Лиры. Личное — только сервер Dewiar." : "Выключено: всё отвечает сервер Dewiar."; }
+  try { await core.call("lnet_share", { on }); res.className = "res ok"; res.textContent = on ? "Общие вопросы иногда будет отвечать Сеть Миры. Личное — только сервер Dewiar." : "Выключено: всё отвечает сервер Dewiar."; }
   catch (x) { e.target.checked = !on; res.className = "res bad"; res.textContent = x.message; }
   lnLoad();
 };

@@ -1,7 +1,7 @@
 TITLE = "Урок 14 · Большие задачи"
 IDEA = "Главная вещь урока — живой план справа: пункты отмечаются один за другим, текущий крутится, в конце — готовая таблица."
 H1 = "Большие задачи"
-TAG = "Часы работы — Лира делает сама, по шагам"
+TAG = "Часы работы — Мира делает сама, по шагам"
 NEXT = "Скоро — новые уроки"
 ICON = '<svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2"/><circle cx="5" cy="18" r="1.2"/></svg>'
 SCENES = ["title", "problem", "give", "plan", "result", "ask", "phone", "how", "end"]
@@ -52,7 +52,7 @@ HTML = """
     <div class="say" id="q1">«Сравни пять ноутбуков до ста тысяч рублей и сделай таблицу»</div>
     <div id="tbl"><h4>Ноутбуки до 100 000 ₽<span>Открыть</span></h4><table><tr><th>Модель</th><th>Вес</th><th>Батарея</th><th>Цена</th></tr>""" + "".join(
         ('<tr class="best">' if i == 2 else "<tr>") + f"<td>{a}</td><td>{b}</td><td>{c}</td><td>{d}</td></tr>" for i, (a, b, c, d) in enumerate(ROWS)) + """</table></div>
-    <div id="qa"><small>ЛИРА СПРАШИВАЕТ</small><p>Что важнее — вес или батарея?</p><div><span id="qa1">Вес</span><span id="qa2">Батарея</span></div></div>
+    <div id="qa"><small>МИРА СПРАШИВАЕТ</small><p>Что важнее — вес или батарея?</p><div><span id="qa1">Вес</span><span id="qa2">Батарея</span></div></div>
     <div id="studio"><h3>Задачи</h3>
       <div class="it">💻 Сравнить ноутбуки<em class="ok">готово ✓</em></div>
       <div class="it">🖥 Презентация о погоде<em class="run">делаю · 3 из 5</em></div>

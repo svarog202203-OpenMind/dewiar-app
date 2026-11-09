@@ -23,7 +23,7 @@ def _kids_blocked(cmd, a):
         patch = (a or {}).get("patch") or {}
         return not all(k == "ui" or (k == "tts" and set(v or {}) <= {"text_only"}) for k, v in patch.items())
     if cmd == "lnet_info" and (a or {}).get("trust_new"):
-        return True                                    # «Доверять новому ключу» Сети Лиры — только взрослому
+        return True                                    # «Доверять новому ключу» Сети Миры — только взрослому
     return cmd.startswith(_KIDS_LOCKED)
 
 
@@ -411,7 +411,7 @@ class CommandsMixin:
     # ---------- окно голосом: «спрячься», «покажись», «отключись» ----------
 
     def sites_cmd(self, cmd, a):
-        """«Сайты» (03.11, sites.py) для студии: список, шаблоны, предпросмотр, правки и «Сказать Лире», версии, фото,
+        """«Сайты» (03.11, sites.py) для студии: список, шаблоны, предпросмотр, правки и «Сказать Мире», версии, фото,
         публикация на имя.dewiar.pro, посещения, проверка продвижения, заявки."""
         from sites import SiteError
         W = self.sites
@@ -540,7 +540,7 @@ class CommandsMixin:
         return out
 
     def plugins_changed(self, pid="", code=False, open_=False):
-        """Плагин сделан или изменён Лирой: навыки, серверы (если есть код), меню студии и страница — сразу."""
+        """Плагин сделан или изменён Мирой: навыки, серверы (если есть код), меню студии и страница — сразу."""
         self.skills.reload()
         if code:
             self.mcp.reconcile()
@@ -553,7 +553,7 @@ class CommandsMixin:
         self.emit("plugin_made", id=pid, name=p.get("name", ""), icon=p.get("icon", ""), open=bool(open_))
 
     def _plugin_make_cmd(self, cmd, a):
-        """Лира делает плагин по описанию (core/plugin_maker.py) и расширенный мост страницы (core/plugin_bridge.py):
+        """Мира делает плагин по описанию (core/plugin_maker.py) и расширенный мост страницы (core/plugin_bridge.py):
         plugin_make {describe, code, template} / plugin_change {id, request, code} / plugin_versions {id} /
         plugin_restore {id, v} / plugin_undo {id} / plugin_templates / plugin_store {id, op: get|set, key, value} /
         plugin_data {id, scope} — только с разрешения / plugin_grant {id, scope, on: true|false|null} /
@@ -843,7 +843,7 @@ class CommandsMixin:
             raise ValueError(str(e)) from e
         raise ValueError(f"неизвестная команда {cmd}")
 
-    # «Морской бой» голосом (0.63; план «Идей Лиры»: «„Б пять!“ — Лира ставит выстрел сама и отвечает голосом»): пока игра
+    # «Морской бой» голосом (0.63; план «Идей Миры»: «„Б пять!“ — Мира ставит выстрел сама и отвечает голосом»): пока игра
     # открыта в «Досуге» (pad.js шлёт game_mark), короткая фраза с клеткой («бэ пять», «Д7», «стреляю в ка десять») или
     # словом игры («сдаюсь», «ещё партию») — не вопрос модели, а ход: событие game -> игра; итог она скажет через game_say.
     SEA_CELL_RX = re.compile(r"(?:^|[^а-я])(?:а|бэ?|бе|вэ?|ве|гэ?|ге|дэ?|де|е|жэ?|же|зэ?|зе|и|ка?|й)\s*-?\s*(?:10|[1-9]|один|одна|раз|два|две|три|"
@@ -1000,7 +1000,7 @@ class CommandsMixin:
         kids = getattr(self, "kids", None)
         if kids and kids.locked() and _kids_blocked(cmd, a):
             raise ValueError("Детский режим: это может только взрослый — студия → «Дети», PIN родителя")
-        if cmd in ("month_get", "month_say", "month_hide"):   # «Мой месяц с Лирой» (month.py)
+        if cmd in ("month_get", "month_say", "month_hide"):   # «Мой месяц с Мирой» (month.py)
             import month as M
             ym = str(a.get("ym") or "") or M.prev_ym()
             if cmd == "month_hide":
@@ -1008,16 +1008,16 @@ class CommandsMixin:
                 return {"ok": True}
             d = M.gather(self, ym)
             if cmd == "month_say":
-                threading.Thread(target=self.ask, args=(M.context(d) + "\n\n" + M.PROMPT,), kwargs={"raw": True, "shown": f"📅 Мой {d['title']} с Лирой"},
+                threading.Thread(target=self.ask, args=(M.context(d) + "\n\n" + M.PROMPT,), kwargs={"raw": True, "shown": f"📅 Мой {d['title']} с Мирой"},
                                  daemon=True).start()
             return dict(d, hidden=(self.s.get("ui") or {}).get("month_hide") == ym)
-        if cmd in ("care_get", "care_remove", "care_set"):   # «Лира спросит потом» (care.py)
+        if cmd in ("care_get", "care_remove", "care_set"):   # «Мира спросит потом» (care.py)
             if cmd == "care_remove":
                 self.care.remove(str(a.get("id") or ""))
             if cmd == "care_set":
                 self.s.update({"care": {"on": bool(a.get("on"))}})
             return {"on": (self.s.get("care") or {}).get("on", True) is not False, "items": self.care.public()}
-        if cmd.startswith("ideas_"):             # «Идеи Лиры»: список, голос, своя идея (ideas.py → сайт)
+        if cmd.startswith("ideas_"):             # «Идеи Миры»: список, голос, своя идея (ideas.py → сайт)
             import ideas
             return ideas.command(self, cmd, a)
         if cmd.startswith("homelan_"):           # «Дома по Wi-Fi» (engine_home.py)
@@ -1032,7 +1032,7 @@ class CommandsMixin:
         if cmd == "watch_stop":
             self.watch_stop(str(a.get("id") or ""))
             return self.watch_public()
-        if cmd == "mode_get":                    # режим Лиры: для меня, ребёнка, старших (engine_senior.py)
+        if cmd == "mode_get":                    # режим Миры: для меня, ребёнка, старших (engine_senior.py)
             return self.mode_public()
         if cmd == "mode_set":
             return self.mode_set(str(a.get("mode") or ""))
@@ -1041,7 +1041,7 @@ class CommandsMixin:
         if cmd == "senior_med_add":
             return {"added": self.senior_med_add(a.get("text"), a.get("times") or []), **self.mode_public()}
         if cmd == "senior_test":                 # «Проверить» — присматривающим приходит пробное сообщение
-            n = self._senior_send(f"Это Лира, помощница. {self.senior.who()} включила режим «Для старших» — сюда я буду "
+            n = self._senior_send(f"Это Мира, помощница. {self.senior.who()} включила режим «Для старших» — сюда я буду "
                                   "писать, если что-то не так, и вечером — как прошёл день.")
             if not n:
                 raise ValueError("не отправилось — у выбранных близких Dewiar ещё не открывался после приглашения")
@@ -1169,7 +1169,7 @@ class CommandsMixin:
             return self.brains_pull()
         if cmd == "brains_status":
             return self.brains_status()
-        if cmd == "pair_claim":                   # «Ввести код»: это устройство — та же Лира
+        if cmd == "pair_claim":                   # «Ввести код»: это устройство — та же Мира
             from cloud import CloudError
             try:
                 return self.pair_claim(str(a.get("code") or ""), a.get("url", ""))
@@ -1321,7 +1321,7 @@ class CommandsMixin:
                         self.s.update({"smarthome": {"client_id": tok.lower()}})
                         return dict(self.home.public(), client_saved=True)
                     r = self.home.connect(tok)
-                    self.own_share()                # и на телефоне Лира сможет — ключ уходит зашифрованным
+                    self.own_share()                # и на телефоне Мира сможет — ключ уходит зашифрованным
                 elif cmd == "home_forget":
                     r = self.home.forget()
                     self.own_share()
@@ -1461,7 +1461,7 @@ class CommandsMixin:
                 return self.mail.public()
             except MailError as e:
                 raise ValueError(str(e)) from e
-        if cmd.startswith("course_"):           # курс «Неделя с Лирой» (core/course.py, studio/course.js)
+        if cmd.startswith("course_"):           # курс «Неделя с Мирой» (core/course.py, studio/course.js)
             c = self.course
             if cmd == "course_seen":
                 c.seen(str(a.get("section") or ""))
@@ -1519,7 +1519,7 @@ class CommandsMixin:
         if cmd in ("reminders", "reminder_add", "reminder_update", "reminder_split", "reminder_cancel", "alarm_ack", "alarm_snooze",
                    "alarm_get", "alarm_test", "reminder_parse", "job_add", "job_run", "reminder_files", "capture_parse", "capture_save"):
             return self._reminder_cmd(cmd, a)
-        if cmd in ("morning_get", "morning_set"):                   # «Утро с Лирой» (morning.py): карточка на главной студии
+        if cmd in ("morning_get", "morning_set"):                   # «Утро с Мирой» (morning.py): карточка на главной студии
             import morning
             if cmd == "morning_set":
                 patch = {}
@@ -2303,7 +2303,7 @@ class CommandsMixin:
                 return self.pair_new()
             except CloudError as e:
                 raise ValueError(str(e)) from e
-        if cmd.startswith("lnet_"):                   # «Сеть Лиры»: правила с подписью, «Мой узел», приглашение узла (liranet.py)
+        if cmd.startswith("lnet_"):                   # «Сеть Миры»: правила с подписью, «Мой узел», приглашение узла (liranet.py)
             import liranet
             try:
                 return liranet.command(self, cmd, a)
@@ -2495,7 +2495,7 @@ class CommandsMixin:
             return self.soul.public(name)
         if cmd == "diary_list":
             return self.diary.entries()
-        if cmd == "ctx_view":                                   # «О программе» → «Для отладки: что Лира сейчас учитывает»
+        if cmd == "ctx_view":                                   # «О программе» → «Для отладки: что Мира сейчас учитывает»
             return self.ctx_view()
         if cmd in ("diary_entry_save", "diary_entry_delete"):     # «Дневник»: поправить или удалить запись (28.10)
             if cmd == "diary_entry_save":

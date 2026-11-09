@@ -48,7 +48,7 @@ class S:
 
 class P:
     def get(self, pid):
-        return {"id": "lira", "name": "Лира", "gender": "female"}
+        return {"id": "lira", "name": "Мира", "gender": "female"}
 
 
 def make(llm=True, muted=False, hearing=True):
@@ -107,23 +107,23 @@ def run(eng, voice=None, wait=20):
 # 1. услышала фразу
 e = make()
 import engine_intro  # noqa: E402
-run(e, ("text", "Привет, Лира!"))
+run(e, ("text", "Привет, Мира!"))
 st = steps(e)
 ok(st[:2] == ["start", "hello"] and "mic" in st and "mic_ok" in st and "buttons" in st and "try" in st and st[-1] == "done", f"шаги: {st}")
-ok(any("Привет! Я Лира" in t for t in e.said), "представилась своим именем")
-ok(any("Слышу тебя отлично: «Привет, Лира»" in t for t in e.said), "услышала фразу и повторила её")
-ok(("heard", {"text": "Привет, Лира!"}) in e.events, "фраза показана в виджете как услышанная")
+ok(any("Привет! Я Мира" in t for t in e.said), "представилась своим именем")
+ok(any("Слышу тебя отлично: «Привет, Мира»" in t for t in e.said), "услышала фразу и повторила её")
+ok(("heard", {"text": "Привет, Мира!"}) in e.events, "фраза показана в виджете как услышанная")
 ok(not e.asked, "фраза не ушла модели")
 tr = next(k for ev, k in e.events if ev == "intro" and k.get("step") == "try")
-ok(len(tr["phrases"]) == 3 and "Лира, который час?" in tr["phrases"], f"фразы «попробуйте»: {tr['phrases']}")
+ok(len(tr["phrases"]) == 3 and "Мира, который час?" in tr["phrases"], f"фразы «попробуйте»: {tr['phrases']}")
 bt = next(k for ev, k in e.events if ev == "intro" and k.get("step") == "buttons")
 ok(bt["buttons"] == ["b-mic", "b-voice", "b-type"], "рассказ о кнопках — с подсветкой микрофона, динамика и клавиатуры")
 ok(e.s.d["ui"]["intro"] == "done" and not e._intro_running and e._intro_ear is None, "знакомство закончено и запомнено")
 
 # 1б. «первые пять минут» (0.58): имя — заодно проверка микрофона, город для погоды, утро по расписанию
 from engine_intro import intro_name, intro_city  # noqa: E402
-ok([intro_name(t) for t in ("Меня зовут Михаил", "миша", "я Ольга", "Привет, Лира!", "Галина Петровна", "раз два три")]
-   == ["Михаил", "Миша", "Ольга", "", "Галина Петровна", ""], "имя из ответа: «меня зовут…», «я…», просто имя; «привет, Лира» — не имя")
+ok([intro_name(t) for t in ("Меня зовут Михаил", "миша", "я Ольга", "Привет, Мира!", "Галина Петровна", "раз два три")]
+   == ["Михаил", "Миша", "Ольга", "", "Галина Петровна", ""], "имя из ответа: «меня зовут…», «я…», просто имя; «привет, Мира» — не имя")
 ok(intro_city("В Минске") == ("Минске", "в Минске") and intro_city("гродно") == ("Гродно", "Гродно") and intro_city("нет") == ("", ""),
    "город из ответа; «нет» — пропустить")
 import weatherq  # noqa: E402
@@ -151,7 +151,7 @@ ok(["mic", "mic_ok", "city", "city_ok", "morning", "morning_ok"] == [x for x in 
 ok(e.s.d.get("user_name") == "Михаил" and any("Очень приятно, Михаил!" in t for t in e.said), "имя запомнено, «Очень приятно, Михаил!»")
 ok(e.s.d["morning"]["city"] == "Минск" and any("Запомнила: в Минске." in t for t in e.said), "город — «Минск» для погоды, ответ — «в Минске»")
 ok(any(x["kind"] == "job" and x.get("preset") == "brief" for x in e.reminders.items) and any("завтра в восемь" in t for t in e.said),
-   "«да» — каждое утро в 8:00 голосом (то же дело, что «Утро с Лирой»)")
+   "«да» — каждое утро в 8:00 голосом (то же дело, что «Утро с Мирой»)")
 ok(st[-1] == "done" and "try" in st, "и дальше — как раньше: кнопки, что попробовать")
 
 # 2. голос есть, слов нет

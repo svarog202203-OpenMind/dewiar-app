@@ -27,13 +27,13 @@ tmp = Path(tempfile.mkdtemp()); PORT = free(); cfg = tmp / "cfg"; cfg.mkdir(); w
 day = date.today().isoformat()
 (ws / "Дневник").mkdir(parents=True)
 (ws / "Дневник" / f"{day}.md").write_text(
-    "# Дневник — сегодня\n\n### 14:20 · Лира\n\nМысль дня про чайник.\n\n"
+    "# Дневник — сегодня\n\n### 14:20 · Мира\n\nМысль дня про чайник.\n\n"
     "## 🌙 Ночью — о прожитом дне · «Тень в логах» 🕯\n\nТекст ночи про логи.\n\n**На завтра:**\n- напомнить про IP\n", encoding="utf-8")
 (cfg / "settings.json").write_text(json.dumps({"persona": "lira", "audio": {"sounds": False}, "ui": {"news_seen": "99.0.0", "welcome": "done"},
     "stt": {"engine": "vosk"}, "tts": {"engine": "off"}, "updates": {"auto_check": False}}))
 st = tmp / "st"; st.mkdir()
 (st / "diary.json").write_text(json.dumps({"insights": {"day": day, "title": "Тень в логах", "lines": ["напомнить про IP"]},
-                                           "titles": {day: {"title": "Тень в логах", "mood": "🕯", "who": "Лира"}}}, ensure_ascii=False))
+                                           "titles": {day: {"title": "Тень в логах", "mood": "🕯", "who": "Мира"}}}, ensure_ascii=False))
 env = dict(os.environ, DEWIAR_CONFIG_DIR=str(cfg), DEWIAR_STATE_DIR=str(st), DEWIAR_PORT=str(PORT), DEWIAR_ASSUME_AEC="1",
            DEWIAR_WORKSPACE_DIR=str(ws), DEWIAR_DRY_TOOLS=str(tmp / "dry.jsonl"))
 core = subprocess.Popen([PY, str(ROOT / "core/main.py"), "--wav", str(TESTS / "silence90.wav"), "--null-audio"], env=env,
@@ -66,8 +66,8 @@ async def run():
     R["after_del"] = (ws / "Дневник" / f"{day}.md").read_text(encoding="utf-8")
     R["diary_json"] = json.loads((st / "diary.json").read_text(encoding="utf-8"))
     R["del2"] = await call("diary_entry_delete", day=day, i=0)
-    R["soul_save"] = await call("soul_save", persona="Лира", text="# Душа — Лира\n\n## Кто я\n\nТест.")
-    R["soul_del"] = await call("soul_delete", persona="Лира")
+    R["soul_save"] = await call("soul_save", persona="Мира", text="# Душа — Мира\n\n## Кто я\n\nТест.")
+    R["soul_del"] = await call("soul_delete", persona="Мира")
     await ws_.close()
 
 
@@ -88,7 +88,7 @@ finally:
     core.terminate()
 
 # студия: кнопки у записей и правка на месте (отдельное ядро с новым файлом дня)
-(ws / "Дневник" / f"{day}.md").write_text("# Дневник — сегодня\n\n### 14:20 · Лира\n\nМысль дня про чайник.\n", encoding="utf-8")
+(ws / "Дневник" / f"{day}.md").write_text("# Дневник — сегодня\n\n### 14:20 · Мира\n\nМысль дня про чайник.\n", encoding="utf-8")
 PORT2 = free(); env["DEWIAR_PORT"] = str(PORT2); (cfg / "token").unlink(missing_ok=True)
 core = subprocess.Popen([PY, str(ROOT / "core/main.py"), "--wav", str(TESTS / "silence90.wav"), "--null-audio"], env=env,
                         stdout=open(tmp / "core2.log", "w"), stderr=subprocess.STDOUT)

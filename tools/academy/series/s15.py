@@ -65,7 +65,7 @@ HTML = """
       <div class="t"><span>Пн +4°</span><span>Вт +2°</span><span>Ср +1°</span><span class="cold">Чт −2°</span><span>Пт +3°</span></div></div>
     <div id="job"><small>ДЕЛА ПО РАСПИСАНИЮ · ДАЧА И ОГОРОД</small>
       <div class="row">🌡 Каждый вечер в 19:00 — проверить прогноз<span class="tg" id="tg"><i></i></span></div></div>
-    <div id="push"><small>ЛИРА · 19:00</small><div class="tm">−2°</div><p>Ночью заморозок. Укройте томаты и огурцы.</p></div>
+    <div id="push"><small>МИРА · 19:00</small><div class="tm">−2°</div><p>Ночью заморозок. Укройте томаты и огурцы.</p></div>
     <div id="rm"><div class="it">🌱 Дача и огород<em id="rmb">Удалить</em></div><div class="it">🥗 Кухня<em>Удалить</em></div>
       <div class="core">ОСТАЁТСЯ КАК БЫЛО<br><span>💬 Разговор</span><span>⏰ Напоминания</span><span>📝 Заметки</span><span>📅 Календарь</span></div></div>
     <div id="studio"><h3>Плагины</h3><small>Что умеет каждый — и что ему сказать</small>

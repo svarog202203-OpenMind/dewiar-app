@@ -292,7 +292,7 @@ function renderDay() {
   sec("Весь день", its.filter(it => (it.type === "event" || it.type === "reminder") && !it.time));
   DAY_GROUPS.forEach(([t, f]) => sec(t, its.filter(f)));
   sec("Деньги", its.filter(it => it.type === "money"));
-  if (!its.length) body.innerHTML = `<p class="dd-empty">В этот день ничего нет. Добавьте напоминание ниже или скажите Лире: «напомни ${d === today ? "сегодня" : dt.toLocaleDateString("ru-RU", { day: "numeric", month: "long" })} в 18:00 позвонить маме».</p>`;
+  if (!its.length) body.innerHTML = `<p class="dd-empty">В этот день ничего нет. Добавьте напоминание ниже или скажите Мире: «напомни ${d === today ? "сегодня" : dt.toLocaleDateString("ru-RU", { day: "numeric", month: "long" })} в 18:00 позвонить маме».</p>`;
   $("#dd-add").innerHTML = addForm("dd", true); bindAdd("dd", d);
 }
 $("#dd-prev").onclick = () => dayShift(-1);

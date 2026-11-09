@@ -1,10 +1,10 @@
-/* «Морской бой» с Лирой (0.62; план «Идей Лиры»: «ещё одна игра в „Досуге“ — против Лиры»). Два моря 10×10: сверху
-   (в широком окне — справа) море Лиры, по нему стреляете вы; ниже — ваш флот, по нему стреляет Лира. Флот — классика:
+/* «Морской бой» с Мирой (0.62; план «Идей Миры»: «ещё одна игра в „Досуге“ — против Миры»). Два моря 10×10: сверху
+   (в широком окне — справа) море Миры, по нему стреляете вы; ниже — ваш флот, по нему стреляет Мира. Флот — классика:
    четырёхпалубный, два трёхпалубных, три двухпалубных, четыре однопалубных; корабли не касаются друг друга, расставляются
-   сами («Перемешать» — заново). Попал — стреляешь ещё; потопил — вокруг корабля открывается вода. Лира ищет «шахматкой»,
+   сами («Перемешать» — заново). Попал — стреляешь ещё; потопил — вокруг корабля открывается вода. Мира ищет «шахматкой»,
    а раненый корабль добивает по линии; на «полегче» стреляет наугад. Очки: меньше выстрелов — больше; в полную силу ×2.
-   Голосом (0.63; план «Идей Лиры»: «„Б пять!“ — Лира ставит выстрел сама и отвечает голосом»): хозяин (телефон — app.js,
-   компьютер — pad.js) присылает {arcade: 'heard', text}; разобрали клетку — выстрел, а итог хода (и выстрел Лиры) —
+   Голосом (0.63; план «Идей Миры»: «„Б пять!“ — Мира ставит выстрел сама и отвечает голосом»): хозяин (телефон — app.js,
+   компьютер — pad.js) присылает {arcade: 'heard', text}; разобрали клетку — выстрел, а итог хода (и выстрел Миры) —
    одной фразой {arcade: 'say', text}. Кнопка микрофона вверху — {arcade: 'listen'}. Касаниями — молча, как раньше. */
 (() => {
 'use strict';
@@ -15,7 +15,7 @@ const BG = '#e6eef5', DEEP = '#bcd0e2', LIGHT = '#ffffff', INK = '#17324d', MUTE
 const SEA = '#d4e4f1', HULL = '#3d5a78', HIT = '#ff6a4d', SUNK = '#8a98a8';
 const FLEET = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 const LET = 'АБВГДЕЖЗИК';
-// раскладка: море Лиры (цель) и своё
+// раскладка: море Миры (цель) и своё
 const L = LAND
   ? { T: { x: 700, y: 100, s: 540 }, M: { x: 90, y: 330, s: 300 }, title: [270, 96], say: { x: 60, y: 160, w: 420, h: 90 } }
   : { T: { x: 80, y: 280, s: 560 }, M: { x: 230, y: 950, s: 260 }, title: [W / 2, 96], say: { x: 70, y: 140, w: 580, h: 80 } };
@@ -61,7 +61,7 @@ function fire(f, x, y) {
   }
   return 'sunk';
 }
-/* Лира: добить раненого по линии, иначе — шахматка с учётом длины самого большого живого */
+/* Мира: добить раненого по линии, иначе — шахматка с учётом длины самого большого живого */
 function aiPick() {
   const f = S.me, free = (x, y) => x >= 0 && y >= 0 && x < N && y < N && !f.shot[y][x];
   if (S.easy && Math.random() < .55) { const c = []; for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (free(x, y)) c.push([x, y]); return A.pick(c); }
@@ -138,7 +138,7 @@ function heard(text) {
   shoot(G, c[0], c[1]);
 }
 addEventListener('message', (e) => { if (e.source === window.parent && e.data && e.data.arcade === 'heard') heard(e.data.text); });
-/* выстрел игрока (касанием или голосом) -> итог; голосом — фраза: попали — «стреляйте ещё», мимо — ждём выстрела Лиры */
+/* выстрел игрока (касанием или голосом) -> итог; голосом — фраза: попали — «стреляйте ещё», мимо — ждём выстрела Миры */
 function shoot(g, x, y) {
   const res = fire(S.ai, x, y); if (!res) { g.sfx('click', { vol: .4 }); return null; }
   S.shots++; S.last = { who: 'me', x, y };
@@ -162,7 +162,7 @@ function titleScreen(g) {
   fresh('title', false); g.setPlaying(false);
   g.screen({
     kicker: A.framed ? 'Досуг' : 'Аркада', title: 'Морской бой',
-    html: `<p>Ваш флот уже на воде. Стреляйте по морю Лиры: попали — ещё выстрел, потопили — вокруг откроется вода. Кто первым потопит весь флот — победил.</p>${g.best ? `<p class="record">Рекорд: ${g.best.toLocaleString('ru-RU')}</p>` : ''}`,
+    html: `<p>Ваш флот уже на воде. Стреляйте по морю Миры: попали — ещё выстрел, потопили — вокруг откроется вода. Кто первым потопит весь флот — победил.</p>${g.best ? `<p class="record">Рекорд: ${g.best.toLocaleString('ru-RU')}</p>` : ''}`,
     button: 'Играть', onGo: () => start(g, false), alt: { label: 'Полегче', onGo: () => start(g, true) }
   });
 }
@@ -174,8 +174,8 @@ function finish(g, win) {
   const rec = win && g.submit(sc);
   if (win) for (let k = 0; k < 6; k++) g.fx.burst(L.T.x + Math.random() * L.T.s, L.T.y + Math.random() * L.T.s, { n: 12, colors: ['#ff6a4d', '#ffd166', '#7fb0d8', '#ffffff'], speed: 320, size: 8, life: 1, gravity: 480, shape: 'star' });
   g.screen({
-    kicker: `Выстрелов: ${S.shots} · кораблей у вас: ${S.me.left}`, title: win ? (rec ? 'Новый рекорд!' : 'Победа!') : 'Лира победила',
-    html: win ? `<div class="score">${sc.toLocaleString('ru-RU')}</div><p>${S.easy ? 'На «полегче». Попробуйте в полную силу!' : 'Флот Лиры на дне — адмирал!'}</p>` : `<p>Ещё партию? Совет: раненый корабль добивайте по линии.</p>`,
+    kicker: `Выстрелов: ${S.shots} · кораблей у вас: ${S.me.left}`, title: win ? (rec ? 'Новый рекорд!' : 'Победа!') : 'Мира победила',
+    html: win ? `<div class="score">${sc.toLocaleString('ru-RU')}</div><p>${S.easy ? 'На «полегче». Попробуйте в полную силу!' : 'Флот Миры на дне — адмирал!'}</p>` : `<p>Ещё партию? Совет: раненый корабль добивайте по линии.</p>`,
     button: 'Ещё партию', onGo: () => start(g, S.easy), alt: { label: S.easy ? 'В полную силу' : 'Полегче', onGo: () => start(g, !S.easy) }
   });
 }
@@ -185,7 +185,7 @@ function update(g, dt) {
   if (S.sayT > 0) S.sayT -= dt;
   if (S.mode === 'over') return;
   if (S.end) { S.end -= dt; if (S.end <= 0) finish(g, S.ai.left === 0); return; }
-  if (S.mode === 'title') {                          // заставка: две Лиры стреляют сами
+  if (S.mode === 'title') {                          // заставка: две Миры стреляют сами
     S.think += dt; if (S.think > .35) { S.think = 0; const f = Math.random() < .5 ? S.ai : S.me, c = []; for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (!f.shot[y][x]) c.push([x, y]); if (c.length > 30) { const [x, y] = A.pick(c); fire(f, x, y); } else fresh('title', false); }
     return;
   }
@@ -265,19 +265,19 @@ function draw(ctx, g) {
   ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
   A.text(ctx, 'Морской бой', L.title[0], L.title[1], { size: 56, weight: 900, color: INK });
   const aiLeft = S.ai.left, meLeft = S.me.left, on = S.mode === 'play' && !S.end;
-  board(ctx, g, L.T, S.ai, !!S.reveal, `Море Лиры · кораблей: ${aiLeft}`);         // партия кончилась — где стояли корабли Лиры
+  board(ctx, g, L.T, S.ai, !!S.reveal, `Море Миры · кораблей: ${aiLeft}`);         // партия кончилась — где стояли корабли Миры
   board(ctx, g, L.M, S.me, true, `Ваш флот · кораблей: ${meLeft}`);
   const sb = L.say, bx = sb.x + sb.w / 2;
   if (S.sayT > 0 && S.say) {
     const a = Math.min(1, S.sayT / .3, (2.2 - S.sayT) / .2);
     ctx.save(); ctx.globalAlpha = Math.max(0, a); soft(ctx, sb.x, sb.y, sb.w, sb.h, 30, 6, false);
     A.text(ctx, S.say, bx, sb.y + sb.h / 2 + 9, { size: 26, weight: 600, color: INK }); ctx.restore();
-  } else if (on) A.text(ctx, S.turn === 'me' ? (S.voice ? 'Ваш выстрел — назовите клетку: «Бэ пять»' : 'Ваш выстрел — коснитесь клетки в море Лиры') : 'Лира целится…', bx, sb.y + sb.h / 2 + 9, { size: 22, weight: 600, color: MUTED });
+  } else if (on) A.text(ctx, S.turn === 'me' ? (S.voice ? 'Ваш выстрел — назовите клетку: «Бэ пять»' : 'Ваш выстрел — коснитесь клетки в море Миры') : 'Мира целится…', bx, sb.y + sb.h / 2 + 9, { size: 22, weight: 600, color: MUTED });
 }
 
 A.game({
   id: 'sea', tone: 'light', title: 'Морской бой', width: W, height: H, orientation: LAND ? 'landscape' : 'portrait', music: 'garden',
-  help: { desktop: 'Щелчок по клетке в море Лиры — выстрел · <kbd>P</kbd> пауза · <kbd>M</kbd> музыка', short: 'Щелчок по клетке — выстрел', touch: 'Коснитесь клетки в море Лиры — выстрел' },
+  help: { desktop: 'Щелчок по клетке в море Миры — выстрел · <kbd>P</kbd> пауза · <kbd>M</kbd> музыка', short: 'Щелчок по клетке — выстрел', touch: 'Коснитесь клетки в море Миры — выстрел' },
   init(g) {
     G = g; titleScreen(g); window.__sea = () => S; window.__seaPick = () => aiPick(); window.__seaCell = cellOf;
     if (A.framed) {                                   // микрофон: хозяин слушает один раз и присылает {arcade: 'heard'}

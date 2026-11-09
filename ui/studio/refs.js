@@ -81,7 +81,7 @@ function rfRender() {
   });
 }
 $("#rf-copy").onclick = () => { const d = RF.d; if (!d) return;
-  navigator.clipboard.writeText(`Попробуй Dewiar — помощницу Лиру для компьютера и телефона: ${d.link}\nКод приглашения: ${d.code}`).then(() => toast("Приглашение скопировано"), () => toast(d.link)); };
+  navigator.clipboard.writeText(`Попробуй Dewiar — помощницу Миру для компьютера и телефона: ${d.link}\nКод приглашения: ${d.code}`).then(() => toast("Приглашение скопировано"), () => toast(d.link)); };
 $("#rf-ugo").onclick = async () => {
   const r = $("#rf-res"); r.className = "res"; r.textContent = "проверяю…";
   try { const u = await core.call("ref_use", { code: $("#rf-ucode").value }); r.className = "res ok"; r.textContent = u.gift > 0 ? `Код принят — вам +${refTal(u.gift)} тал.` : "Код принят."; loadRefs(); }

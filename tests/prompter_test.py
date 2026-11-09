@@ -152,7 +152,7 @@ async def session():
         R["manual"] = await call("prompter_hint")
         R["manual_done"] = await wait(lambda e: e["type"] == "prompter" and e.get("kind") == "hint" and e["hint"].get("done") and e["hint"].get("why") == "button", 20)
         m = len(events)
-        await call("say", text="Лира, какая погода?")                # набранное в окне — ассистент по-прежнему отвечает
+        await call("say", text="Мира, какая погода?")                # набранное в окне — ассистент по-прежнему отвечает
         R["state"] = (await call("prompter_state")).get("data")
         R["voice_live"] = await call("prompter_start", title="Вживую", place="live")   # голос не запомнен — очная не начинается
         await call("prompter_stop", summary=True)
@@ -184,7 +184,7 @@ inst = [e for e in R["partial"] if e["hint"].get("instant")]
 ok(bool(inst) and "4800" in inst[0]["hint"]["text"], "пока модель пишет — сразу ответ из шпаргалки")
 ok(R["manual"].get("ok") and R["manual_done"], "«Подсказать» по кнопке")
 ok(any("суфлёр" in s for s, u in SEEN) and any("МАТЕРИАЛЫ" in u and "4800" in u for s, u in SEEN), "модели — материалы встречи")
-ok("Имя «лира» услышано" not in log and "🎬 Собеседник" in log or "🎬 Собеседник" in log, "собеседник в журнале суфлёра")
+ok("Имя «мира» услышано" not in log and "🎬 Собеседник" in log or "🎬 Собеседник" in log, "собеседник в журнале суфлёра")
 ok("голос" in (R["voice_live"].get("error") or "") and (R["state"] or {}).get("voice", {}).get("has") is False,
    f"очная встреча без запомненного голоса не начинается: {R['voice_live'].get('error')}")
 s = R["summary"][-1] if R["summary"] else {}

@@ -1,5 +1,5 @@
 """Плагин «Художник» — MCP-сервер (stdio). Владелец 30.10: «генеративной модели у нас нет, а было бы интересно, если бы
-Лира умела красиво рисовать». Лира рисует кодом — так, как рисует Claude: векторная картинка (SVG) или анимация на
+Мира умела красиво рисовать». Мира рисует кодом — так, как рисует Claude: векторная картинка (SVG) или анимация на
 холсте (canvas). Плагин проверяет и чистит рисунок, сохраняет в «Рисунки» папки Dewiar и открывает в браузере страницу
 просмотра: «Сохранить PNG» (в обычном и двойном размере) и у анимации — «Записать видео» (WebM). Все работы — в
 «Галерее» (Рисунки/Галерея.html).
@@ -290,7 +290,7 @@ def viewer_svg(title, svg, w, h):
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="{CSP}">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><style>{PAGE_CSS}</style></head><body>
-<header><h1>{html.escape(title)}<small>{w}×{h} · нарисовала Лира · {datetime.now().strftime("%d.%m.%Y")}</small></h1>
+<header><h1>{html.escape(title)}<small>{w}×{h} · нарисовала Мира · {datetime.now().strftime("%d.%m.%Y")}</small></h1>
 <button class="p" id="png1">Сохранить PNG</button><button id="png2">PNG ×2</button><a class="b" href="Галерея.html">Галерея</a></header>
 <div class="stage"><img class="art" id="art" alt="{html.escape(title)}" width="{w}" height="{h}"></div>
 <script>
@@ -313,7 +313,7 @@ def viewer_anim(title, code, w, h, seconds, bg):
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="{CSP}">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><style>{PAGE_CSS}</style></head><body>
-<header><h1>{html.escape(title)}<small>{w}×{h} · {seconds:g} с по кругу · нарисовала Лира · {datetime.now().strftime("%d.%m.%Y")}</small></h1>
+<header><h1>{html.escape(title)}<small>{w}×{h} · {seconds:g} с по кругу · нарисовала Мира · {datetime.now().strftime("%d.%m.%Y")}</small></h1>
 <button id="pause">Пауза</button><button id="png1">Кадр PNG</button><button class="p" id="rec">Записать видео · {seconds:g} с</button><a class="b" href="Галерея.html">Галерея</a></header>
 <div class="stage"><canvas class="art" id="cv" width="{w}" height="{h}"></canvas></div><div class="rec" id="recst"></div>
 <script>window.__err = ""; window.onerror = (m) => {{ window.__err = String(m); }};</script>
@@ -365,7 +365,7 @@ def index_page(d: Path):
               else f'<span class="an">▶</span>')
         cards.append(f'<a class="w" href="{html.escape(w["page"])}"><span class="pv">{pv}</span><b>{html.escape(w["title"])}</b>'
                      f'<small>{"анимация" if w["kind"] == "animation" else "рисунок"} · {html.escape(w["at"][:16].replace("T", " "))}</small></a>')
-    body = "".join(cards) or '<p class="empty">Здесь будут рисунки Лиры. Скажите: «Нарисуй открытку для мамы».</p>'
+    body = "".join(cards) or '<p class="empty">Здесь будут рисунки Миры. Скажите: «Нарисуй открытку для мамы».</p>'
     css = PAGE_CSS + """
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; padding: 6px 24px 40px; }
 .w { display: flex; flex-direction: column; gap: 4px; color: inherit; text-decoration: none; }
@@ -375,7 +375,7 @@ def index_page(d: Path):
 .empty { color: var(--mut); padding: 30px 24px; }"""
     (d / "Галерея.html").write_text(f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="{CSP}"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Галерея Лиры</title><style>{css}</style></head><body><header><h1>Галерея<small>{len(works)} · рисунки и анимации Лиры</small></h1></header>
+<title>Галерея Миры</title><style>{css}</style></head><body><header><h1>Галерея<small>{len(works)} · рисунки и анимации Миры</small></h1></header>
 <div class="grid">{body}</div></body></html>""", encoding="utf-8")
 
 
@@ -405,7 +405,7 @@ def draw(title, svg, size="", replace=False):
     page.write_text(viewer_svg(stem, out, w, h), encoding="utf-8")
     add_index(d, {"title": stem, "kind": "picture", "file": f"{stem}.svg", "page": page.name, "at": datetime.now().isoformat(timespec="seconds")})
     bad = [x for x in notes if "шире плашки" in x or "вылезает" in x]
-    # 31.10, владелец: «текст выступал за кнопку — ощущение, что Лира не просмотрела открытку, прежде чем показать».
+    # 31.10, владелец: «текст выступал за кнопку — ощущение, что Мира не просмотрела открытку, прежде чем показать».
     # Есть замечания по надписям и это первая попытка — человеку не показываем: сначала поправить (replace)
     if bad and not replace:
         return {"saved": str(d / f"{stem}.svg"), "size": f"{w}×{h}", "notes": notes, "shown": False,
@@ -479,7 +479,7 @@ def photo(title, prompt, size="", replace=False):
     page.write_text(f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="{CSP}"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(stem)}</title><style>{PAGE_CSS}</style></head><body>
-<header><h1>{html.escape(stem)}<small>{sz.replace("x", "×")} · нарисовала Лира · {datetime.now().strftime("%d.%m.%Y")}</small></h1>
+<header><h1>{html.escape(stem)}<small>{sz.replace("x", "×")} · нарисовала Мира · {datetime.now().strftime("%d.%m.%Y")}</small></h1>
 <a class="b" href="{html.escape(stem)}.png" download>Сохранить PNG</a><a class="b" href="Галерея.html">Галерея</a></header>
 <div class="stage"><img class="art" src="data:image/png;base64,{b64}" alt="{html.escape(prompt[:200])}"></div></body></html>""", encoding="utf-8")
     add_index(d, {"title": stem, "kind": "picture", "file": f"{stem}.png", "page": page.name, "at": datetime.now().isoformat(timespec="seconds")})

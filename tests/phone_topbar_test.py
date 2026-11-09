@@ -35,7 +35,7 @@ with sync_playwright() as p:
         round_ = all(abs(a - h) < 0.5 and a >= 36 for a, h, _ in r["ib"])
         ok(round_ and max(x for _, _, x in r["ib"]) <= w and r["sw"] <= w, f"{w} px: кнопки шапки круглые и на экране: {[(round(a), round(h)) for a, h, _ in r['ib']]}")
         if w >= 340:
-            ok(r["name"][0] <= r["name"][1] + 1, f"{w} px: имя «Лира» целиком: {r['name']}")
+            ok(r["name"][0] <= r["name"][1] + 1, f"{w} px: имя «Мира» целиком: {r['name']}")
         # «Работа» (0.55): портфель — седьмой значок вместе с «Досугом»; всё на экране, значки круглые, имя прячется, лицо остаётся
         pg.evaluate("() => { document.getElementById('b-work').hidden = false; document.getElementById('b-play').hidden = false; }")
         r = pg.evaluate("""() => ({ ib: [...document.querySelectorAll('#top .ib')].filter(e => !e.hidden && e.offsetWidth).map(e => { const b = e.getBoundingClientRect(); return [b.width, b.height, b.right]; }),

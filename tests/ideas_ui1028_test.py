@@ -1,4 +1,4 @@
-"""«Идеи Лиры» в программе (0.59): студия — раздел в меню, «Опишите идею» ищет похожие (поддержать голосом) или
+"""«Идеи Миры» в программе (0.59): студия — раздел в меню, «Опишите идею» ищет похожие (поддержать голосом) или
 «Предложить идею»; вкладки «Будем делать» / «Сделано» / «Мои», поиск, страницы, голос (снять), «новое» с прошлого раза;
 виджет — лампочка у жучка; телефон — лист «Идеи» из «Сообщить о проблеме»."""
 import os, re, sys
@@ -18,7 +18,7 @@ def ok(c, m):
 MOCK = """() => {
   const now = Math.floor(Date.now() / 1000);
   window._ideas = [
-    { id: 7, title: 'Мультфильмы-уроки по возможностям Лиры', body: 'Короткие ролики: что умеет Лира и как попросить — внутри Лиры и на YouTube.', status: 'doing', votes: 41, voted: true, mine: false, plan_ts: now - 99999, ts: now - 99999, reply: '', ver: '' },
+    { id: 7, title: 'Мультфильмы-уроки по возможностям Миры', body: 'Короткие ролики: что умеет Мира и как попросить — внутри Миры и на YouTube.', status: 'doing', votes: 41, voted: true, mine: false, plan_ts: now - 99999, ts: now - 99999, reply: '', ver: '' },
     { id: 3, title: 'Тёмная тема в «Календаре»', body: 'Ночью глаза устают.', status: 'plan', votes: 17, voted: false, mine: true, plan_ts: now - 10, ts: now - 900000, reply: 'Возьмём в 0.60', ver: '' },
     { id: 9, title: 'Голосовые заметки на часах', body: '', status: 'plan', votes: 6, voted: false, mine: false, plan_ts: now - 5, ts: now - 5, reply: '', ver: '' }];
   window._done = [{ id: 2, title: 'Синхронизация телефона по Wi-Fi без интернета', body: '', status: 'done', votes: 58, voted: true, mine: false, plan_ts: 1, done_ts: now, ts: 1, reply: '', ver: '0.59' }];
@@ -43,7 +43,7 @@ with sync_playwright() as p:
     pg.add_init_script("window.pywebview = { api: new Proxy({}, { get: () => () => Promise.resolve(true) }) };")
     pg.goto((ROOT / "ui/settings.html").as_uri() + "?port=1"); pg.wait_for_timeout(900)
     pg.evaluate(MOCK); pg.wait_for_timeout(600)
-    ok(pg.is_visible("#p-ideas") and pg.inner_text("#p-ideas h1").startswith("Идеи Лиры"), "в меню — «Идеи Лиры», раздел открывается")
+    ok(pg.is_visible("#p-ideas") and pg.inner_text("#p-ideas h1").startswith("Идеи Миры"), "в меню — «Идеи Миры», раздел открывается")
     items = pg.locator("#id-list .id-it")
     ok(items.count() == 3 and "делаем" in items.nth(0).inner_text() and "41" in items.nth(0).inner_text(), "«Будем делать»: по голосам, «делаем» — пометкой")
     ok(pg.get_attribute("#id-list [data-id='7'] .id-vote", "aria-pressed") == "true", "свой голос — отмечен")

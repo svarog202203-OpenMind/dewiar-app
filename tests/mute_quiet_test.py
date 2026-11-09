@@ -1,4 +1,4 @@
-"""Микрофон выключен и ложные срабатывания (отзыв 14.10: «часто удобно, чтобы Лира была, но не слушала фон — выключаю
+"""Микрофон выключен и ложные срабатывания (отзыв 14.10: «часто удобно, чтобы Мира была, но не слушала фон — выключаю
 микрофон, а виджет темнеет и некрасив»; «ложно сработала — нажимаю на лицо, замолкает, и опять начинает»):
 — «микрофон выключен»: портрет в полную яркость и цвет, как в покое (видно по значку и подписи); «нет связи» — тусклый;
 — остановили нажатием ответ, начатый по голосу, в первые секунды — минуту не откликаемся на голос, нажатие работает;
@@ -27,7 +27,7 @@ shutil.copytree(ROOT / "ui/assets/live", www / "live", dirs_exist_ok=True)
                                                 capture_output=True, text=True, check=True).stdout, encoding="utf-8")
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={"width": 240, "height": 240})
-    pg.goto((www / "index.html").as_uri()); pg.wait_for_timeout(2500)          # Лира с живым лицом, как в приложении
+    pg.goto((www / "index.html").as_uri()); pg.wait_for_timeout(2500)          # Мира с живым лицом, как в приложении
     def lum(state):
         pg.evaluate(f"() => {{ orb.set({{ state: '{state}' }}); }}"); pg.wait_for_timeout(1800)
         img = Image.open(io.BytesIO(pg.locator("#orb").screenshot())).convert("L")      # file:// — getImageData нельзя

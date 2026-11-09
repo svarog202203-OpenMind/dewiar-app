@@ -32,7 +32,7 @@ shutil.copy(shutil.which("pacat"), zoom)
 mine = subprocess.Popen(["pacat", "--record", "-d", "t_mic"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 time.sleep(1)
 ok(mic_users() == [], "pacat, регуляторы громкости, сам Dewiar — не созвон")
-# OBS пишет видео с микрофоном — не созвон (отзыв 17.10: «включил OBS — Лира стала глухой»)
+# OBS пишет видео с микрофоном — не созвон (отзыв 17.10: «включил OBS — Мира стала глухой»)
 obs = tmp / "obs"
 shutil.copy(shutil.which("pacat"), obs)
 rec = subprocess.Popen([str(obs), "--record", "-d", "t_mic"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

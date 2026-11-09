@@ -30,7 +30,7 @@ with sync_playwright() as p:
         return Promise.resolve(true); };
       S = Object.assign(S || {}, { persona_memory: { own: [] }, llm: { profiles: {}, persona: {} } });
       const v = { piper: 'ru', length_scale: 1, fx: 'clear' };
-      personas = [{ id: 'lira', name: 'Лира', color: '#8b7bff', style: 'aura', skills: [], voice: v }, { id: 'patrik', name: 'Патрик', color: '#4fc3ff', style: 'aura', skills: [], voice: v }];
+      personas = [{ id: 'lira', name: 'Мира', color: '#8b7bff', style: 'aura', skills: [], voice: v }, { id: 'patrik', name: 'Патрик', color: '#4fc3ff', style: 'aura', skills: [], voice: v }];
       S_voices = S_voices || { ru: 'Ирина' }; S_fx = S_fx || []; vkSpeakers = vkSpeakers || [];
       active = 'lira'; document.querySelector('nav button[data-p=personas]').click(); }""")
     pg.wait_for_timeout(600)

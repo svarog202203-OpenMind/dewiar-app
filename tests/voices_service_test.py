@@ -56,7 +56,7 @@ ok(_t2.size >= _loud.size + _quiet.size and _t2.size < _w2.size - _sr // 10,
 A.cfg_save({"voices": {"anna": {"kind": "clone", "audio": "anna.wav", "text": "т", "gender": "female"}},
             "personas": {"lira": "anna"}, "aliases": {"serena": "vivian", "loop1": "loop2", "loop2": "loop1"},
             "default": {"female": "serena", "male": "ryan"}})
-ok(A.resolve("serena", "lira")["id"] == "anna", "персонаж сильнее псевдонима: Лира говорит своим голосом")
+ok(A.resolve("serena", "lira")["id"] == "anna", "персонаж сильнее псевдонима: Мира говорит своим голосом")
 ok(A.resolve("serena", "eva")["id"] == "vivian", "псевдоним: serena → vivian для остальных")
 ok(A.resolve("aiden")["id"] == "aiden" and A.resolve("aiden")["kind"] == "speaker", "встроенный диктор")
 ok(A.resolve("onyx")["id"] == "ryan" and A.resolve("nova")["id"] == "serena", "имена OpenAI — голос по умолчанию для пола")
@@ -242,12 +242,12 @@ try:
     ok([len(c["texts"]) for c in A.ENGINE.calls] == [1, 4] and A.ENGINE.calls[0]["voice"] == "serena" and A.ENGINE.calls[0]["lang"] == "Russian",
        f"первая фраза отдельно, остальные пачкой: {[c['texts'] for c in A.ENGINE.calls]}")
 
-    st, hd, w = req("POST", "/v1/audio/speech", {"input": "Привет, я Лира.", "voice": "serena", "response_format": "wav", "speed": 1}, raw=True)
+    st, hd, w = req("POST", "/v1/audio/speech", {"input": "Привет, я Мира.", "voice": "serena", "response_format": "wav", "speed": 1}, raw=True)
     with wave.open(io.BytesIO(w)) as wf:
         ok(st == 200 and wf.getframerate() == 24000 and wf.getnframes() * 2 + 44 == len(w), f"wav целиком — честные длины для телефона: {wf.getnframes()} кадров, {len(w)} байт")
         dur1 = wf.getnframes() / 24000
     ok(float(hd.get("x-audio-duration", 0)) > 0.5 and hd.get("x-voice") == "serena", f"длительность и голос в заголовках: {hd.get('x-audio-duration')} {hd.get('x-voice')}")
-    st, hd, w2 = req("POST", "/v1/audio/speech", {"input": "Привет, я Лира.", "voice": "serena", "response_format": "wav", "speed": 1.5}, raw=True)
+    st, hd, w2 = req("POST", "/v1/audio/speech", {"input": "Привет, я Мира.", "voice": "serena", "response_format": "wav", "speed": 1.5}, raw=True)
     with wave.open(io.BytesIO(w2)) as wf:
         dur2 = wf.getnframes() / 24000
     # темп меняет ffmpeg (atempo); без него (машина проверок GitHub) служба ускоряет только паузы — фраза короче, но чуть
@@ -271,7 +271,7 @@ try:
     # клиент компьютера — напрямую в службу
     from tts import RemoteTTS
     A.ENGINE.calls.clear()
-    out = list(RemoteTTS({"base_url": f"http://127.0.0.1:{PORT}/v1"}).synth("Привет. Я Лира.", {"remote": "serena", "_gender": "female", "_pid": "lira"}, 1.0))
+    out = list(RemoteTTS({"base_url": f"http://127.0.0.1:{PORT}/v1"}).synth("Привет. Я Мира.", {"remote": "serena", "_gender": "female", "_pid": "lira"}, 1.0))
     ok(out and out[0][0] == 24000 and sum(len(b) for _, b in out) > 24000, f"RemoteTTS играет поток службы: {len(out)} кусков")
 
     # свой голос по образцу
@@ -287,13 +287,13 @@ try:
     st, hd, smp = req("GET", "/v1/voices/anna_teplaya/sample", raw=True)
     ok(st == 200 and smp[:4] == b"RIFF", "образец слушается")
     st, _, e = req("POST", "/v1/voices/config", {"personas": {"Lira": "anna_teplaya"}})
-    ok(st == 200 and e["personas"] == {"lira": "anna_teplaya"}, f"Лире — этот голос: {e.get('personas')}")
+    ok(st == 200 and e["personas"] == {"lira": "anna_teplaya"}, f"Мире — этот голос: {e.get('personas')}")
     st, _, e = req("POST", "/v1/voices/config", {"personas": {"lira": "net_takogo"}})
     ok(st == 400 and "net_takogo" in e["error"]["message"], "несуществующий голос персонажу не назначить")
     A.ENGINE.calls.clear()
     list(RemoteTTS({"base_url": f"http://127.0.0.1:{PORT}/v1"}).synth("Привет.", {"remote": "serena", "_gender": "female", "_pid": "lira"}, 1.0))
     ok(A.ENGINE.calls and A.ENGINE.calls[-1]["voice"] == "anna_teplaya" and A.ENGINE.calls[-1]["kind"] == "clone",
-       f"компьютер передаёт персонажа — Лира говорит своим голосом: {A.ENGINE.calls[-1:]}")
+       f"компьютер передаёт персонажа — Мира говорит своим голосом: {A.ENGINE.calls[-1:]}")
     st, _, e = req("POST", "/v1/voices/update", {"id": "serena", "instruct": "мягко и тепло"})
     ok(st == 200 and A.resolve("serena")["instruct"] == "мягко и тепло", "встроенному можно задать манеру")
 
@@ -316,7 +316,7 @@ try:
 
     # удаление
     st, _, e = req("POST", "/v1/voices/delete", {"id": "anna_teplaya"})
-    ok(st == 200 and A.cfg_load()["personas"] == {} and not (tmp / "data/voices/anna_teplaya.wav").exists(), "удалённый голос снят с Лиры, файл убран")
+    ok(st == 200 and A.cfg_load()["personas"] == {} and not (tmp / "data/voices/anna_teplaya.wav").exists(), "удалённый голос снят с Миры, файл убран")
     st, _, e = req("POST", "/v1/voices/delete", {"id": "net"})
     ok(st == 404, "удалить несуществующий — 404")
 

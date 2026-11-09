@@ -95,9 +95,9 @@ try:
         pg.click("#e-x"); time.sleep(0.5)
         ok("Claude" in pg.locator("#pgrid .card", has_text="Патрик").first.inner_text(), "на карточке Патрика — «🧠 Claude»")
         b.close()
-    asyncio.run(say("Привет"))                                 # говорит Лира — общий мозг
+    asyncio.run(say("Привет"))                                 # говорит Мира — общий мозг
     a1 = (tmp / "a.log").read_text() if (tmp / "a.log").exists() else ""; b1 = (tmp / "b.log").read_text() if (tmp / "b.log").exists() else ""
-    ok("Привет" in a1 and "Привет" not in b1, "Лира думает общим мозгом")
+    ok("Привет" in a1 and "Привет" not in b1, "Мира думает общим мозгом")
     subprocess.run([sys.executable, "-c", "pass"])
     import websockets  # noqa: E402
 

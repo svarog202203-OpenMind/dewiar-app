@@ -25,7 +25,7 @@ FAKE_CORE = """(() => {
   const ready = () => { if (!window.core) return setTimeout(ready, 5);
     core.retry = () => {}; core.connect = () => {}; if (core.ws) { core.ws.onclose = null; core.ws.onerror = null; try { core.ws.close(); } catch (e) {} }
     core.call = async (c, a) => { calls.push([c, a]);
-      if (c === "pbot_get") return { connected: true, on: true, running: true, bot: "chai_bot", persona: "lira", personas: [{ id: "lira", name: "Лира", color: "#9BD4FF", kb: 1 }], groups: true, per_user: 30, per_day: 300, brief: "", welcome: "", kb: [], model: "", log: [], chats: [], today: 0, total: 0 };
+      if (c === "pbot_get") return { connected: true, on: true, running: true, bot: "chai_bot", persona: "lira", personas: [{ id: "lira", name: "Мира", color: "#9BD4FF", kb: 1 }], groups: true, per_user: 30, per_day: 300, brief: "", welcome: "", kb: [], model: "", log: [], chats: [], today: 0, total: 0 };
       if (c === "pbot_post_write") return { text: "Улун — чай между зелёным и чёрным. А вы какой любите?" };
       if (c === "pbot_rubric_set") { D.rubrics.push({ id: "r1", topic: a.topic, days: a.days, time: a.time, approve: a.approve, chats: a.chats }); return D; }
       if (c === "pbot_greet") { Object.assign(D.greet, a.on !== undefined ? { on: a.on } : {}, a.text !== undefined ? { text: a.text } : {}); return D; }

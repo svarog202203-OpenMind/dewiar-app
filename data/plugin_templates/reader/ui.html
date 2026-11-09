@@ -66,7 +66,7 @@ function paras(text) {
 function home(msg) {
   cur = null;
   $("#app").innerHTML = `<section class="hero"><h1>Читалка</h1>
-      <p>Вставьте ссылку на статью или сам текст — покажу его чисто и крупно, без меню и рекламы. Лира перескажет главное.</p>
+      <p>Вставьте ссылку на статью или сам текст — покажу его чисто и крупно, без меню и рекламы. Мира перескажет главное.</p>
       <div class="in"><textarea id="src" placeholder="https://… или текст статьи" aria-label="Ссылка или текст статьи"></textarea>
         <button class="btn primary" id="go">Читать</button></div>
       <p class="hint2">Ссылку читалка откроет по вашему нажатию; текст никуда не уходит.</p>
@@ -131,7 +131,7 @@ function show(a) {
 function retell(a) {
   const q = a.url ? `Перескажи коротко, по пунктам, главное из статьи «${a.title}»: ${a.url}`
     : `Перескажи коротко, по пунктам, главное из этого текста «${a.title}»:\n\n${a.text.slice(0, 10000)}`;
-  dewiar.ask(q).then(() => dewiar.toast("Лира пересказывает — ответ в «Чате»")).catch(e => dewiar.toast(e.message));
+  dewiar.ask(q).then(() => dewiar.toast("Мира пересказывает — ответ в «Чате»")).catch(e => dewiar.toast(e.message));
 }
 
 async function save() { try { await dewiar.store.set("recent", recent); await dewiar.store.set("prefs", prefs); } catch (e) { dewiar.toast(e.message); } }

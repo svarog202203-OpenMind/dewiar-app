@@ -18,7 +18,7 @@ WIN = os.name == "nt"
 IGNORE = re.compile(r"pavucontrol|volume control|gnome-shell|gnome-control-center|settings|cinnamon|plasma|kmix|"
                     r"pipewire|wireplumber|pulseaudio|easyeffects|pulseeffects|speech-dispatcher|dewiar|python|"
                     r"echo-cancel|loopback|xdg-desktop-portal|peak|parec|pacat|arecord", re.I)
-# Запись видео и звука — тоже не созвон (отзыв 17.10: «включил OBS для записи видео, и Лира стала глухой и беззвучной» —
+# Запись видео и звука — тоже не созвон (отзыв 17.10: «включил OBS для записи видео, и Мира стала глухой и беззвучной» —
 # OBS пишет с микрофона, Dewiar решал «созвон» и слушал только по кнопке). Программы записи экрана и звука.
 RECORDERS = re.compile(r"^obs(?:64|32)?(?:\.exe)?$|obs-studio|obsproject|simplescreenrecorder|kazam|vokoscreen|kooha|"
                        r"gpu-screen-recorder|screen ?recorder|screencast|audacity|bandicam|camtasia|sharex|"

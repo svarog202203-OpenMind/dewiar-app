@@ -8,7 +8,7 @@ TAG = "Расскажите, что у вас за дело, — сайт гот
 NEXT = "Скоро — новые уроки"
 ICON = '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><circle cx="6" cy="6.5" r=".6"/><circle cx="8.4" cy="6.5" r=".6"/><path d="M7 13h6M7 16h4"/></svg>'
 SCENES = ["title", "problem", "ask", "redo", "publish", "leads", "how", "end"]
-# живая сцена: Патрик просит, Лира отвечает — оба на виду
+# живая сцена: Патрик просит, Мира отвечает — оба на виду
 POS = {"problem": "{ lira: [330, 730, 210, 1], patrik: [330, 350, 250, 1] }"}
 CSS = KIT_CSS + KIT2_CSS + """
 .site { --sb: #FBF4EC; --sf: #3A2A1F; --sm: rgba(58,42,31,.62); --sa: #B8652E; --sk: #fff; --sc: #FFFFFF; --sh: #F3E3D2;
@@ -112,7 +112,7 @@ HTML = """
     <div class="card" id="qr"><div class="q">""" + qr() + """</div><p>zerno.dewiar.pro</p><span>Распечатайте — и на витрину</span></div>
     <div class="card" id="leads"><small>ЗАЯВКИ</small>
       <div class="row"><i>🙋</i>Анна · столик на 4, 19:00<em>с формы</em></div>
-      <div class="row"><i>💬</i>Олег · торт к пятнице<em>из чата Лиры</em></div>
+      <div class="row"><i>💬</i>Олег · торт к пятнице<em>из чата Миры</em></div>
       <div class="row"><i>🙋</i>Мария · завтрак на шестерых<em>с формы</em></div>
       <div class="to">→ уже в «Клиентах», с телефоном и пожеланием</div></div>
     <div class="card" id="ana"><small>АНАЛИТИКА · 7 ДНЕЙ</small><div class="big">412<span>посещений</span></div>
@@ -120,7 +120,7 @@ HTML = """
       <div class="src">""" + "".join(f'<div>{n}<s><i data-w="{w}"></i></s><b>{w}%</b></div>' for n, w in SRC) + """</div></div>
     <div class="card" id="studio"><h3>Сайты</h3><small>Студия → «Сайты»</small>
       <div class="row"><i>🗣</i>Расскажите о деле — или шаблон<em>11 шаблонов</em></div>
-      <div class="row"><i>✏️</i>Редактор и «Сказать Лире»<em>история версий</em></div>
+      <div class="row"><i>✏️</i>Редактор и «Сказать Мире»<em>история версий</em></div>
       <div class="row"><i>🚀</i>Опубликовать на имя.dewiar.pro<em>QR-код</em></div>
       <div class="row"><i>📊</i>Аналитика, заявки, продвижение<em>без cookie</em></div></div>
   </div>

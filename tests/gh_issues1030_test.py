@@ -87,11 +87,11 @@ threading.Thread(target=srv.serve_forever, daemon=True).start()
 prof = {"kind": "anthropic", "base_url": f"http://127.0.0.1:{srv.server_address[1]}", "api_key": "k", "model": "claude-x"}
 tools_ = [{"name": "a", "description": "A", "parameters": {"type": "object", "properties": {}}}, {"name": "b", "description": "B", "parameters": {"type": "object", "properties": {}}}]
 try:
-    list(llm.stream_events(prof, "Ты — Лира.", [{"role": "user", "content": "привет"}], tools=tools_))
+    list(llm.stream_events(prof, "Ты — Мира.", [{"role": "user", "content": "привет"}], tools=tools_))
 except Exception as e:  # noqa: BLE001
     print("stream:", e)
 bd = GOT[-1] if GOT else {}
-ok(bd.get("system") == [{"type": "text", "text": "Ты — Лира.", "cache_control": {"type": "ephemeral"}}]
+ok(bd.get("system") == [{"type": "text", "text": "Ты — Мира.", "cache_control": {"type": "ephemeral"}}]
    and bd.get("tools", [{}])[-1].get("cache_control") == {"type": "ephemeral"} and "cache_control" not in bd.get("tools", [{}])[0],
    f"PR №24: Claude — подсказка и инструменты с cache_control: system={str(bd.get('system'))[:80]}")
 srv.shutdown()

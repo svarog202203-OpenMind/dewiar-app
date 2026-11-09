@@ -1,5 +1,5 @@
-"""«Сеть Лиры» в программе (шаг 1, 04.11): правила сети с подписью, «Мой узел», «Поделиться мощностью» и переключатель
-«Пускать мои общие вопросы в Сеть Лиры». Серверная часть — server/dwrapp/liranet.php, агент узла — server/dwrapp/lira-node.py.
+"""«Сеть Миры» в программе (шаг 1, 04.11): правила сети с подписью, «Мой узел», «Поделиться мощностью» и переключатель
+«Пускать мои общие вопросы в Сеть Миры». Серверная часть — server/dwrapp/liranet.php, агент узла — server/dwrapp/lira-node.py.
 
 Правила сети подписывает только владелец Dewiar (ключ Ed25519 лежит на сайте). Программа берёт /net/rules и проверяет
 подпись сама — здесь, на чистом Python (RFC 8032, только проверка). Открытый ключ сети: «доверие при первом
@@ -115,7 +115,7 @@ def check(d: dict, pinned_b64: str = "", pinned_fp: str = PINNED_FP) -> dict:
         raise NetError("подпись правил сети неверна — не принимаю")
     r = json.loads(txt)
     if r.get("net") != "lira":
-        raise NetError("это не правила Сети Лиры")
+        raise NetError("это не правила Сети Миры")
     if int(r.get("expires") or 0) < time.time():
         raise NetError("правила сети просрочены — сайт давно их не продлевал")
     return {"rules": r, "pub": base64.b64encode(pub).decode(), "fp": fp, "new": not pinned_b64}
@@ -146,7 +146,7 @@ def rules(engine, trust_new=False):
         return {"ok": False, "error": str(e), "fp": fingerprint(base64.b64decode(d.get("pub") or "")) if d.get("pub") else ""}
     if r["new"] or trust_new:
         engine.s.update({"cloud": {"net_pub": r["pub"]}})
-        log.info("🌐 Сеть Лиры: доверяю ключу сети %s", r["fp"])
+        log.info("🌐 Сеть Миры: доверяю ключу сети %s", r["fp"])
     return {"ok": True, "fp": r["fp"], "rules": r["rules"], "first": r["new"]}
 
 

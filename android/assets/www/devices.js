@@ -82,7 +82,7 @@ let devWay = "";
 function devGiveHtml(c) {
   return `<h3>Подключить ещё устройство</h3><div class="card" id="dv-give">
       ${c && c.home ? `<p class="hint" style="margin:0">Ещё один телефон — отсканируйте им код с компьютера: «Устройства» → «Дома по Wi-Fi».</p>`
-      : c ? `<p class="hint" style="margin:0 0 10px">Компьютер или другой телефон станет той же Лирой: общая память, заметки, дела.</p>
+      : c ? `<p class="hint" style="margin:0 0 10px">Компьютер или другой телефон станет той же Мирой: общая память, заметки, дела.</p>
         <div class="dvcode" id="dv-code" hidden><div class="dvqr" id="dv-qr"></div><b class="dvdig" id="dv-dig"></b><p class="hint" id="dv-left" style="margin:4px 0 0"></p>
         <p class="hint" style="margin:6px 0 0">На том устройстве: «Устройства» → «Ввести код». Телефон может навести сканер на квадрат.</p></div>
         <button class="btn p w" id="dv-give-go">Показать код</button><div class="res" id="dv-give-res"></div>`
@@ -181,7 +181,7 @@ function devFresh() {
   const was = new Set(devCode.known), fresh = (DEVS || []).filter(d => !was.has(d.id) && !d.me);
   if (!fresh.length) return false;
   devCode = null; clearInterval(devTick);
-  toast(`Подключилось: ${fresh.map(d => d.name || DEV_APP[d.app]).join(", ")} — теперь это одна Лира`, 4000); say("Готово, подключилось!");
+  toast(`Подключилось: ${fresh.map(d => d.name || DEV_APP[d.app]).join(", ")} — теперь это одна Мира`, 4000); say("Готово, подключилось!");
   if (setTab === "devices" && $("#sh-set").classList.contains("on")) renderSettings();
   return true;
 }
@@ -210,7 +210,7 @@ function devShowCode() {
   clearInterval(devTick); devTick = setInterval(tick, 1000); tick();
 }
 
-/* код с другого устройства -> это устройство — та же Лира. Своя модель — главной; ключ — для синхронизации и запасом. */
+/* код с другого устройства -> это устройство — та же Мира. Своя модель — главной; ключ — для синхронизации и запасом. */
 async function devClaim(code) {
   const r = await http("POST", CLOUD_URL.split("?")[0] + "?p=/pair/claim", { headers: { "Content-Type": "application/json" }, body: { code: String(code).replace(/\D/g, "") }, timeout: 15000 });
   let d = {}; try { d = JSON.parse(r.body || "{}"); } catch (e) { }
@@ -232,7 +232,7 @@ async function devClaim(code) {
   plog("info", "🔗 подключено к своему Dewiar кодом с другого устройства" + (d.account ? " (аккаунт)" : ""));
   return { account: !!d.account, brain_kept: own };
 }
-const devClaimText = (d) => (d.account ? "Готово — вход тем же аккаунтом. " : "Готово. ") + "Это устройство — та же Лира: память, заметки и дела придут в течение минуты." + (d.brain_kept ? " Ваша модель осталась главной." : "");
+const devClaimText = (d) => (d.account ? "Готово — вход тем же аккаунтом. " : "Готово. ") + "Это устройство — та же Мира: память, заметки и дела придут в течение минуты." + (d.brain_kept ? " Ваша модель осталась главной." : "");
 /* сканер (печать или QR со ссылкой …?pair=) и ссылка dewiar://pair?c= */
 async function devClaimFlow(link) {
   const m = /[?&](?:pair|c)=(\d{6})/.exec(String(link || "")); if (!m) { showBot("Это не код подключения устройства.", "err"); return; }
@@ -242,7 +242,7 @@ async function devClaimFlow(link) {
   catch (e) { showBot("Не подключилось: " + netErr(e.message || e), "err"); }
 }
 
-/* задача названному компьютеру («Лира, на рабочем компьютере подготовь презентацию», письмо 28.10): свои компьютеры —
+/* задача названному компьютеру («Мира, на рабочем компьютере подготовь презентацию», письмо 28.10): свои компьютеры —
    из последнего обмена (на связи — синхронизировался за 3 минуты); не на связи — спросить: подождать или в облаке */
 function devComputers() {
   return (DEVS || syncStatus.all || []).filter(d => d.app === "pc").map(d => ({ id: d.id, name: d.name || "Компьютер", on: Date.now() / 1000 - (d.seen || 0) < DEV_ONLINE, seen: d.seen || 0, cloud: !!d.cloud }));

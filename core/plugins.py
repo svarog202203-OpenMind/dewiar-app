@@ -11,7 +11,7 @@
                                ui: {tools: {инструмент: {title, hint, button, hidden, fields: {арг: подпись | false}}},
                                     labels: {ключ ответа: подпись}, asks: [{title, hint, say: "… {поле} …", fields}],
                                     folder: "Рисунки", page_title: подпись вкладки ui.html} — страница плагина в студии (необязательно),
-                               data: ["notes" | "reminders" | "money" | "chat_stats" | "chat"] — что из данных Лиры странице можно
+                               data: ["notes" | "reminders" | "money" | "chat_stats" | "chat"] — что из данных Миры странице можно
                                      попросить (dewiar.data; каждое — только после «Разрешить» человека, см. plugin_bridge.py),
                                theme: true — страница может перекрасить студию (dewiar.theme),
                                made: {by: "lira", code: bool} — плагин сделан по описанию словами (plugin_maker.py)}
@@ -42,9 +42,9 @@ BUILTIN_DIR = DATA_DIR / "plugins"
 USER_DIR = CONFIG_DIR / "plugins"
 MAX_ZIP = 20 * 1024 * 1024
 SET_TYPES = ("text", "select", "number", "toggle", "folder")   # folder — путь с кнопкой «Выбрать папку…» (№461)
-# данные Лиры, которые странице плагина можно попросить (только с разрешения человека; core/plugin_bridge.py)
+# данные Миры, которые странице плагина можно попросить (только с разрешения человека; core/plugin_bridge.py)
 DATA_SCOPES = {"notes": "заметки", "reminders": "напоминания и дела", "money": "расходы и доходы",
-               "chat_stats": "статистику разговоров — сколько, когда, с кем, о чём (без текста)", "chat": "текст переписки с Лирой"}
+               "chat_stats": "статистику разговоров — сколько, когда, с кем, о чём (без текста)", "chat": "текст переписки с Мирой"}
 
 
 def data_dir(pid):
@@ -67,7 +67,7 @@ def _txt(v, n):
 def parse_ui(u):
     """Блок ui из plugin.json -> проверенный словарь (страница плагина в студии, 03.11: «у каждого плагина своя страничка»).
     tools — человеческие названия действий и их полей (иначе на странице сырые art_draw / query), hidden — действие только
-    для помощницы (код svg, оценка по критериям); labels — подписи ключей ответа; asks — формы «попросить Лиру» для
+    для помощницы (код svg, оценка по критериям); labels — подписи ключей ответа; asks — формы «попросить Миру» для
     плагинов без своего кода: say с {поле} уходит в чат; folder — папка плагина в папке Dewiar («Рисунки»)."""
     u = u if isinstance(u, dict) else {}
     tools = {}
@@ -155,7 +155,7 @@ def parse_plugin(d: Path, builtin: bool):
             "category": str(m.get("category") or "Разное")[:30], "tagline": str(m.get("tagline") or "")[:160],
             "description": str(m.get("description") or "")[:1200], "version": str(m.get("version") or "1.0")[:20],
             "author": str(m.get("author") or "")[:60], "phrases": [str(x)[:120] for x in (m.get("phrases") or [])][:10],
-            # слова, по которым просьба — к этому плагину («нарисуй кота» — «Художник», 03.11: «на локальной модели Лира
+            # слова, по которым просьба — к этому плагину («нарисуй кота» — «Художник», 03.11: «на локальной модели Мира
             # говорит, что не умеет рисовать и такого плагина у неё нет»)
             "words": [str(x)[:30] for x in (m.get("words") or [])][:24],
             "uses": [str(x)[:40] for x in (m.get("uses") or [])][:12], "settings": sets, "jobs": jobs, "mcp": mcp,
@@ -169,14 +169,14 @@ def parse_plugin(d: Path, builtin: bool):
             "ui": parse_ui(m.get("ui")), "page": (d / "ui.html").is_file(),
             "data": [x for x in dict.fromkeys(str(s) for s in (m.get("data") or []) if isinstance(m.get("data"), list)) if x in DATA_SCOPES],
             "theme": m.get("theme") is True,
-            # сделан Лирой по описанию (Creator, 03.11): только свой (не встроенный), код — только с согласия человека
+            # сделан Мирой по описанию (Creator, 03.11): только свой (не встроенный), код — только с согласия человека
             "made": bool(isinstance(m.get("made"), dict) and not builtin),
             "made_code": bool(isinstance(m.get("made"), dict) and m["made"].get("code") and not builtin),
             "made_from": str(m["made"].get("template") or "")[:40] if isinstance(m.get("made"), dict) else "",
             "video": str(m.get("video") or "") if re.fullmatch(r"[\w-]{1,40}|https://[^\s\"'<>]{8,300}", str(m.get("video") or "")) else ""}
 
 
-# №507 (03.11): плагин «Луна» без поля words — на «Когда ближайшее полнолуние?» Лира отвечала по памяти и ошибалась:
+# №507 (03.11): плагин «Луна» без поля words — на «Когда ближайшее полнолуние?» Мира отвечала по памяти и ошибалась:
 # просьба не узнавалась (имя «Луна» — ни «луны», ни «полнолуния» в вопросе). Слова такого плагина выводим сами — из
 # названия, подписи, описания и действий его MCP-сервера; сравниваем по началу слова (корню).
 _AUTO_STOP = set("""ближайший ближайшие ближайшая сегодня завтра вчера текущий текущая дата даты время расчет рассчитать рассчитывает

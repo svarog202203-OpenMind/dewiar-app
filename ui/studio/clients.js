@@ -1,4 +1,4 @@
-/* Студия Dewiar, раздел «Клиенты» (28.10, владелец: «Лира как личная CRM»): слева — список с поиском (у кого прошёл срок
+/* Студия Dewiar, раздел «Клиенты» (28.10, владелец: «Мира как личная CRM»): слева — список с поиском (у кого прошёл срок
    следующего шага — сверху, с красной меткой), справа — карточка: имя и компания (правятся на месте), телефон и почта,
    «Следующий шаг» (что и когда — напоминание в «Делах»; «Сделано»), «Записать» (заметка, звонок, сделка) и история по
    дням. Ядро — clients.py: clients_list {q}, client_get/add/save/note/note_del/next/next_done/del; событие «clients». */
@@ -45,7 +45,7 @@ function crLeft() {
 }
 function crEmpty() {
   $("#cr-card").innerHTML = `<div class="cr-empty"><div class="cr-eico">${crSvg("M8.5 4a3.5 3.5 0 1 0 0 7a3.5 3.5 0 1 0 0-7 M2.5 20a6 6 0 0 1 12 0 M16 6.5a3 3 0 1 1 0 6 M17.5 14.5a5 5 0 0 1 4 5")}</div>`
-    + `<h2>Первый клиент — одной фразой</h2><p>Скажите Лире — карточка заведётся сама, а договорённость попадёт в историю:</p>`
+    + `<h2>Первый клиент — одной фразой</h2><p>Скажите Мире — карточка заведётся сама, а договорённость попадёт в историю:</p>`
     + `<ul>${["Запиши: Иванов из «Ромашки» хочет 200 коробок до пятницы", "Перезвонить Иванову в четверг в 11", "Что у нас с Ивановым?", "Кому из клиентов надо перезвонить?"]
       .map(t => `<li>«${escH(t)}»</li>`).join("")}</ul><button class="btn primary" id="cr-new2">+ Клиент вручную</button></div>`;
   $("#cr-new2").onclick = crNew;
@@ -76,7 +76,7 @@ function crCard() {
     + `<div class="cr-hist"><h3>История</h3>${groups.length ? groups.map(([g, xs]) => `<div class="cr-hday"><small>${escH(g)}</small>${xs.map(x => `<div class="cr-h ${escH(x.kind)}">`
         + `<i>${crSvg((CR_KIND[x.kind] || CR_KIND.note)[1])}</i><p>${escH(x.t)}</p><time>${new Date(x.ts * 1000).toTimeString().slice(0, 5)}</time>`
         + `<button class="cr-hx" data-n="${escH(x.id)}" title="Удалить запись" aria-label="Удалить запись">×</button></div>`).join("")}</div>`).join("")
-      : `<p class="cr-hnone">Записей пока нет — запишите, о чём договорились, или скажите Лире.</p>`}</div>`
+      : `<p class="cr-hnone">Записей пока нет — запишите, о чём договорились, или скажите Мире.</p>`}</div>`
     + `<label class="cr-about"><span>О клиенте</span><textarea id="cr-note" rows="2" maxlength="2000" placeholder="Кто это, чем занимается, как лучше общаться">${escH(c.note || "")}</textarea></label>`;
   const save = (k, el) => el.onchange = async () => { const d = await crCall("client_save", { id: c.id, [k]: el.value }); if (d) { CR.card = Object.assign(CR.card, d); crLoadList(); } };
   save("name", $("#cr-name")); save("company", $("#cr-comp")); save("phone", $("#cr-phone")); save("email", $("#cr-email")); save("note", $("#cr-note"));

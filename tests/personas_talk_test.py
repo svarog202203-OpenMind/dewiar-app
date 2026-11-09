@@ -18,7 +18,7 @@ def ok(c, m):
 
 
 PERSONAS_DIR.mkdir(parents=True)
-OLD_LIRA = ("Тебя зовут Лира. Ты творческая и мягкая собеседница: говоришь образно и красиво, любишь музыку, книги и идеи, "
+OLD_LIRA = ("Тебя зовут Мира. Ты творческая и мягкая собеседница: говоришь образно и красиво, любишь музыку, книги и идеи, "
             "умеешь поддержать. Общаешься на «ты».")
 (PERSONAS_DIR / "lira.json").write_text(json.dumps({"character": OLD_LIRA, "color": "#123456"}, ensure_ascii=False), encoding="utf-8")
 (PERSONAS_DIR / "patrik.json").write_text(json.dumps({"character": "Тебя зовут Патрик. Ты мой личный Грокс: язвительный и честный."},
@@ -26,7 +26,7 @@ OLD_LIRA = ("Тебя зовут Лира. Ты творческая и мягк
 import personas as P  # noqa: E402
 ps = P.Personas()
 lira, patrik = ps.get("lira"), ps.get("patrik")
-ok(lira["character"] == P.LIRA_CHAR and lira["color"] == "#123456", "сохранённая Лира с прежним заводским характером — получила новый, свой цвет остался")
+ok(lira["character"] == P.LIRA_CHAR and lira["color"] == "#123456", "сохранённая Мира с прежним заводским характером — получила новый, свой цвет остался")
 ok("Грокс" in patrik["character"], "свой характер пользователя не тронут")
 sp = ps.system_prompt("lira", "Миша", "вторник")
 ok(sp.startswith(P.LIRA_CHAR) and sp.index(P.TALK_RULES) < sp.index(P.VOICE_RULES), "в подсказке: характер, сразу за ним — как говорить интересно, потом правила голоса")
@@ -34,7 +34,7 @@ for k in ("своим мнением", "Не начинай с «Отличны�
     ok(k in P.TALK_RULES or k in sp, f"правило: {k}")
 chars = {k: getattr(P, k) for k in ("LIRA_CHAR", "PATRIK_CHAR", "AGENT_CHAR", "CODER_CHAR", "JARVIS_CHAR", "EVA_CHAR")}
 ok(all(250 <= len(v) <= 1200 for v in chars.values()), f"характеры — развёрнутые, но в пределах (Telegram-бот берёт до 1200 знаков): { {k: len(v) for k, v in chars.items()} }")
-ok("иронией" in P.PATRIK_CHAR and "скепсис" in P.PATRIK_CHAR and "мнения" in P.LIRA_CHAR, "Патрик — ирония и скепсис, у Лиры — свой вкус и мнения")
+ok("иронией" in P.PATRIK_CHAR and "скепсис" in P.PATRIK_CHAR and "мнения" in P.LIRA_CHAR, "Патрик — ирония и скепсис, у Миры — свой вкус и мнения")
 ok(all(P.TEMPLATES[t]["character"] == chars[c] for t, c in (("dewiar", "AGENT_CHAR"), ("agent", "CODER_CHAR"), ("jarvis", "JARVIS_CHAR"), ("eva", "EVA_CHAR"))),
    "готовые шаблоны — с новыми характерами")
 ok(all(any(od.get("character") for od in (v if isinstance(v, list) else [v])) for k, v in P.OLD_DEFAULTS.items() if k in ("lira", "patrik", "dewiar", "agent", "jarvis", "eva")),

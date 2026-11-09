@@ -1,5 +1,5 @@
-"""«Главная» → «Последний разговор»: имя того, кто ответил (отчёт 256, 25.10: ответ Патрика подписан «Лира»).
-personas в студии — «let» из core.js, на window её нет; hmWho смотрел window.personas и всегда падал в «Лира»."""
+"""«Главная» → «Последний разговор»: имя того, кто ответил (отчёт 256, 25.10: ответ Патрика подписан «Мира»).
+personas в студии — «let» из core.js, на window её нет; hmWho смотрел window.personas и всегда падал в «Мира»."""
 import json, os, socket, subprocess, sys, tempfile, time
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -53,7 +53,7 @@ try:
         pg.goto((ROOT / "ui/settings.html").as_uri() + f"?token={tok}&port={PORT}"); time.sleep(3.5)
         t = pg.evaluate("(document.querySelector('#hm-chat') || {}).innerText || ''")
         ok("Патрик: Сейчас 17:13" in t, f"ответ подписан Патриком: {t[-60:]!r}")
-        ok("Лира:" not in t, "и не Лирой")
+        ok("Мира:" not in t, "и не Мирой")
         ok(pg.evaluate("hmWho('nobody')") == "Nobody" and pg.evaluate("hmWho('')") == "Патрик", "неизвестный — по имени из id; без id — активный персонаж")
         b.close()
 finally:

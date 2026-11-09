@@ -1,6 +1,6 @@
 """24.10, владелец: «Досуг» и «Возможности» на телефоне. Значок с джойстиком вверху — лист «Досуг» с пятью играми
 (arcade/shelf.js — тот же список, что у компьютера), игра — во весь экран; «Игры» в игре и «Назад» — снова полка.
-«Лира, давай поиграем» — без модели. «Возможности» (Настройки → Ещё): «Досуг», «Рядом», «Встречи»; у новых «Рядом» и
+«Мира, давай поиграем» — без модели. «Возможности» (Настройки → Ещё): «Досуг», «Рядом», «Встречи»; у новых «Рядом» и
 «Встречи» выключены, у прежних — всё как было; выключенная вкладка в «Близких» не показывается."""
 import os, re, shutil, subprocess, sys, tempfile
 from pathlib import Path
@@ -50,8 +50,8 @@ try:
         next(fr for fr in pg.frames if "snake" in fr.url).locator("#aBack").click(); pg.wait_for_timeout(400)
         ok(not pg.is_visible("#gameov") and pg.is_visible("#sh-play"), "«Игры» в самой игре — снова полка")
         pg.evaluate("closeSheets()")
-        r = pg.evaluate("async () => { const r = await quick('Лира, давай поиграем'); await new Promise(z => setTimeout(z, 600)); return r && r.say; }")
-        ok(r and "игру" in r and pg.is_visible("#sh-play"), f"«Лира, давай поиграем» — без модели, полка: {r}")
+        r = pg.evaluate("async () => { const r = await quick('Мира, давай поиграем'); await new Promise(z => setTimeout(z, 600)); return r && r.say; }")
+        ok(r and "игру" in r and pg.is_visible("#sh-play"), f"«Мира, давай поиграем» — без модели, полка: {r}")
         pg.evaluate("closeSheets()")
         r = pg.evaluate("async () => { const r = await quick('поиграем в змейку'); await new Promise(z => setTimeout(z, 900)); return r && r.say; }")
         ok(r == "Открываю Змейку." and pg.evaluate("$('#gamef').getAttribute('src')").startswith("arcade/snake/"), f"«поиграем в змейку» — сразу игра: {r}")

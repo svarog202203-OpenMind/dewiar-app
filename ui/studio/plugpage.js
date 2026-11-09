@@ -1,6 +1,6 @@
 /* Страница плагина (03.11, владелец: «плагин включён, появляются команды для запуска, а должен быть целый раздел под плагин,
-   где его можно настраивать и взаимодействовать. Каждый плагин — своя страничка в Лире: свой интерфейс, свои функции,
-   настройки. А то Лира что-то начинает делать — и на этом всё, не работает НИЧЕГО»).
+   где его можно настраивать и взаимодействовать. Каждый плагин — своя страничка в Мире: свой интерфейс, свои функции,
+   настройки. А то Мира что-то начинает делать — и на этом всё, не работает НИЧЕГО»).
    Меню слева → группа «Плагины»: пункт на каждый установленный плагин (значок, название), появляется и исчезает при
    установке и удалении без перезапуска. Раздел p-plg один на все плагины — открывает его скрытая кнопка nav data-p="plg".
    Страница: шапка (значок, что делает, состояние серверов — с причиной и «Перезапустить», ролик) и вкладки:
@@ -10,22 +10,22 @@
        у «Художника» вместо ui.html — его «Рисунки»;
      • «Сделать сейчас» — карточка на каждое действие (форма из inputSchema, человеческие подписи из plugin.json ui.tools),
        «Выполнить» зовёт ядро plugin_run напрямую, без модели; ответ — данными (таблицы, файлы с «Открыть», картинки),
-       текст — Markdown; ошибка — словами; пока идёт — крутилка и секунды. Ниже — «Попросить Лиру» (ui.asks: форма →
+       текст — Markdown; ошибка — словами; пока идёт — крутилка и секунды. Ниже — «Попросить Миру» (ui.asks: форма →
        фраза в «Чат») и «Попробуйте сказать»;
      • «Настройки» — поля плагина (сохраняются сразу) и дела по расписанию;
      • «Файлы» — последние файлы плагина (plugin_files), открытие — plugin_open.
    Ядро: core/plugin_pages.py (команды plugin_page / plugin_run / plugin_restart / plugin_files / plugin_open / plugin_ui).
-   Creator (03.11): плагин, сделанный Лирой по описанию (p.made), — вкладки «Изменить» (правка словами и «Версии» с откатом,
-   plugin_change / plugin_restore / plugin_undo) и «Доступ» (какие данные Лиры странице разрешены — plugin_grant). Мост
+   Creator (03.11): плагин, сделанный Мирой по описанию (p.made), — вкладки «Изменить» (правка словами и «Версии» с откатом,
+   plugin_change / plugin_restore / plugin_undo) и «Доступ» (какие данные Миры странице разрешены — plugin_grant). Мост
    страницы шире: dewiar.store.get/set (своё хранилище), dewiar.data(область) — только объявленное в plugin.json и только
    после «Разрешить» человека, dewiar.theme(цвета) — у плагина с theme: true, по нажатию; dewiar.readUrl(адрес) — текст
    статьи (по нажатию; у плагина с доступом к данным — всегда с вопросом). Ядро — core/plugin_bridge.py, создание —
    studio/plugmake.js. */
 const PLP = { known: {}, cur: "", page: null, tab: "", cat: [], nav: "", poll: 0, frameLoads: 0, busy: {}, asking: {} };
-// данные Лиры, которые плагин может попросить (как plugins.DATA_SCOPES в ядре): что сказать человеку в вопросе
+// данные Миры, которые плагин может попросить (как plugins.DATA_SCOPES в ядре): что сказать человеку в вопросе
 const PLP_SCOPES = { notes: ["заметки", "названия и текст ваших заметок"], reminders: ["напоминания и дела", "что и когда напомнить"],
   money: ["расходы и доходы", "суммы, категории и даты"], chat_stats: ["статистику разговоров", "сколько сообщений по дням и часам, с кем из персонажей и частые слова — без текста"],
-  chat: ["текст переписки", "ваши сообщения и ответы Лиры целиком"] };
+  chat: ["текст переписки", "ваши сообщения и ответы Миры целиком"] };
 const plpEsc = (t) => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 // подписи, если плагин не дал своих (чтобы на странице не было сырых query, limit, path)
 const PLP_WORDS = { query: "Запрос", q: "Слова", limit: "Сколько показать", path: "Файл или папка", folder: "Папка", file: "Файл", title: "Название",
@@ -34,7 +34,7 @@ const PLP_WORDS = { query: "Запрос", q: "Слова", limit: "Скольк
   description: "Описание", email: "Почта", phone: "Телефон", saved: "Файл", page: "Страница", amount: "Сумма", currency: "Валюта" };
 const plpWord = (k) => PLP_WORDS[k] || (String(k).replace(/[_-]+/g, " ").replace(/^./, c => c.toUpperCase()));
 const plpPlugin = () => (PLP.page && PLP.page.plugin) || {};
-// say — подсказка ответа для самой Лиры («скажи это одной фразой»), id — внутренний номер: человеку не показываем
+// say — подсказка ответа для самой Миры («скажи это одной фразой»), id — внутренний номер: человеку не показываем
 // ctx — ключ, под которым лежат эти данные: «ranking.total» — «Балл», просто «total» — «Всего»
 const plpLabel = (k, ctx) => { const l = ((plpPlugin().ui || {}).labels || {}); if (ctx && (ctx + "." + k) in l) return l[ctx + "." + k]; return k in l ? l[k] : (k === "say" || k === "id") ? "" : plpWord(k); };
 const plpKind = { image: "🖼", page: "🌐", doc: "📄", media: "🎬", table: "📊", folder: "📁", file: "📎" };
@@ -106,8 +106,8 @@ function plpState() {
   const r = PLP.page, p = r.plugin, n = r.tools.filter(t => !t.page_only && !t.hidden).length;
   if (!p.installed) return `<div class="plp-st off"><i></i><span>Не установлен</span><button class="btn small primary" id="plp-install">Установить</button></div>`;
   if (p.made && r.state === "none") { const v = (r.versions || {}).current || 1;
-    return `<div class="plp-st ok"><i></i><span>Сделан Лирой · версия ${v}</span><button class="btn small ghost" data-goto="edit">Изменить словами</button></div>`; }
-  if (r.state === "none") return `<div class="plp-st ok"><i></i><span>Работает через разговор с Лирой — ничего запускать не нужно</span></div>`;
+    return `<div class="plp-st ok"><i></i><span>Сделан Мирой · версия ${v}</span><button class="btn small ghost" data-goto="edit">Изменить словами</button></div>`; }
+  if (r.state === "none") return `<div class="plp-st ok"><i></i><span>Работает через разговор с Мирой — ничего запускать не нужно</span></div>`;
   if (r.state === "connecting") return `<div class="plp-st wait"><i class="plp-spin"></i><span>Запускается…</span></div>`;
   if (r.state === "error") return `<div class="plp-st bad"><i></i><span><b>Не запустился.</b> ${plpEsc(r.error)}</span><button class="btn small" id="plp-restart">Перезапустить</button></div>`;
   return `<div class="plp-st ok"><i></i><span>Работает${n ? ` · ${n} ${n === 1 ? "действие" : n < 5 ? "действия" : "действий"}` : ""}</span><button class="btn small ghost" id="plp-restart" title="Остановить и запустить программу плагина заново">Перезапустить</button></div>`;
@@ -180,8 +180,8 @@ function plpDo(box) {
   if (tools.length) h += `<h2 class="plp-h2">Сделать сейчас <small>сразу, без разговора</small></h2><div class="plp-grid">${tools.map(plpToolCard).join("")}</div>`;
   else if (r.state === "connecting") h += `<p class="plp-loading"><i class="plp-spin"></i> Плагин запускается — его действия появятся здесь через несколько секунд.</p>`;
   else if (r.state === "error") h += `<div class="plp-err"><b>Действия плагина сейчас не работают.</b> ${plpEsc(r.error)} Нажмите «Перезапустить» вверху; если не поможет — откройте «О плагине».</div>`;
-  if (asks.length) h += `<h2 class="plp-h2">Попросить Лиру <small>ответит в «Чате»</small></h2><div class="plp-grid">${asks.map((a, i) => plpAskCard(a, i)).join("")}</div>`;
-  if (p.phrases.length) h += `<h2 class="plp-h2">Сказать Лире <small>${p.installed ? "нажмите — и фраза уйдёт в «Чат»" : "после установки"}</small></h2>
+  if (asks.length) h += `<h2 class="plp-h2">Попросить Миру <small>ответит в «Чате»</small></h2><div class="plp-grid">${asks.map((a, i) => plpAskCard(a, i)).join("")}</div>`;
+  if (p.phrases.length) h += `<h2 class="plp-h2">Сказать Мире <small>${p.installed ? "нажмите — и фраза уйдёт в «Чат»" : "после установки"}</small></h2>
     <div class="plp-say">${p.phrases.map(t => `<button class="chip" data-say="${plpEsc(t)}" ${p.installed ? "" : "disabled"}>«${plpEsc(t)}»</button>`).join("")}</div>`;
   if (!h) h = `<p class="hint">У этого плагина пока нет действий.</p>`;
   box.innerHTML = h;
@@ -336,16 +336,16 @@ function plpWireOut(box) {
   $$("a[data-ext]", box).forEach(a => a.onclick = (e) => { e.preventDefault(); if (typeof openExt === "function") openExt(a.getAttribute("href")); });
 }
 
-/* «Попросить Лиру»: форма → готовая фраза в «Чат» (плагины без своего кода тоже делают что-то по кнопке) */
+/* «Попросить Миру»: форма → готовая фраза в «Чат» (плагины без своего кода тоже делают что-то по кнопке) */
 function plpAskCard(a, i) {
   const fl = Object.entries(a.fields || {});
   return `<article class="plp-ask plp-card" data-i="${i}">
-    <div class="plp-ct"><b>${plpEsc(a.title)}</b><span class="plp-tag lira">Лира</span></div>
+    <div class="plp-ct"><b>${plpEsc(a.title)}</b><span class="plp-tag lira">Мира</span></div>
     ${a.hint ? `<p class="plp-cd">${plpEsc(a.hint)}</p>` : ""}
     ${fl.length ? `<div class="plp-form">${fl.map(([k, f]) => f.kind === "long"
       ? `<label class="f plp-wide"><span class="plp-fl">${plpEsc(f.label)}</span><textarea data-q="${plpEsc(k)}" rows="3" placeholder="${plpEsc(f.placeholder)}"></textarea></label>`
       : `<label class="f"><span class="plp-fl">${plpEsc(f.label)}</span><input type="text" data-q="${plpEsc(k)}" placeholder="${plpEsc(f.placeholder)}"></label>`).join("")}</div>` : ""}
-    <div class="plp-run"><button class="btn primary" data-askgo>${plpEsc(a.button || "Спросить Лиру")}</button><span class="plp-ms plp-prev"></span></div></article>`;
+    <div class="plp-run"><button class="btn primary" data-askgo>${plpEsc(a.button || "Спросить Миру")}</button><span class="plp-ms plp-prev"></span></div></article>`;
 }
 function plpWireAsk(card) {
   const a = ((PLP.page.plugin.ui || {}).asks || [])[+card.dataset.i]; if (!a) return;
@@ -364,7 +364,7 @@ function plpSettings(box) {
   const p = PLP.page.plugin;
   box.innerHTML = `${p.settings.length ? `<div class="plp-card plp-set"><div class="row one">${p.settings.map(s => plgField(p, s).replace(/id="pls-/g, 'id="pps-')).join("")}</div>
       <p class="hint plp-saved" id="plp-saved">${p.installed ? "Меняется сразу — сохранять не нужно." : "Заполнится при установке."}</p></div>` : ""}
-    ${p.jobs.length ? `<h2 class="plp-h2">Дела по расписанию <small>Лира делает сама и сообщает итог</small></h2><div class="plp-card">${p.jobs.map(j => `<div class="switch"><div>${plpEsc(j.title)}</div><label class="tg"><input type="checkbox" data-job="${plpEsc(j.id)}" ${j.on ? "checked" : ""} ${p.installed ? "" : "disabled"}><i></i></label></div>`).join("")}</div>` : ""}`;
+    ${p.jobs.length ? `<h2 class="plp-h2">Дела по расписанию <small>Мира делает сама и сообщает итог</small></h2><div class="plp-card">${p.jobs.map(j => `<div class="switch"><div>${plpEsc(j.title)}</div><label class="tg"><input type="checkbox" data-job="${plpEsc(j.id)}" ${j.on ? "checked" : ""} ${p.installed ? "" : "disabled"}><i></i></label></div>`).join("")}</div>` : ""}`;
   const vals = () => { const o = {}; $$("#plp-body [data-k]").forEach(el => { o[el.dataset.k] = el.type === "checkbox" ? el.checked : el.value; }); return o; };
   let t = 0;
   const saveNow = (msg) => { if (!p.installed) return; clearTimeout(t);
@@ -377,15 +377,15 @@ function plpSettings(box) {
     const inp = $(`#plp-body [data-k="${b.dataset.pick}"]`); if (inp) inp.value = path; saveNow("Папка выбрана и сохранена ✓");
   });
   $$("#plp-body [data-job]").forEach(c => c.onchange = () => core.call("plugin_job", { id: p.id, job: c.dataset.job, on: c.checked })
-    .then(r => { plgSet(r); toast(c.checked ? "Дело включено — Лира сделает его сама" : "Дело выключено"); }).catch(e => toast(e.message)));
+    .then(r => { plgSet(r); toast(c.checked ? "Дело включено — Мира сделает его сама" : "Дело выключено"); }).catch(e => toast(e.message)));
 }
 
-/* ---------- «Изменить и версии» (плагин, сделанный Лирой) ---------- */
+/* ---------- «Изменить и версии» (плагин, сделанный Мирой) ---------- */
 const PLP_EDIT_IDEAS = ["Сделай всё крупнее", "Добавь график по неделям", "Поменяй цвета на спокойные", "Добавь кнопку «Очистить»", "Сделай компактнее"];
 function plpEdit(box) {
   const r = PLP.page, p = r.plugin, vs = (r.versions || {}).items || [];
   box.innerHTML = `<div class="plp-card plp-edit">
-      <h2 class="plp-h2" style="margin-top:0">Что поменять? <small>словами — Лира перепишет страницу, прежняя версия сохранится</small></h2>
+      <h2 class="plp-h2" style="margin-top:0">Что поменять? <small>словами — Мира перепишет страницу, прежняя версия сохранится</small></h2>
       <div class="plp-ed-row"><textarea id="plp-ed-q" rows="2" placeholder="Например: сделай цифры крупнее и добавь график по неделям"></textarea>
         <button class="btn primary" id="plp-ed-go">Изменить</button></div>
       ${typeof pmkWho === "function" ? pmkWho("plp-ed-who") : ""}
@@ -403,7 +403,7 @@ function plpEdit(box) {
   go.onclick = async () => {
     const text = q.value.trim(); if (!text) { q.focus(); return; }
     go.disabled = true; const t0 = Date.now();
-    const tick = setInterval(() => { st.innerHTML = `<i class="plp-spin"></i> Лира переписывает плагин… ${Math.round((Date.now() - t0) / 1000)} с`; }, 500);
+    const tick = setInterval(() => { st.innerHTML = `<i class="plp-spin"></i> Мира переписывает плагин… ${Math.round((Date.now() - t0) / 1000)} с`; }, 500);
     try { const res = await core.call("plugin_change", { id: p.id, request: text, by: typeof pmkWhoVal === "function" ? pmkWhoVal("plp-ed-who") : "" }); clearInterval(tick); done(res, res.said || "Готово"); }
     catch (e) { clearInterval(tick); go.disabled = false; st.innerHTML = `<span class="plp-err plp-small">${plpEsc(e.message)}</span>`; }
   };
@@ -414,11 +414,11 @@ function plpEdit(box) {
   $("#plp-undo").onclick = async () => { try { const res = await core.call("plugin_undo", { id: p.id }); done(res, res.said || "Вернула как было"); } catch (e) { toast(e.message); } };
 }
 
-/* ---------- «Доступ»: какие данные Лиры странице плагина разрешены ---------- */
+/* ---------- «Доступ»: какие данные Миры странице плагина разрешены ---------- */
 function plpAccess(box) {
   const r = PLP.page, p = r.plugin, g = r.grants || {};
   const theme = ((S && S.ui) || {}).plugin_theme;
-  box.innerHTML = `${(p.data || []).length ? `<div class="plp-card"><h2 class="plp-h2" style="margin-top:0">Данные Лиры <small>плагин спрашивает при первом обращении; выбор можно поменять здесь</small></h2>
+  box.innerHTML = `${(p.data || []).length ? `<div class="plp-card"><h2 class="plp-h2" style="margin-top:0">Данные Миры <small>плагин спрашивает при первом обращении; выбор можно поменять здесь</small></h2>
       ${(p.data || []).map(s => { const v = g[s]; const w = PLP_SCOPES[s] || [s, ""];
         return `<div class="switch plp-grant"><div>${plpEsc(w[0][0].toUpperCase() + w[0].slice(1))}<span>${plpEsc(w[1])} · ${v === true ? "разрешено" : v === false ? "запрещено" : "ещё не спрашивал"}</span></div><label class="tg"><input type="checkbox" data-scope="${plpEsc(s)}" ${v === true ? "checked" : ""}><i></i></label></div>`; }).join("")}
       <p class="hint">Страница плагина видит только то, что здесь включено. Ничего не уходит в интернет: у страницы нет сети.</p></div>` : ""}
@@ -519,7 +519,7 @@ function plpFrameData(r) {
     files: (r.files || []).map(f => ({ path: f.path, name: f.name, kind: f.kind })) };
 }
 /* ask и openUrl — только по нажатию человека. Нажатие во фрейме видно и студии (navigator.userActivation); нет его
-   (страница сама решила написать Лире) или браузер окна этого не умеет — спросить человека, а не делать молча */
+   (страница сама решила написать Мире) или браузер окна этого не умеет — спросить человека, а не делать молча */
 async function plpGesture(text, verb) {
   const ua = navigator.userActivation;
   if (ua && ua.isActive) return true;
@@ -570,7 +570,7 @@ window.addEventListener("message", async (e) => {
     if (d.op === "open") return reply(true, !!(await core.call("plugin_open", { id: pid, path: String(a.path || "") })));
     if (d.op === "ask") {
       const t = String(a.text || "").trim().slice(0, 12000); if (!t) throw new Error("пустая фраза");     // читалка: «перескажи» с текстом статьи
-      if (!await plpGesture(`Страница плагина «${PLP.page.plugin.name}» хочет спросить Лиру:\n«${t.slice(0, 300)}»`, "Спросить")) throw new Error("человек не разрешил");
+      if (!await plpGesture(`Страница плагина «${PLP.page.plugin.name}» хочет спросить Миру:\n«${t.slice(0, 300)}»`, "Спросить")) throw new Error("человек не разрешил");
       plpAsk(t); return reply(true, true);
     }
     if (d.op === "url") {                                           // страница тендера на площадке — в браузере, только http(s) и по нажатию
@@ -610,7 +610,7 @@ core.on("hello", () => { setTimeout(plpCatalog, 0);
     if (on !== have) plpCatalog();
   })
   .on("mcp", () => { if (PLP.cur && $("#p-plg.cur")) plpRefresh(); })
-  // Лира сделала или изменила плагин (голосом, в чате или здесь): меню догоняет; голосом — сразу его страница
+  // Мира сделала или изменила плагин (голосом, в чате или здесь): меню догоняет; голосом — сразу его страница
   .on("plugin_made", (e) => { plpCatalog().then(() => { if (!e || !e.id) return;
     if (e.open) { PLP.tab = ""; PLP.page = null; plpOpen(e.id); } else if (PLP.cur === e.id && $("#p-plg.cur")) { PLP.page = null; plpLoad(); } }); })
   .on("plugin_theme", (e) => { if (S && S.ui) S.ui.plugin_theme = e ? e.theme : null; if (window.studioPluginTheme) studioPluginTheme(e ? e.theme : null); if (typeof lookPt === "function") lookPt(); plpFrameTheme(); });

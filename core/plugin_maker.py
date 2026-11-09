@@ -1,4 +1,4 @@
-"""Лира делает плагин по описанию словами (Creator, 03.11 — владелец увидел «Creator Mode» у DeepSeek: «человек описывает
+"""Мира делает плагин по описанию словами (Creator, 03.11 — владелец увидел «Creator Mode» у DeepSeek: «человек описывает
 идею, агент пишет плагин и встраивает в интерфейс»).
 
 «Сделай плагин, который показывает статистику наших разговоров» → текущая модель пишет plugin.json (название, значок,
@@ -43,7 +43,7 @@ DATA = Path(os.environ.get("DEWIAR_PLUGIN_DATA") or ".")          # своя п�
 def hello(args):                                                   # действие: args — словарь из inputSchema
     return {"text": "Привет, " + str(args.get("name") or "мир")}
 
-TOOLS = {   # имя: (описание для Лиры, inputSchema, функция, только_читает)
+TOOLS = {   # имя: (описание для Миры, inputSchema, функция, только_читает)
     "myplug_hello": ("Поздороваться", {"type": "object", "properties": {"name": {"type": "string"}}}, hello, True),
 }
 
@@ -114,31 +114,31 @@ load().catch(e => dewiar.toast(e.message));
 </script></body></html>'''
 
 SYSTEM = """Ты — опытный дизайнер и фронтенд-разработчик Dewiar. По описанию человека ты делаешь ПЛАГИН — маленькую
-страницу, которая живёт внутри студии Dewiar (программа голосового ассистента Лиры) в меню «Плагины».
+страницу, которая живёт внутри студии Dewiar (программа голосового ассистента Миры) в меню «Плагины».
 
 ФОРМАТ ОТВЕТА — только разделы, без пояснений до и после:
 === plugin.json ===
 {JSON}
 === ui.html ===
 <!doctype html>… целая страница …
-=== skill.md ===   ← необязательно: если Лире в разговоре нужно знать, как помогать с этим плагином (3–8 строк)
+=== skill.md ===   ← необязательно: если Мире в разговоре нужно знать, как помогать с этим плагином (3–8 строк)
 {SERVER_PART}
 plugin.json: id (латиница, цифры, дефис; по смыслу), name (по-русски, 1–3 слова), icon (ОДИН эмодзи), color (#RRGGBB),
 category («Дом», «Работа», «Здоровье», «Учёба», «Развлечения», «Оформление», «Разное»), tagline (одна строка), description
-(2–3 предложения для человека), phrases (2–4 фразы, которые можно сказать Лире), words (2–6 слов, по которым просьба — к
-плагину), data (список — только если странице нужны данные Лиры: "notes", "reminders", "money", "chat_stats", "chat"),
+(2–3 предложения для человека), phrases (2–4 фразы, которые можно сказать Мире), words (2–6 слов, по которым просьба — к
+плагину), data (список — только если странице нужны данные Миры: "notes", "reminders", "money", "chat_stats", "chat"),
 theme (true — только для плагина, который меняет оформление студии), ui: {"page_title": подпись вкладки, 1–2 слова}.
 
 СТРАНИЦА ui.html — во фрейме-песочнице: НЕТ сети, НЕТ доступа к студии. Всё — внутри файла (CSS в <style>, JS в <script>).
 Можно и нужно — мост window.dewiar (всё возвращает Promise, оборачивай в try/catch и показывай ошибку словами):
   dewiar.store.get(ключ) / dewiar.store.set(ключ, значение) — своё хранилище (JSON, до 500 КБ) — вместо localStorage;
-  dewiar.data(область) — данные Лиры (только области из plugin.json → data; человек сам разрешит):
+  dewiar.data(область) — данные Миры (только области из plugin.json → data; человек сам разрешит):
     "chat_stats" → {days:[{date,you,lira}] (60 дней), hours:[24 числа], weekdays:[7 чисел, пн=0], personas:[{name,count}],
                    topics:[{word,count}], total:{you,lira,messenger}, active_days, streak, since};
     "chat" → {items:[{at,role:"you"|"lira",who,text}]}; "notes" → {items:[{title,folder,at,text}]};
     "reminders" → {items:[{id,at,text,repeat,kind}]}; "money" → {items:[{date,amount,currency,category,note,kind}]};
     человек может отказать — тогда покажи понятную карточку «Нужен доступ…» с кнопкой, которая снова вызывает dewiar.data;
-  dewiar.ask(фраза) — отправить Лире в чат (по нажатию кнопки; Лира ответит в «Чате»);
+  dewiar.ask(фраза) — отправить Мире в чат (по нажатию кнопки; Мира ответит в «Чате»);
   dewiar.readUrl(адрес) → {url,title,text} — текст статьи по ссылке (по нажатию);
   dewiar.openUrl(адрес) — открыть сайт в браузере (вместо <a href>);
   dewiar.theme({"--accent": "#…", "--brand": "linear-gradient(…)", "--scene": "…", "--ink": "#…", "--muted": "…",
@@ -294,7 +294,7 @@ def check(files, code=False, pid=""):
         for k in ("links", "video", "skills"):
             man.pop(k, None)
         man["version"] = str(man.get("version") or "1.0")[:20]
-        man["author"] = "Лира"
+        man["author"] = "Мира"
         tpl = (man.get("made") or {}).get("template") if isinstance(man.get("made"), dict) else ""
         man["made"] = {"by": "lira", "code": bool(code)} | ({"template": str(tpl)[:40]} if tpl else {})
         if code:
@@ -338,7 +338,7 @@ class Maker:
         self.by = None          # id персонажа, который делает плагин (None — тот, кто сейчас отвечает)
 
     def using(self, by):
-        """Кто делает плагин (04.11, пользователь: «у Лиры модель слабее, а Патрик для таких дел настроен — не смог
+        """Кто делает плагин (04.11, пользователь: «у Миры модель слабее, а Патрик для таких дел настроен — не смог
         поручить Патрику»): модель этого персонажа (студия → «Персонажи» → «Мозг»), а не общий «Мозг»."""
         import contextlib
 
@@ -479,7 +479,7 @@ class Maker:
     def _made(self, pid):
         p = self.P.items.get(pid)
         if not p or p["builtin"] or not p.get("made"):
-            raise MakerError("этот плагин сделан не Лирой — его можно только настроить" if p else "нет такого плагина")
+            raise MakerError("этот плагин сделан не Мирой — его можно только настроить" if p else "нет такого плагина")
         return p
 
     # ---------- создать, изменить, вернуть ----------
@@ -551,7 +551,7 @@ class Maker:
         files = {n: (vd / n).read_text(encoding="utf-8") for n in FILES if (vd / n).is_file()}
         cur = self._current(pid)
         if files.get("server.py") and files["server.py"] != cur.get("server.py") and not code:
-            raise MakerError("в той версии своя программа — не та, что сейчас; вернуть её можно только с вашего разрешения: попросите Лиру")
+            raise MakerError("в той версии своя программа — не та, что сейчас; вернуть её можно только с вашего разрешения: попросите Миру")
         if not files.get("server.py") and cur.get("server.py") and e.get("code"):
             files["server.py"] = cur["server.py"]           # программу той версии сюда не перенесли (другой компьютер) — остаётся нынешняя
         self._write(pid, files, f"Вернула версию {e['v']}", to=e["v"])
@@ -578,10 +578,10 @@ class Maker:
                 "version": idx[-1]["v"] if idx else 1}
 
     def find(self, ref=""):
-        """Сделанный Лирой плагин по названию или id; пусто — последний изменённый."""
+        """Сделанный Мирой плагин по названию или id; пусто — последний изменённый."""
         made = [p for p in self.P.items.values() if p.get("made")]
         if not made:
-            raise MakerError("сделанных Лирой плагинов пока нет")
+            raise MakerError("сделанных Мирой плагинов пока нет")
         ref = str(ref or "").strip().lower().replace("ё", "е")
         if ref:
             for p in made:

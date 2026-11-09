@@ -67,8 +67,8 @@ def stub(follow_s=15):
     e._said, e.state, e._spoke_until = collections.deque(maxlen=40), "listening", 0.0
     e.pending_confirm, e.task_answer_until = None, 0.0
     e.tasks = SimpleNamespace(waiting=lambda: None)
-    e.aliases = {"lira": ["лира"]}
-    e.personas = SimpleNamespace(wake_map=lambda only=None, **k: {"лира": "lira"})
+    e.aliases = {"lira": ["мира"]}
+    e.personas = SimpleNamespace(wake_map=lambda only=None, **k: {"мира": "lira"})
     conf = {"persona": "lira", ("audio", "follow_up_seconds"): follow_s}
     e.s = SimpleNamespace(get=lambda *k, default=None: conf.get(k[0] if len(k) == 1 else k, default))
     e.follow_up_until = time.monotonic() + 5

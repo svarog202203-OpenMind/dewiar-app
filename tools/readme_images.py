@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Картинки для README и выпусков: docs/img/banner.webp (обложка), team.webp (Лира, Патрик и «Готовые персонажи»),
-how.webp (как устроено) и phone-lira.webp (телефон с Лирой). Рисуются из HTML в Chromium (Playwright), поэтому
+"""Картинки для README и выпусков: docs/img/banner.webp (обложка), team.webp (Мира, Патрик и «Готовые персонажи»),
+how.webp (как устроено) и phone-lira.webp (телефон с Мирой). Рисуются из HTML в Chromium (Playwright), поэтому
 обновить их после смены персонажей или облика — одна команда:
 
     python3 tools/readme_images.py [папка, по умолчанию docs/img]
@@ -143,13 +143,13 @@ def page(ps):
     <div class="chips"><span>Windows</span><span>Ubuntu</span><span>Android</span></div>
     <h1>Dewiar</h1>
     <div class="sub">Голосовая помощница, с которой просто разговаривают</div>
-    <div class="talk"><span class="b you">Лира, что у меня в среду?</span><span class="b her">В 15:00 — встреча с подрядчиком. Напомнить за час?</span></div>
+    <div class="talk"><span class="b you">Мира, что у меня в среду?</span><span class="b her">В 15:00 — встреча с подрядчиком. Напомнить за час?</span></div>
   </div>
-  <div class="halo lira"><div class="face"><img src="{lira_img}" alt=""></div><span class="tag">Лира<small>главная помощница</small></span></div>
+  <div class="halo lira"><div class="face"><img src="{lira_img}" alt=""></div><span class="tag">Мира<small>главная помощница</small></span></div>
   <div class="halo pat"><div class="face"><img src="{pat_img}" alt=""></div><span class="tag">Патрик<small>наставник</small></span></div>
 </div>"""
     main = ""
-    for k, call in (("lira", "«Лира, напомни через два часа…»"), ("patrik", "«Патрик, стоит ли менять работу?»")):
+    for k, call in (("lira", "«Мира, напомни через два часа…»"), ("patrik", "«Патрик, стоит ли менять работу?»")):
         p = ps[k]
         img = {"lira": lira_img, "patrik": pat_img}[k]
         main += f"""<div class="glass card" style="--c:{p['color']}"><div class="halo"><div class="face"><img src="{img}" alt=""></div></div>
@@ -157,7 +157,7 @@ def page(ps):
     grid = "".join(f'<div class="glass p">{face(k, ps[k])}<b>{ps[k]["name"]}</b><span>{ps[k]["role"]}</span></div>' for k in COLLECTION)
     team = f"""<div class="scene" id="team">
   <h2>Команда</h2>
-  <div class="lead">С самого начала — Лира и Патрик: у каждого свой голос, характер и живое лицо.</div>
+  <div class="lead">С самого начала — Мира и Патрик: у каждого свой голос, характер и живое лицо.</div>
   <div class="main">{main}</div>
   <h4>Готовые персонажи<span>добавляются одной кнопкой — главная сама передаёт им вопрос по их части</span></h4>
   <div class="grid">{grid}</div>
@@ -269,7 +269,7 @@ window.ents = [...document.querySelectorAll("canvas")].map(c => {{ const e = new
 
 
 def phone(tmp):
-    """Телефон с Лирой: настоящий интерфейс android/assets/www на подменённом мосте, разговор — подставлен."""
+    """Телефон с Мирой: настоящий интерфейс android/assets/www на подменённом мосте, разговор — подставлен."""
     import subprocess
     www = tmp / "www"
     shutil.copytree(ROOT / "android/assets/www", www)
@@ -285,7 +285,7 @@ def phone(tmp):
         pg.goto((www / "index.html").as_uri())
         pg.wait_for_timeout(900)
         pg.evaluate("""() => { S.onboarded = true; S.llm.base_url = "https://example.invalid/v1"; saveS(); closeSheets && closeSheets();
-          clearCard(); showYou("Лира, что у меня в среду?"); showBot("В 15:00 — встреча с подрядчиком по кухне. Напомнить за час?"); setState("speaking"); }""")
+          clearCard(); showYou("Мира, что у меня в среду?"); showBot("В 15:00 — встреча с подрядчиком по кухне. Напомнить за час?"); setState("speaking"); }""")
         pg.wait_for_timeout(1600)
         pg.evaluate("() => clearCard()")
         png = tmp / "phone.png"
@@ -297,7 +297,7 @@ def phone(tmp):
 
 def styles(tmp):
     """Витрина стилей виджета (docs/img/styles.webp и dewiar_styles.webp для страницы «Скачать»): настоящий виджет
-    ui/hud.html с Лирой в нескольких темах (assets/skins.*), разложенный как на презентации дизайн-студии."""
+    ui/hud.html с Мирой в нескольких темах (assets/skins.*), разложенный как на презентации дизайн-студии."""
     from playwright.sync_api import sync_playwright
     shots = [("glass", "Глассморфизм"), ("neu", "Неоморфизм"), ("brand", "Фирменная"), ("vision", "Вижн"), ("snow", "Белоснежная")]
     with sync_playwright() as p:
@@ -306,7 +306,7 @@ def styles(tmp):
         pg.add_init_script("window.pywebview = { api: new Proxy({}, { get: () => () => Promise.resolve(true) }) };")
         pg.goto((ROOT / "ui/hud.html").as_uri() + "?mode=card&port=1")
         pg.wait_for_timeout(1000)
-        pg.evaluate("""(img) => { personas = [{ id: 'lira', name: 'Лира', color: '#9BD4FF', style: 'strings', avatar_url: img, live: 'lira' }];
+        pg.evaluate("""(img) => { personas = [{ id: 'lira', name: 'Мира', color: '#9BD4FF', style: 'strings', avatar_url: img, live: 'lira' }];
             applyPersona('lira'); setState('idle'); core.emit('turn', { seconds: 60 });
             showCap('Что у меня в среду?', 'В 15:00 — встреча с подрядчиком по кухне. Напомнить за час?'); }""", (ROOT / "data/avatars/lira.webp").as_uri())
         pg.wait_for_timeout(1500)

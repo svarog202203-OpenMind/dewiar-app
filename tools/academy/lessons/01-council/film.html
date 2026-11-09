@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <link rel="stylesheet" href="../../../../ui/assets/fonts.css">
 <style>
-/* светлый неоморфизм — как Лира по умолчанию и кабинет: небесный фон, мягкие тени вместо рамок */
+/* светлый неоморфизм — как Мира по умолчанию и кабинет: небесный фон, мягкие тени вместо рамок */
 :root { --bg: #dbe5f1; --nd: #b8c5d6; --nl: #f7fbff; --ink: #24324a; --mut: rgba(36,50,74,.66); --accent: #4560ea;
   --brand: linear-gradient(135deg, #6a8dff 0%, #4f6cf0 100%); --lira: #5aa9e6; --patrik: #e59a1f;
   --raise: 14px 14px 32px var(--nd), -14px -14px 32px var(--nl); --raise-s: 6px 6px 14px var(--nd), -6px -6px 14px var(--nl); }
@@ -80,7 +80,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
 </style></head>
 <body><div id="film">
   <div id="bg"></div><div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>
-  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Лиры</b><span>Урок 1 · Совет ИИ</span></div></div>
+  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Миры</b><span>Урок 1 · Совет ИИ</span></div></div>
   <ol id="steps"><li><i>1</i>Мнения</li><li><i>2</i>Спор</li><li><i>3</i>Итог</li></ol>
   <svg id="arc" viewBox="0 0 1920 1080"></svg>
 
@@ -92,7 +92,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
   </div>
   <div class="layer" id="L-council">
     <div class="stitle" id="st-t">Совет ИИ · «Стоит ли мне переходить на удалённую работу?»</div>
-    <div class="card lira" id="c1" style="--c:var(--lira)"><header><i style="background-image:url(../../../../data/avatars/lira.webp)"></i><b>Лира</b><small>ChatGPT</small></header><p></p></div>
+    <div class="card lira" id="c1" style="--c:var(--lira)"><header><i style="background-image:url(../../../../data/avatars/lira.webp)"></i><b>Мира</b><small>ChatGPT</small></header><p></p></div>
     <div class="card patrik" id="c2" style="--c:var(--patrik)"><header><i style="background-image:url(../../../../data/avatars/patrik.webp)"></i><b>Патрик</b><small>Claude</small></header><p></p></div>
   </div>
   <div class="layer" id="L-sum"><div id="sum"><h2>Итог совета</h2>
@@ -101,14 +101,14 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
     <div class="row"><b>Совет</b><span>Начать с двух дней в неделю</span></div>
     <div class="row"><b>Первый шаг</b><span>Сегодня поговорить с руководителем</span></div></div></div>
   <div class="layer" id="L-how">
-    <div id="voice"><i><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></i><span>«Лира, собери совет: …»</span></div>
+    <div id="voice"><i><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></i><span>«Мира, собери совет: …»</span></div>
     <div id="studio"><nav><span>Задачи</span><span>Дозор</span><span class="on">Совет ИИ</span><span>Близкие</span></nav>
       <main><h3>Прошлые советы</h3><div class="row2"><i style="background-image:url(../../../../data/avatars/lira.webp)"></i><i style="background-image:url(../../../../data/avatars/patrik.webp)"></i></div>
         <div class="file"><em>📄</em>Совет / Удалённая работа.md</div></main></div>
   </div>
   <div class="layer" id="L-end"><div id="end"><h1>dewiar.pro</h1><p>Бесплатно · Windows, Linux, Android и браузер</p><span class="next">Следующий урок — «Дозор»</span></div></div>
 
-  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Лира</b><small id="m-lira">ChatGPT</small></div>
+  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Мира</b><small id="m-lira">ChatGPT</small></div>
   <div class="seat" id="s-patrik" style="--c:var(--patrik)"><div class="orb"><canvas id="e-patrik" width="600" height="600"></canvas></div><b>Патрик</b><small id="m-patrik">Claude</small></div>
   <div id="sub"></div>
 </div>
@@ -147,7 +147,7 @@ function seatPos(who, T) {
 }
 const ENT = {};
 function makeEnt(who, color, live) {
-  // как в светлом виджете (владелец 29.10: «Лира и Патрик в чёрных кружках — в виджете без чёрного лучше»): без тёмного диска, тон «neu»
+  // как в светлом виджете (владелец 29.10: «Мира и Патрик в чёрных кружках — в виджете без чёрного лучше»): без тёмного диска, тон «neu»
   ENT[who] = new DewiarEntity($("#e-" + who), { style: "photo", color, image: `../../../../data/avatars/${who}.webp`, live, ring: false, plate: false, tone: "neu", voiceLevels: true, fx: "wave" });
   ENT[who].set({ state: "idle" });
 }
@@ -179,7 +179,7 @@ window.render = function (T, f) {
   } else {
     const sw = out((T - s("r2").start) / 0.5);
     vis($("#c1"), out((T - at("s5c") + 0.3) / 0.5), 30); typed($("#c1"), "Патрик прав. Значит, начнём с двух дней дома в неделю.", prog(T, "s5c", 0.2) * 1.05);
-    vis($("#c2"), out((T - at("s5b") + 0.3) / 0.5), 30); typed($("#c2"), "Лира, про свободу согласен. Но дома легко выгореть.", prog(T, "s5b", 0.2) * 1.05);
+    vis($("#c2"), out((T - at("s5b") + 0.3) / 0.5), 30); typed($("#c2"), "Мира, про свободу согласен. Но дома легко выгореть.", prog(T, "s5b", 0.2) * 1.05);
   }
   vis($("#st-t"), out((T - s("table").start - 0.5) / 0.6) * (1 - out((T - s("sum").start) / 0.5)));
   // шаги «Мнения → Спор → Итог»

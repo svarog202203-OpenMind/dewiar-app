@@ -48,7 +48,7 @@ def _real_english(run, known):
     """Оборот латиницей — настоящий английский, а не названия подряд? Не считаем аббревиатуры (PDF, DOCX), известные
     программы (Telegram) и форматы; из остального нужно два слова и хотя бы одно строчное или «I» (I live, Drag and
     drop). «Telegram Desktop», «Google Chrome», «PDF, DOCX» — названия: их читает голос персонажа (№213, 23.10: «когда
-    Лира говорит, слышен какой-то ещё голос на английском»)."""
+    Мира говорит, слышен какой-то ещё голос на английском»)."""
     words = [w for w in _EN_TOKEN.findall(run) if not (w.isupper() and len(w) > 1) and w.lower() not in known
              and w.lower() not in _EN_TECH]
     return len(words) >= 2 and any(w[0].islower() or w == "I" for w in words)
@@ -481,7 +481,7 @@ class VoskTTS:
             return sid
         g = "male" if voice_cfg.get("_gender") == "male" else "female"
         sp = [s for s in self.speakers if s["gender"] == g]
-        if g == "female":                               # героиням — по высоте голоса: первой (Лире) самый звонкий и молодой
+        if g == "female":                               # героиням — по высоте голоса: первой (Мире) самый звонкий и молодой
             sp = sorted(sp, key=lambda s: -float(s.get("f0") or 0))
         same = [s["id"] for s in sp] or ids or [0]
         n = voice_cfg.get("_slot")

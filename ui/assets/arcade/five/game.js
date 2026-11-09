@@ -1,7 +1,7 @@
-/* Пять в ряд (гомоку) против Лиры (24.10: идея людей — «5 в линию»; владелец: «сделать что-то для нас на её основе»).
-   Доска 13×13 в мягком неоморфизме, камни — глянцевые чёрные (ваши) и перламутровые (Лира). Кто первым выстроит пять
-   подряд — по горизонтали, вертикали или диагонали — тот и выиграл. Лира оценивает каждую точку рядом с камнями: свои
-   «четвёрки» и «тройки» и ваши угрозы (на «полегче» — реже защищается). «↶ Ход назад» — отменить свой ход и ответ Лиры.
+/* Пять в ряд (гомоку) против Миры (24.10: идея людей — «5 в линию»; владелец: «сделать что-то для нас на её основе»).
+   Доска 13×13 в мягком неоморфизме, камни — глянцевые чёрные (ваши) и перламутровые (Мира). Кто первым выстроит пять
+   подряд — по горизонтали, вертикали или диагонали — тот и выиграл. Мира оценивает каждую точку рядом с камнями: свои
+   «четвёрки» и «тройки» и ваши угрозы (на «полегче» — реже защищается). «↶ Ход назад» — отменить свой ход и ответ Миры.
    Широкое окно — доска слева, счёт и кнопки справа; узкое (телефон) — сверху вниз. Рекорд — побед подряд. */
 (() => {
 'use strict';
@@ -79,7 +79,7 @@ function put(g, x, y, p) {
 function undo(g) {
   if (S.turn !== ME || S.end || !S.hist.length) return;
   const pop = () => { const [x, y] = S.hist.pop(); S.b[y][x] = 0; };
-  if (S.hist[S.hist.length - 1][2] === AI) pop();                 // ответ Лиры
+  if (S.hist[S.hist.length - 1][2] === AI) pop();                 // ответ Миры
   if (S.hist.length && S.hist[S.hist.length - 1][2] === ME) pop(); // и свой ход
   S.turn = ME; g.sfx('click', { vol: .4 }); S.say = 'Отменили — ходите снова.'; S.sayT = 1.6;
 }
@@ -89,7 +89,7 @@ function titleScreen(g) {
   fresh('title', false); g.setPlaying(false);
   g.screen({
     kicker: A.framed ? 'Досуг' : 'Аркада', title: 'Пять в ряд',
-    html: `<p>Вы — чёрные, Лира — белые. Ставьте камни по очереди: кто первым выстроит пять подряд — по горизонтали, вертикали или диагонали, — тот выиграл.</p>${g.best ? `<p class="record">Побед подряд: ${g.best}</p>` : ''}`,
+    html: `<p>Вы — чёрные, Мира — белые. Ставьте камни по очереди: кто первым выстроит пять подряд — по горизонтали, вертикали или диагонали, — тот выиграл.</p>${g.best ? `<p class="record">Побед подряд: ${g.best}</p>` : ''}`,
     button: 'Играть', onGo: () => start(g, false), alt: { label: 'Полегче', onGo: () => start(g, true) }
   });
 }
@@ -101,7 +101,7 @@ function finish(g) {
   g.sfx(won ? 'win' : draw ? 'power' : 'lose');
   if (won) for (let k = 0; k < 5; k++) g.fx.burst(BX + Math.random() * SZ, BY + Math.random() * SZ, { n: 10, colors: ['#1d1f24', '#ffffff', '#9aa0aa', '#ffd27a'], speed: 300, size: 8, life: .9, gravity: 500, shape: 'star' });
   g.screen({
-    kicker: won ? `Побед подряд: ${streak}` : draw ? 'Доска заполнена' : 'Пять у Лиры', title: won ? (rec ? 'Новый рекорд!' : 'Победа!') : draw ? 'Ничья' : 'Лира выиграла',
+    kicker: won ? `Побед подряд: ${streak}` : draw ? 'Доска заполнена' : 'Пять у Миры', title: won ? (rec ? 'Новый рекорд!' : 'Победа!') : draw ? 'Ничья' : 'Мира выиграла',
     html: won ? `<p>${S.easy ? 'На «полегче». Попробуйте в полную силу!' : 'Пять в ряд — красиво!'}</p>` : `<p>${draw ? 'Ни у кого пяти — редкая партия.' : 'Следите за её «тройками» с открытыми концами — их надо закрывать сразу.'}</p>`,
     button: 'Ещё партию', onGo: () => start(g, S.easy), alt: { label: S.easy ? 'В полную силу' : 'Полегче', onGo: () => start(g, !S.easy) }
   });
@@ -175,7 +175,7 @@ function draw(ctx, g) {
   ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
   A.text(ctx, 'Пять в ряд', L.title[0], L.title[1], { size: 58, weight: 900, color: INK });
   const cnt = (p) => S.hist.filter((h) => h[2] === p).length;
-  for (const [i, who, name] of [[0, ME, 'Вы'], [1, AI, 'Лира']]) {
+  for (const [i, who, name] of [[0, ME, 'Вы'], [1, AI, 'Мира']]) {
     const [x, y] = L.cards[i], on = S.turn === who && S.mode === 'play' && !S.end;
     soft(ctx, x, y, 230, 104, 30, on ? 9 : 5, false);
     if (on) { A.rr(ctx, x + 2, y + 2, 226, 100, 28); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(29,31,36,.35)'; ctx.stroke(); }
@@ -215,7 +215,7 @@ function draw(ctx, g) {
   }
   // кнопки
   if (S.mode !== 'title') { button(ctx, L.undo, '↶ Ход назад', S.turn === ME && !S.end && S.hist.length > 0); button(ctx, L.again, 'Новая партия', true); }
-  // Лира говорит
+  // Мира говорит
   if (S.sayT > 0 && S.say) {
     const a = Math.min(1, S.sayT / .3); ctx.save(); ctx.globalAlpha = a;
     ctx.font = '600 24px ' + A.FONT; const w = ctx.measureText(S.say).width + 56, [sx, sy] = L.say;

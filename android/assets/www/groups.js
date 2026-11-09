@@ -93,7 +93,7 @@ function grReBind(g, h) {
     el.addEventListener("contextmenu", (e) => { e.preventDefault(); open(el); });
   });
 }
-/* «Лира в группе»: напоминание у каждого участника. -> id будильника или "" */
+/* «Мира в группе»: напоминание у каждого участника. -> id будильника или "" */
 function grRemind(g, rem, who) {
   const at = +(rem || {}).at;
   if (!at || at < Date.now() - 60000 || at > Date.now() + 366 * 864e5) return "";

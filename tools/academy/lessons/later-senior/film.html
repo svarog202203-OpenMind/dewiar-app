@@ -99,7 +99,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
 </style></head>
 <body><div id="film">
   <div id="bg"></div><div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>
-  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Лиры</b><span>Урок 3 · Для старших</span></div></div>
+  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Миры</b><span>Урок 3 · Для старших</span></div></div>
 
   <div class="layer" id="L-title"><div id="heart"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#f2a96b"/></svg></div>
     <div id="t-title"><h1>Для старших</h1><p>Мама под присмотром — а вы спокойны</p></div></div>
@@ -111,7 +111,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
   </div>
 
   <div class="layer" id="L-simple">
-    <div id="screen"><h3>Лира</h3><div id="tiles">
+    <div id="screen"><h3>Мира</h3><div id="tiles">
       <div class="tile"><i>💛</i><b>Близкие</b></div><div class="tile"><i>⏰</i><b>Дела</b></div><div class="tile"><i>📅</i><b>Календарь</b></div>
       <div class="tile"><i>📝</i><b>Заметки</b></div><div class="tile"><i>🎵</i><b>Музыка</b></div><div class="tile"><i>🧩</i><b>Досуг</b></div></div></div>
   </div>
@@ -124,7 +124,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
 
   <div class="layer" id="L-calm">
     <div id="phone"><div class="scr"><div class="time">20:00</div><div class="date">четверг, 29 октября</div>
-      <div class="note" id="note"><i></i><div><b>Лира · мама</b><span>Всё хорошо: говорила со мной утром и вечером, лекарства выпиты ✓</span><small>только что</small></div></div></div></div>
+      <div class="note" id="note"><i></i><div><b>Мира · мама</b><span>Всё хорошо: говорила со мной утром и вечером, лекарства выпиты ✓</span><small>только что</small></div></div></div></div>
   </div>
 
   <div class="layer" id="L-scam">
@@ -135,7 +135,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
 
   <div class="layer" id="L-how">
     <div id="studio"><h3>Студия</h3>
-      <div class="pick">Лира: для меня ▾</div>
+      <div class="pick">Мира: для меня ▾</div>
       <div class="menu"><div>Для меня<small>как всегда</small></div><div>Для ребёнка<small>Совёнок Уго</small></div><div id="m-sen">Для старших<small>крупно и заботливо</small></div></div>
       <div class="watch" id="watch"><h4>Кто присматривает</h4>
         <span><i style="background:#6a8dff">М</i>Миша<em id="w1">✓</em></span><span><i style="background:#e59a1f">О</i>Оля<em class="no" id="w2"></em></span></div>
@@ -143,7 +143,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
   </div>
   <div class="layer" id="L-end"><div id="end"><h1>dewiar.pro</h1><p>Бесплатно · Windows, Linux, Android и браузер</p><span class="next">Следующий урок — «Документы»</span></div></div>
 
-  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Лира</b></div>
+  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Мира</b></div>
   <div class="seat" id="s-patrik" style="--c:var(--patrik)"><div class="orb"><canvas id="e-patrik" width="600" height="600"></canvas></div><b>Патрик</b></div>
   <div id="sub"></div>
 </div>
@@ -173,7 +173,7 @@ function sceneAt(T) { let i = 0; ORDER.forEach((id, k) => { if (T >= SC[id].star
 function seatPos(who, T) {
   const i = sceneAt(T), cur = POS[ORDER[i]][who], prev = i ? POS[ORDER[i - 1]][who] : cur;
   const p = cur.map((v, j) => lerp(prev[j], v, ease((T - SC[ORDER[i]].start) / 1.1)));
-  if (ORDER[i] === "worry" && who === "lira") { p[3] = out((T - at("s2b") + 0.5) / 0.5); }            // Лира приходит на «включите маме…»
+  if (ORDER[i] === "worry" && who === "lira") { p[3] = out((T - at("s2b") + 0.5) / 0.5); }            // Мира приходит на «включите маме…»
   if (ORDER[i] === "calm" && who === "patrik") p[3] = out((T - at("s5b") + 0.6) / 0.5);               // Патрик — «вот теперь я спокоен»
   return p;
 }

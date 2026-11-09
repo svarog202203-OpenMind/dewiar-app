@@ -899,8 +899,8 @@ def b_reviews(b, c, v):
     if not xs:
         if c.mode != "preview":
             return ""
-        return (f'<div class="w">{head2(b)}<div class="card ph"><p>Здесь будут отзывы ваших клиентов. Пришлите их Лире — она добавит. '
-                f'Выдумывать отзывы Лира не будет.</p></div></div>')
+        return (f'<div class="w">{head2(b)}<div class="card ph"><p>Здесь будут отзывы ваших клиентов. Пришлите их Мире — она добавит. '
+                f'Выдумывать отзывы Мира не будет.</p></div></div>')
     figs = "".join(f'<figure class="{"card" if v == "cards" else ""}"><blockquote>«{one(x.get("text")).strip("«»")}»</blockquote>'
                    f'<figcaption><b>{one(x.get("name"))}</b>{", " + one(x.get("role")) if x.get("role") else ""}</figcaption></figure>' for x in xs)
     return f'<div class="w rv">{head2(b)}<div class="grid">{figs}</div></div>'

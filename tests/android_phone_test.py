@@ -84,10 +84,10 @@ try:
         ok(later and "Тебя позвали" in json.dumps(later[0]["messages"][-1], ensure_ascii=False) and "Патрик" in later[0]["messages"][0]["content"],
            "Патрик сам откликается своим голосом и характером")
         n0 = len(reqs())
-        say("Лира, как думаешь, пойдёт дождь?")
+        say("Мира, как думаешь, пойдёт дождь?")
         later = reqs()[n0:]
         ok(pg.evaluate("S.persona") == "lira" and later and "как думаешь, пойдёт дождь" in json.dumps(later[0]["messages"][-1], ensure_ascii=False),
-           "«Лира, как думаешь…» — вопрос сразу Лире")
+           "«Мира, как думаешь…» — вопрос сразу Мире")
         # модель повторяет «Звоню» из истории без вызова инструмента — звонка нет; её должны попросить позвонить по-настоящему
         pg.evaluate("window._calls = []")
         say("Свяжись с мамой по телефону")

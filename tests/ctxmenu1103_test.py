@@ -17,7 +17,7 @@ for f in ("ui/settings.html", "ui/pad.html", "ui/hud.html"):
     ok("assets/ctxmenu.js" in (ROOT / f).read_text(encoding="utf-8"), f"{f}: меню правой кнопки подключено")
 with sync_playwright() as p:
     b = p.chromium.launch(); ctx = b.new_context(permissions=["clipboard-read", "clipboard-write"]); pg = ctx.new_page()
-    HTML = "<html><body><p id='t'>Ответ Лиры про погоду</p><textarea id='a'>моё</textarea><div id='e' style='height:40px'></div></body></html>"
+    HTML = "<html><body><p id='t'>Ответ Миры про погоду</p><textarea id='a'>моё</textarea><div id='e' style='height:40px'></div></body></html>"
     pg.route("https://dewiar.test/", lambda r: r.fulfill(body=HTML, content_type="text/html; charset=utf-8"))
     pg.goto("https://dewiar.test/")                   # буфер обмена — только на защищённой странице
     pg.add_script_tag(path=str(ROOT / "ui/assets/ctxmenu.js"))
@@ -27,12 +27,12 @@ with sync_playwright() as p:
     items = pg.evaluate("[...document.querySelectorAll('.dwcm button span')].map(x => x.textContent)")
     ok(items == ["Копировать", "Выделить всё"], f"на выделенном ответе — «Копировать»: {items}")
     pg.click(".dwcm button >> nth=0"); pg.wait_for_timeout(150)
-    ok(pg.evaluate("navigator.clipboard.readText()") == "Ответ Лиры про погоду" and pg.locator(".dwcm").count() == 0, "скопировано, меню закрылось")
+    ok(pg.evaluate("navigator.clipboard.readText()") == "Ответ Миры про погоду" and pg.locator(".dwcm").count() == 0, "скопировано, меню закрылось")
     pg.click("#a"); pg.keyboard.press("End"); pg.click("#a", button="right"); pg.wait_for_timeout(100)
     items = pg.evaluate("[...document.querySelectorAll('.dwcm button span')].map(x => x.textContent)")
     ok(items == ["Копировать", "Вырезать", "Вставить", "Выделить всё"], f"в поле — и «Вставить»: {items}")
     pg.click(".dwcm button >> nth=2"); pg.wait_for_timeout(200)
-    ok(pg.input_value("#a").endswith("Ответ Лиры про погоду"), f"вставлено: {pg.input_value('#a')!r}")
+    ok(pg.input_value("#a").endswith("Ответ Миры про погоду"), f"вставлено: {pg.input_value('#a')!r}")
     b.close()
 print("\nИТОГ:", "всё прошло" if not fails else f"провалов {len(fails)}")
 sys.exit(1 if fails else 0)

@@ -744,7 +744,7 @@ const wait = setInterval(() => { if (core.connected) { clearInterval(wait); padS
    padMode('play') — полка игр (assets/arcade/shelf.js), выбрали — игра во фрейме; padMode('notes') — снова блокнот.
    Игра во фрейме не уходит со страницы: «Игры» в ней шлют {arcade: 'home'} — показываем полку. Ушли из «Досуга» или
    убрали лист — фрейм пустеет (музыка и игра останавливаются; рекорды игры хранит сама). Кнопка 🎮 — только если
-   «Досуг» включён в «Возможностях» (features.games), сам режим открывают кнопка у виджета и «Лира, давай поиграем». */
+   «Досуг» включён в «Возможностях» (features.games), сам режим открывают кнопка у виджета и «Мира, давай поиграем». */
 const ARC = "assets/arcade/";
 let GAMES_ON = true;
 function gamesOn(f) { GAMES_ON = !(f && f.games === false); $("#b-play").hidden = !GAMES_ON; if (!GAMES_ON && document.body.classList.contains("play")) padMode("notes"); }

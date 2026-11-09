@@ -18,7 +18,7 @@ function mmNow(s) {
   $("#mm-np").innerHTML = n
     ? `<small>${s.paused ? "На паузе" : "Сейчас играет"}${s.what ? " · подборка «" + escH(s.what) + "»" : ""}</small><h2>${escH(n.title)}</h2>` +
       `<div class="ar">${escH([n.artist, n.album && "«" + n.album + "»", n.year].filter(Boolean).join(" · "))}</div>`
-    : `<small>Тишина</small><h2>Выберите подборку</h2><div class="ar">или скажите: «Лира, поставь мою музыку»</div>`;
+    : `<small>Тишина</small><h2>Выберите подборку</h2><div class="ar">или скажите: «Мира, поставь мою музыку»</div>`;
   $("#mm-pp").classList.toggle("playing", !!(n && !(s && s.paused)));
   $("#mm-pp").title = s && s.paused || !n ? "Играть" : "Пауза";
   if ($("#mm-time")) $("#mm-time").hidden = !n;
@@ -75,7 +75,7 @@ function mmHost() {
   const n = +get("music.dj_every") || 3;
   $$("#mm-every button").forEach(b => b.setAttribute("aria-checked", String(+b.dataset.n === n)));
   const say = Object.assign({ track: true, time: true, weather: true, tasks: false, mail: false }, get("music.dj_say") || {}), notes = [];
-  if (say.weather && !get("morning.city")) notes.push("Погоду скажу, когда буду знать город: скажите «я живу в Минске» или укажите его в «Утре с Лирой».");
+  if (say.weather && !get("morning.city")) notes.push("Погоду скажу, когда буду знать город: скажите «я живу в Минске» или укажите его в «Утре с Мирой».");
   if (say.mail && !(mmData && mmData.mail_on)) notes.push("Писем не будет, пока не подключена почта — раздел «Подключения».");
   if (!Object.values(say).some(Boolean)) notes.push("Ничего не отмечено — ведущий будет молчать.");
   $("#mm-hnote").textContent = notes.join(" ");

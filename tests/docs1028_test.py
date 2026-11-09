@@ -1,9 +1,9 @@
-"""28.10, владелец: «важно людям рассказать про локальную память — с компьютера можно дать папки, по которым Лира ищет,
+"""28.10, владелец: «важно людям рассказать про локальную память — с компьютера можно дать папки, по которым Мира ищет,
 читает и отвечает… показать в уроках, вывести красивой кнопкой на главной… локальный RAG — сильное преимущество».
 Раньше «Мои документы — «Знания»» были в самом низу «Обо мне». Теперь: свой раздел «Документы» (меню «Знания» и значок на
 «Главной», в том числе у тех, кто уже настраивал главную), сверху — зачем и пример ответа с файлом, «Добавить папку…»
-главной кнопкой, сводка «2 папки, 418 файлов — Лира готова отвечать», фразы-примеры (нажать — вопрос в «Чате»);
-в «Обо мне» — ссылка; урок «Ваши документы» в курсе «Лира для работы»; статья в справке."""
+главной кнопкой, сводка «2 папки, 418 файлов — Мира готова отвечать», фразы-примеры (нажать — вопрос в «Чате»);
+в «Обо мне» — ссылка; урок «Ваши документы» в курсе «Мира для работы»; статья в справке."""
 import json, os, re, sys
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -22,7 +22,7 @@ def ok(c, m):
 import course as C  # noqa: E402
 work = next(c for c in C.COURSES if c["id"] == "work")
 L = next(x for x in work["lessons"] if x["day"] == 2)
-ok("документ" in L["title"].lower() and any(s.get("open") == "docs" for s in L["steps"]), f"урок «Лира для работы», день 2 — про документы, шаг «откройте «Документы»»: {L['title']}")
+ok("документ" in L["title"].lower() and any(s.get("open") == "docs" for s in L["steps"]), f"урок «Мира для работы», день 2 — про документы, шаг «откройте «Документы»»: {L['title']}")
 rx = next(re.compile(s["rx"]) for s in L["steps"] if s.get("rx"))
 ok(rx.search("что в моих документах про отпуск") and not rx.search("какая погода"), "фраза урока засчитывается")
 guide = {a["id"]: a for a in json.loads((ROOT / "data/guide.json").read_text(encoding="utf-8"))}
@@ -57,7 +57,7 @@ with sync_playwright() as p:
     ok(pg.evaluate("document.querySelector('#p-docs').classList.contains('cur')"), "значок → раздел «Документы»")
     t = pg.inner_text("#p-docs")
     ok("Спросите свои документы" in t and "Договор поставки.pdf" in t and "на этом компьютере" in t, "сверху — зачем, пример ответа с файлом, где идёт поиск")
-    ok(pg.inner_text("#dc-stat") == "2 папки, 418 файлов — Лира готова отвечать", f"сводка: {pg.inner_text('#dc-stat')!r}")
+    ok(pg.inner_text("#dc-stat") == "2 папки, 418 файлов — Мира готова отвечать", f"сводка: {pg.inner_text('#dc-stat')!r}")
     ok("Договоры" in pg.inner_text("#kn-folders") and "Инструкция к котлу.pdf" in pg.inner_text("#kn-list"), "папки и отдельные файлы — списками")
     if SHOTS: pg.screenshot(path=str(Path(SHOTS) / "studio-docs.png"), full_page=True)
     pg.evaluate("() => { _folders = []; _files = []; loadDocs(); }"); pg.wait_for_timeout(300)

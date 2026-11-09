@@ -1,9 +1,9 @@
-"""21.10, Ubuntu: «в Лире в первый раз открылся наш блокнот, потом сколько ни нажимаю — не открывается, после скрытия».
+"""21.10, Ubuntu: «в Мире в первый раз открылся наш блокнот, потом сколько ни нажимаю — не открывается, после скрытия».
 Виджет прятали в трей вместе с блокнотом (pad_hide → win.hide() pywebview), а при следующем открытии win.show() pywebview
 окно не возвращал: кнопка подсвечивалась, листа не было. Теперь на Linux блокнот прячется и показывается одним путём —
 через GTK (show_all, поверх, на место), как при первом открытии.
 
-Живая проверка (если есть Xvfb, mutter и python3.12 с GTK): открыть блокнот → спрятать виджет в трей → «Лира, покажись» →
+Живая проверка (если есть Xvfb, mutter и python3.12 с GTK): открыть блокнот → спрятать виджет в трей → «Мира, покажись» →
 кнопка блокнота: окно блокнота видно; закрыть и открыть ещё раз — снова видно."""
 import os, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
@@ -63,7 +63,7 @@ asyncio.run(m())
       echo "1:$({vis})"
       xdotool mousemove $((PX + 28)) $PY; sleep 0.6; xdotool click 1; sleep 3
       echo "2:$({vis})"
-      python3 {T}/ws.py {T}/cfg/token say '{{"text": "Лира, покажись"}}' {PORT}; sleep 5
+      python3 {T}/ws.py {T}/cfg/token say '{{"text": "Мира, покажись"}}' {PORT}; sleep 5
       echo "3:$({vis})"
       xdotool mousemove $PX $PY; sleep 0.6; xdotool click 1; sleep 3
       echo "4:$({vis})"

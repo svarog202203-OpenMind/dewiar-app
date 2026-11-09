@@ -1,6 +1,6 @@
-/* «Мой месяц с Лирой» на главной студии (0.61; core/month.py). Первые 7 дней месяца — карточка о прошлом: лента дней
+/* «Мой месяц с Мирой» на главной студии (0.61; core/month.py). Первые 7 дней месяца — карточка о прошлом: лента дней
    (каждый день — квадратик, чем больше дел — тем гуще), крупные числа (дела, напоминания, траты, заметки, дневник),
-   куда ушли деньги — одной строкой. «Рассказать голосом» — month_say (Лира рассказывает тепло, своими словами);
+   куда ушли деньги — одной строкой. «Рассказать голосом» — month_say (Мира рассказывает тепло, своими словами);
    «Скрыть» — month_hide до следующего месяца. Пустой месяц (ничего не было) — карточки нет. Голосом в любой день:
    «как прошёл мой месяц?» — инструмент month_summary. */
 let MO = null, MO_BUSY = false;
@@ -40,7 +40,7 @@ function moRender(force) {
   const box = $("#hm-month"); if (!box) return;
   const d = MO;
   if (!d || !d.ym || d.empty || (d.hidden && !force) || (!moTime() && !force)) { box.hidden = true; return; }   // старое ядро без итогов месяца — не падаем
-  const nm = typeof hmWho === "function" ? hmWho("") : "Лира", who = typeof mnWith === "function" ? mnWith(nm === "Ассистент" ? "Лира" : nm) : "Лирой";
+  const nm = typeof hmWho === "function" ? hmWho("") : "Мира", who = typeof mnWith === "function" ? mnWith(nm === "Ассистент" ? "Мира" : nm) : "Мирой";
   const m = d.money || {}, cats = (m.cats || []).filter(c => c.sum > 0);
   const tot = cats.reduce((a, c) => a + c.sum, 0) || 1;
   const top = (d.done || {}).top || [];

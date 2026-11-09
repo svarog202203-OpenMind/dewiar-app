@@ -167,7 +167,7 @@ class Host:
         self.prof = dict({"name": "mock", "kind": "openai", "base_url": mock.url, "model": "m"}, **prof)
 
     def persona_name(self):
-        return "Лира"
+        return "Мира"
 
     def memory(self):
         return ""

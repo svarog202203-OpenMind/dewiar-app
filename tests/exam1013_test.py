@@ -45,7 +45,7 @@ with sync_playwright() as p:
         Object.assign(S.llm, { base_url: "https://dewiar.pro/dwrapp/cloud.php?p=", cloud: true, account: true }); saveS(); }""")
     pg.wait_for_timeout(200)
     g = pg.evaluate("[!!document.querySelector('#card .start'), document.querySelector('#bot').textContent]")
-    ok(first and not g[0] and "Готово, всё подключено — аккаунт @superLeha" in g[1], f"вошли аккаунтом — «Подключить бесплатно» уходит, Лира говорит, что готова: {first} {g}")
+    ok(first and not g[0] and "Готово, всё подключено — аккаунт @superLeha" in g[1], f"вошли аккаунтом — «Подключить бесплатно» уходит, Мира говорит, что готова: {first} {g}")
     # отзыв 13.10: «открой Gmail и создай письмо» — «Открыла и создала», а ни приложения, ни письма
     c = pg.evaluate("""() => [claimedAction("Открыла Gmail и создала новое письмо.", new Set(), "открой gmail и создай письмо"),
         claimedAction("Открыла Gmail.", new Set(["open_app"]), "открой gmail"), claimedAction("Написала письмо маме.", new Set(["phone_type"]), "")].map(x => x && x.tool)""")

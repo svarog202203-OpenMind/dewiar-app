@@ -295,7 +295,7 @@ body.lite-ui .sheet { backdrop-filter: none; -webkit-backdrop-filter: none; back
 #cl-reqs .rqi { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); padding-top: 6px; }
 #cl-reqs .rqi b { color: var(--ink); } #cl-reqs .rqi.done b { color: var(--good); } #cl-reqs .rqi.rejected b { color: var(--bad); }
 /* 0.82.1 (владелец 04.11: «много новых людей, а донатов нет — чтобы было понятно и просто»): «Пополнить» — три шага;
-   «Забыть ключ» — ссылкой внизу; карточка «Пополнить» под фразой Лиры; значок баланса у имени персонажа */
+   «Забыть ключ» — ссылкой внизу; карточка «Пополнить» под фразой Миры; значок баланса у имени персонажа */
 .pay-steps { list-style: none; margin: 2px 0 0; padding: 0; }
 .pay-steps > li { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; position: relative; padding-bottom: 18px; }
 .pay-steps > li:last-child { padding-bottom: 2px; }
@@ -1580,7 +1580,7 @@ body.kids #b-close, body.kids #b-soul, body.kids #b-work { display: none !import
 .dvr .lnk { color: var(--muted); font-size: 13px; padding: 6px 4px; }
 .dvin { background: var(--field); border: 0; border-radius: 14px; padding: 10px 12px; color: var(--ink); font: inherit; outline: none; box-shadow: inset 0 0 0 1px var(--frost-hi); }
 .dvin:focus { box-shadow: inset 0 0 0 2px var(--accent); }
-/* «Идеи Лиры» (ideas.js, 0.59): тёплая лампочка; голос — янтарная плашка слева */
+/* «Идеи Миры» (ideas.js, 0.59): тёплая лампочка; голос — янтарная плашка слева */
 .idcard .row2 { align-items: center; gap: 12px; }
 .idbulb { width: 40px; height: 40px; flex: none; border-radius: 14px; display: grid; place-items: center; background: radial-gradient(circle at 50% 40%, rgba(255,207,110,.32), rgba(255,207,110,.06)); }
 .idbulb svg, .idq svg { width: 22px; height: 22px; fill: none; stroke: #f2a93b; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }

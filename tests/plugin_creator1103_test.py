@@ -1,4 +1,4 @@
-"""Лира делает плагин по описанию словами (Creator, 03.11 — владелец: «у DeepSeek Creator Mode: человек описывает идею, агент
+"""Мира делает плагин по описанию словами (Creator, 03.11 — владелец: «у DeepSeek Creator Mode: человек описывает идею, агент
 пишет плагин и встраивает в интерфейс; сделайте не хуже»):
 — ядро: ответ модели разделами → plugin.json + ui.html (+ skill.md) → проверка → плагин в своей папке, установлен;
   плохой ответ (не JSON, fetch, внешний скрипт, localStorage) — одна повторная попытка с перечнем ошибок, потом понятная
@@ -90,7 +90,7 @@ f = MK.parse_reply(reply("Привычки", "Привычки"))
 ok(set(f) == {"plugin.json", "ui.html", "skill.md"} and f["ui.html"].startswith("<!doctype") and json.loads(f["plugin.json"])["name"] == "Привычки",
    f"ответ модели разделами (с ``` вокруг) — файлы: {sorted(f)}")
 ok(MK.slug("Статистика разговоров") == "statistika-razgovorov", f"id из русского названия — латиницей: {MK.slug('Статистика разговоров')}")
-for t in ("Сделай плагин, который показывает статистику наших разговоров", "Лира, создай мне плагин читалку", "хочу панель расходов в студии"):
+for t in ("Сделай плагин, который показывает статистику наших разговоров", "Мира, создай мне плагин читалку", "хочу панель расходов в студии"):
     ok(bool(Q.PLUGIN_ASK.search(t)), f"«{t}» — просьба сделать плагин")
 for t in ("в моём плагине сделай крупнее", "плагин привычек сделай ярче", "верни плагин как было"):
     ok(bool(Q.PLUGIN_EDIT_ASK.search(t)), f"«{t}» — правка плагина")
@@ -197,7 +197,7 @@ class Chat:
 
 class Pers:
     def get(self, pid):
-        return {"lira": {"name": "Лира"}, "patrick": {"name": "Патрик"}}.get(pid)
+        return {"lira": {"name": "Мира"}, "patrick": {"name": "Патрик"}}.get(pid)
 
 
 import random  # noqa: E402
@@ -241,7 +241,7 @@ except B.BridgeError:
     ok(True, "разрешить можно только объявленное")
 st = B.chat_stats(Chat.items, Pers())
 raw = json.dumps(st, ensure_ascii=False)
-ok(st["total"]["you"] == N_YOU and sum(st["hours"]) == N_YOU and {x["name"] for x in st["personas"]} == {"Лира", "Патрик"} and SECRET not in raw
+ok(st["total"]["you"] == N_YOU and sum(st["hours"]) == N_YOU and {x["name"] for x in st["personas"]} == {"Мира", "Патрик"} and SECRET not in raw
    and "путешествия" in [t["word"] for t in st["topics"]] and "подскажи" not in raw and len(st["days"]) == 60 and st["streak"] >= 1,
    f"chat_stats: числа по дням, часам и персонажам, частые слова — без текста сообщений ({st['total']}, {st['topics'][:3]})")
 
@@ -439,8 +439,8 @@ with sync_playwright() as pw:
     nav = st.evaluate("() => [...document.querySelectorAll('#nav-plugins .nav-plg')].map(b => b.textContent.trim())")
     ok(any("Вода" in x for x in nav), f"плагин — в меню «Плагины»: {nav}")
     tabs = st.inner_text("#plp .plp-tabs")
-    ok("Изменить и версии" in tabs and "Доступ" in tabs and "Сделать сейчас" not in tabs, f"вкладки сделанного Лирой: {tabs!r}")
-    ok("Сделан Лирой" in st.inner_text("#plp-head"), "в шапке — «Сделан Лирой … версия 1»")
+    ok("Изменить и версии" in tabs and "Доступ" in tabs and "Сделать сейчас" not in tabs, f"вкладки сделанного Мирой: {tabs!r}")
+    ok("Сделан Мирой" in st.inner_text("#plp-head"), "в шапке — «Сделан Мирой … версия 1»")
     # store из страницы
     fr.locator("#add").click(); st.wait_for_timeout(400); fr.locator("#add").click(); st.wait_for_timeout(600)
     ok(B.store_get("water", "n") == 2, f"store: отметки страницы — в хранилище плагина ({B.store_get('water', 'n')})")
@@ -484,7 +484,7 @@ with sync_playwright() as pw:
        "панель: четыре числа, график по дням")
     ok(B.grants(s, "chat-stats") == {"chat_stats": True}, "разрешение запомнено")
     txt = fs.locator("body").inner_text()
-    ok("Лира" in txt and "Патрик" in txt and "путешествия" in txt and SECRET not in txt, "с кем и о чём — без текста сообщений")
+    ok("Мира" in txt and "Патрик" in txt and "путешествия" in txt and SECRET not in txt, "с кем и о чём — без текста сообщений")
     fs.locator('.seg [data-p="7"]').click(); st.wait_for_timeout(400)
     ok(B.store_get("chat-stats", "period") == 7, "период запомнен в store")
     fs.locator('.seg [data-p="30"]').click(); st.wait_for_timeout(500)
@@ -508,7 +508,7 @@ with sync_playwright() as pw:
     st.click("#lk-pt-reset"); st.wait_for_timeout(500)
     ok(not s.get("ui", "plugin_theme") and not st.evaluate("document.documentElement.dataset.ptheme") and not st.locator("#plg-theme").count()
        and st.locator("#lk-pt").is_hidden(), "«Сбросить тему» — как было")
-    # «Читалка статей»: вставили текст — чистое чтение, «Пересказать» — Лире
+    # «Читалка статей»: вставили текст — чистое чтение, «Пересказать» — Мире
     st.click("#nav-plg-new"); st.wait_for_timeout(700)
     st.click('#pmk-tpls [data-add="reader"]'); st.wait_for_timeout(2000)
     frd = st.frame_locator("#plp-frame")
@@ -519,7 +519,7 @@ with sync_playwright() as pw:
     frd.locator('.bar [data-t="paper"]').click(); st.wait_for_timeout(400)
     shot("creator-reader.png", 1100)
     frd.locator("#sum").click(); st.wait_for_timeout(500)
-    ok(any(a.startswith("Перескажи коротко") and "вертикально" in a for a in st.evaluate("asked")), "«Пересказать» — Лире в «Чат» вместе с текстом")
+    ok(any(a.startswith("Перескажи коротко") and "вертикально" in a for a in st.evaluate("asked")), "«Пересказать» — Мире в «Чат» вместе с текстом")
     ok(len(B.store_get("article-reader", "recent") or []) == 1, "статья — в «Недавних» (store)")
     # «Чат»: под ответом — «Открыть»
     h = st.evaluate("() => chatBubble({ id: 'x', role: 'assistant', ts: Date.now() / 1000, text: 'Готово', att: [{ kind: 'plugin', plugin: 'water', name: 'Вода', icon: '💧' }] }, null)")
@@ -527,8 +527,8 @@ with sync_playwright() as pw:
     # каталог «Плагины» — кнопка «Создать плагин словами»
     st.click('nav button[data-p="skills"]'); st.wait_for_timeout(600)
     st.click("#plg-new"); st.wait_for_timeout(500)
-    ok(st.evaluate("document.querySelector('#p-plgnew').classList.contains('cur')") and "Сделанные Лирой" in st.inner_text("#pmk") and "Вода" in st.inner_text("#pmk-mine"),
-       "из каталога — «Создать плагин словами»; «Сделанные Лирой» — список")
+    ok(st.evaluate("document.querySelector('#p-plgnew').classList.contains('cur')") and "Сделанные Мирой" in st.inner_text("#pmk") and "Вода" in st.inner_text("#pmk-mine"),
+       "из каталога — «Создать плагин словами»; «Сделанные Мирой» — список")
     st.set_viewport_size({"width": 760, "height": 900}); st.wait_for_timeout(300)
     ok(st.evaluate("document.querySelector('main').scrollWidth <= document.querySelector('main').clientWidth + 2"), "узкое окно — без вылезания")
     mine = [e for e in errs if "plugpage" in e or "plugmake" in e or "srcdoc" in e or "about:" in e or "@ []" in e or "look" in e]

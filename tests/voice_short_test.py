@@ -1,4 +1,4 @@
-"""Короткие фразы (отчёт 11.10): «спасибо» — ответить «Пожалуйста!» и уснуть, а не молча погаснуть; после «Лира» быстрое
+"""Короткие фразы (отчёт 11.10): «спасибо» — ответить «Пожалуйста!» и уснуть, а не молча погаснуть; после «Мира» быстрое
 «спасибо» или «как дела» — это фраза человека, а не ослышанное имя (раньше снова «Слушаю…», и фраза терялась)."""
 import os, sys, types
 from pathlib import Path
@@ -21,7 +21,7 @@ ok(not any(thanks_phrase(t) for t in no), f"не благодарность (с�
 ok(is_sleep_phrase("Хватит, спасибо!") and is_sleep_phrase("стоп"), "«хватит, спасибо», «стоп» — по-прежнему сон без ответа")
 
 from engine_audio import AudioMixin  # noqa: E402
-host = types.SimpleNamespace(aliases={"lira": ["Лира"], "eva": ["Эва"], "agent": ["Агент"], "patrik": ["Патрик"]})
+host = types.SimpleNamespace(aliases={"lira": ["Мира"], "eva": ["Эва"], "agent": ["Агент"], "patrik": ["Патрик"]})
 nl = lambda t: AudioMixin._name_like(host, t)  # noqa: E731
 ok(all(nl(t) for t in ["", "Лера", "Игрова", "Элла", "Ира"]), "ослышанное имя («Лера», «Игрова», «Элла») — имя, слушаем вопрос")
 ok(not any(nl(t) for t in ["спасибо", "как дела", "да", "стоп", "который час"]), "«спасибо», «как дела», «да» — фраза человека, не имя")
@@ -29,6 +29,6 @@ ok(not any(nl(t) for t in ["спасибо", "как дела", "да", "сто�
 src = (ROOT / "core/engine_answer.py").read_text(encoding="utf-8")
 ok("thanks_phrase(text)" in src and "def _thanks" in src and "THANKS_REPLIES" in src, "ядро: на «спасибо» — короткий ответ, затем звук «не слушаю»")
 src = (ROOT / "core/engine_audio.py").read_text(encoding="utf-8")
-ok("self._name_like(text)" in src and "thanks_phrase(rest)" in src, "«Лира, спасибо» и ослышанное имя — через новые проверки")
+ok("self._name_like(text)" in src and "thanks_phrase(rest)" in src, "«Мира, спасибо» и ослышанное имя — через новые проверки")
 print("\nИТОГ:", "всё прошло" if not fails else f"провалов {len(fails)}")
 sys.exit(1 if fails else 0)

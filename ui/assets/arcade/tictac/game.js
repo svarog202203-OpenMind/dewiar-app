@@ -1,6 +1,6 @@
 /* Крестики-нолики на тетрадном листе (24.10, владелец: «где рисуешь крестик или нолик пальцами»).
    Нарисуйте в клетке крестик или нолик — пальцем или мышью; ваш рисунок и остаётся на листе. Первый знак раунда
-   решает, кем вы играете (замкнутая петля — нолик, иначе крестик), Лира отвечает другим знаком — карандашом.
+   решает, кем вы играете (замкнутая петля — нолик, иначе крестик), Мира отвечает другим знаком — карандашом.
    Можно и просто коснуться клетки (знак нарисуется сам) или ходить стрелками и Enter. */
 (() => {
 'use strict';
@@ -84,7 +84,7 @@ function fresh(mode) {
   }
   const liraFirst = mode === 'play' && T.round % 2 === 0;
   S = { mode, cells: Array(9).fill(null), grid, gridT: mode === 'title' ? 1 : 0, turn: liraFirst ? 'l' : 'p', think: liraFirst ? .9 : 0, cur: 4, keyed: false,
-    stroke: null, pend: null, pendT: 0, over: null, overT: 0, line: null, msg: liraFirst ? 'Лира начинает' : (T.sym ? 'Ваш ход' : 'Нарисуйте крестик или нолик'), demo: 0 };
+    stroke: null, pend: null, pendT: 0, over: null, overT: 0, line: null, msg: liraFirst ? 'Мира начинает' : (T.sym ? 'Ваш ход' : 'Нарисуйте крестик или нолик'), demo: 0 };
   if (liraFirst && !T.sym) T.sym = 'o';
   return S;
 }
@@ -99,7 +99,7 @@ function winner(c) {
 }
 function put(g, i, who, strokes, sym) {
   S.cells[i] = { who, sym, strokes, prog: who === 'p' && strokes.drawn ? 1 : 0 };
-  if (who === 'p') { g.sfx('click', { vol: .35, pitch: .8 }); S.turn = 'l'; S.think = rnd(.55, .9); S.msg = 'Лира думает…'; }
+  if (who === 'p') { g.sfx('click', { vol: .35, pitch: .8 }); S.turn = 'l'; S.think = rnd(.55, .9); S.msg = 'Мира думает…'; }
   else { S.turn = 'p'; S.msg = 'Ваш ход'; }
   const w = winner(S.cells);
   if (w) { S.over = w; S.overT = 0; S.turn = ''; if (w.line) S.line = { a: w.line[0], b: w.line[2], pts: null, prog: 0 }; result(g, w); }
@@ -107,7 +107,7 @@ function put(g, i, who, strokes, sym) {
 function result(g, w) {
   if (S.mode !== 'play') return;
   if (w.who === 'p') { T.you++; T.streak++; g.submit(T.streak); S.msg = T.streak > 1 ? 'Вы выиграли! Подряд: ' + T.streak : 'Вы выиграли!'; g.sfx('win'); }
-  else if (w.who === 'l') { T.lira++; T.streak = 0; S.msg = 'Лира выиграла'; g.sfx('hurt', { vol: .35, pitch: .8 }); }
+  else if (w.who === 'l') { T.lira++; T.streak = 0; S.msg = 'Мира выиграла'; g.sfx('hurt', { vol: .35, pitch: .8 }); }
   else { T.draw++; S.msg = 'Ничья — как и положено мастерам'; g.sfx('pling'); }
 }
 function commitPlayer(g) {
@@ -140,7 +140,7 @@ function titleScreen(g) {
   T.round = 0; fresh('title'); g.setPlaying(false);
   g.screen({
     kicker: A.framed ? 'Досуг' : 'Аркада', title: 'Крестики-нолики',
-    html: '<p>Рисуйте крестики или нолики прямо пальцем или мышью — Лира отвечает карандашом. Первый знак решает, кем вы играете. Можно и просто коснуться клетки.</p>' + (g.best ? '<p class="record">Побед подряд: ' + g.best + '</p>' : ''),
+    html: '<p>Рисуйте крестики или нолики прямо пальцем или мышью — Мира отвечает карандашом. Первый знак решает, кем вы играете. Можно и просто коснуться клетки.</p>' + (g.best ? '<p class="record">Побед подряд: ' + g.best + '</p>' : ''),
     button: 'Играть', onGo: () => { T = { you: 0, lira: 0, draw: 0, streak: 0, sym: '', round: 0 }; fresh('play'); g.setPlaying(true); g.playMusic(); }
   });
 }
@@ -205,7 +205,7 @@ function drawSide(ctx) {
   if (S.mode === 'play') {
     A.text(ctx, 'Вы', x0 + 2, 178, { align: 'left', size: 30, weight: 700, color: PEN });
     A.text(ctx, T.you + ' : ' + T.lira, x0 + 100, 178, { size: 40, weight: 900, color: INK });
-    A.text(ctx, 'Лира', x0 + 156, 178, { align: 'left', size: 30, weight: 700, color: PENCIL });
+    A.text(ctx, 'Мира', x0 + 156, 178, { align: 'left', size: 30, weight: 700, color: PENCIL });
     if (T.draw) A.text(ctx, 'ничьих ' + T.draw, x0 + COL_W, 178, { align: 'right', size: 22, weight: 600, color: 'rgba(40,48,85,.45)' });
     const col = S.warn > 0 ? '#c2410c' : S.over ? (S.over.who === 'p' ? PEN : S.over.who === 'l' ? PENCIL : INK) : INK;
     const y1 = wrapText(ctx, S.msg, x0, 280, COL_W, 44, { align: 'left', size: 34, weight: 800, color: col });
@@ -219,7 +219,7 @@ function drawSide(ctx) {
     const bx = x0 + k * 214, by = 556, mine = pick && T.sym === sym;
     inkStrokes(ctx, MINI[sym], pick ? (mine ? PEN : PENCIL) : INK, 6, 1, bx, by, 84);
     A.text(ctx, name, bx + 96, by + 30, { align: 'left', size: 26, weight: 800, color: pick ? (mine ? PEN : PENCIL) : INK });
-    A.text(ctx, pick ? (mine ? 'это вы' : 'это Лира') : how, bx + 96, by + 62, { align: 'left', size: 21, weight: 600, color: soft });
+    A.text(ctx, pick ? (mine ? 'это вы' : 'это Мира') : how, bx + 96, by + 62, { align: 'left', size: 21, weight: 600, color: soft });
   });
 }
 function draw(ctx, g) {
@@ -233,7 +233,7 @@ function draw(ctx, g) {
   if (S.mode === 'play' && !LAND) {
     A.text(ctx, 'Вы', 52, 196, { align: 'left', size: 30, weight: 700, color: PEN });
     A.text(ctx, T.you + ' : ' + T.lira, 150, 196, { size: 40, weight: 900, color: INK });
-    A.text(ctx, 'Лира', 206, 196, { align: 'left', size: 30, weight: 700, color: PENCIL });
+    A.text(ctx, 'Мира', 206, 196, { align: 'left', size: 30, weight: 700, color: PENCIL });
     if (T.draw) A.text(ctx, 'ничьих ' + T.draw, 640, 196, { align: 'right', size: 24, weight: 600, color: 'rgba(40,48,85,.45)' });
   }
   // сетка — проводится рукой при каждом раунде

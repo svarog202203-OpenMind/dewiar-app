@@ -177,7 +177,7 @@ try:
         ok("компьютер дома" in txt.lower() and "Домашний" in txt and "Отключить" in txt and "ввести код" not in txt.lower(), "«Устройства»: компьютер дома и «Отключить»; облачного «Ввести код» нет")
         pg.screenshot(path=str(Path(os.environ.get("DEWIAR_SHOTS") or tmp) / "home-phone.png"))
 
-        # ---- задания с телефона по Wi-Fi (04.11: «Лира на смартфоне могла бы давать задания конкретным ПК»; раньше
+        # ---- задания с телефона по Wi-Fi (04.11: «Мира на смартфоне могла бы давать задания конкретным ПК»; раньше
         # узел забирал задание в _claims, а взяться — некому: следующим обменом оно удалялось, телефон его уже забыл) ----
         R7 = pg.evaluate("""async () => { while (syncBusy) await new Promise(r => setTimeout(r, 100));
             const said = await runTool("start_task", { title: "Отчёт", goal: "Собрать отчёт за неделю" });

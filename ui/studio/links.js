@@ -67,23 +67,23 @@ async function meExam() {
     meExam();
   };
 }
-/* «Лира спросит потом» (0.61, core/care.py): события, о которых Лира спросит, как прошло; переключатель — care.on */
+/* «Мира спросит потом» (0.61, core/care.py): события, о которых Мира спросит, как прошло; переключатель — care.on */
 async function careLoad() {
   let d; try { d = await core.call("care_get"); } catch (e) { return; }
   $("#care-on").checked = !!d.on;
   $("#care-list").innerHTML = (d.items || []).length ? d.items.map(x => `<li><span class="care-d">${escH(x.ago || new Date(x.day).toLocaleDateString("ru-RU", { day: "numeric", month: "long" }))}</span>`
     + `<span class="care-w">${escH(x.what)}</span><button class="btn small" type="button" data-cdel="${escH(x.id)}">Не спрашивать</button></li>`).join("")
-    : `<li class="care-empty">Пока ничего. Скажите между делом «в пятницу у меня собеседование» — Лира запомнит и потом спросит, как прошло.</li>`;
+    : `<li class="care-empty">Пока ничего. Скажите между делом «в пятницу у меня собеседование» — Мира запомнит и потом спросит, как прошло.</li>`;
   $$("#care-list [data-cdel]").forEach(b => b.onclick = async () => { try { await core.call("care_remove", { id: b.dataset.cdel }); careLoad(); } catch (e) { toast(e.message); } });
 }
-$("#care-on").onchange = async (e) => { try { await core.call("care_set", { on: e.target.checked }); toast(e.target.checked ? "Лира будет спрашивать, как прошло" : "Больше не спрашивает"); } catch (x) { toast(x.message); } };
+$("#care-on").onchange = async (e) => { try { await core.call("care_set", { on: e.target.checked }); toast(e.target.checked ? "Мира будет спрашивать, как прошло" : "Больше не спрашивает"); } catch (x) { toast(x.message); } };
 function loadMe() {
   careLoad();
   core.call("memory_get").then(t => { $("#me-mem").value = t.trim(); }).catch(() => {});
   if (window.mpxLoad) mpxLoad();                     // страницы памяти по людям и темам (studio/mempages.js)
   meExam();
 }
-/* «Документы» (28.10, владелец: «важно людям рассказать про локальную память… папки, по которым Лира ищет, читает и
+/* «Документы» (28.10, владелец: «важно людям рассказать про локальную память… папки, по которым Мира ищет, читает и
    отвечает… вывести красивой кнопкой на главной… локальный RAG — сильное преимущество»). Раньше это было в самом низу
    «Обо мне» — о нём не знали. Теперь — свой раздел и значок на «Главной»: зачем, как выглядит ответ, папки, файлы,
    фразы-примеры (нажать — вопрос в «Чате») и проверка поиска. Сводка сверху — DC.files / DC.folders. */
@@ -96,13 +96,13 @@ function dcStat() {
   el.classList.toggle("on", !!(fo.length || DC.files.length));
   el.textContent = !fo.length && !DC.files.length ? "Пока пусто — начните с папки, где лежат договоры, инструкции или конспекты."
     : [fo.length ? dcPl(fo.length, "папка", "папки", "папок") : "", files ? dcPl(files, "файл", "файла", "файлов") : ""].filter(Boolean).join(", ")
-      + (busy ? " — читаю, можно уже спрашивать" : " — Лира готова отвечать");
+      + (busy ? " — читаю, можно уже спрашивать" : " — Мира готова отвечать");
 }
 function loadDocs() {
   core.call("knowledge_list").then(r => { DC.files = r.files || []; renderKn(DC.files); dcStat(); }).catch(e => ($("#kn-res").textContent = e.message));
   core.call("knowledge_folders").then(renderKnFolders).catch(() => {});
   if (window.loadWriting) loadWriting();                          // «Пишу» — сколько написано за день (studio/writing.js)
-  const a = S && lastAccount; $("#kn-site").textContent = a && a.logged_in ? `Знания с сайта тоже подключены: аккаунт ${a.user && a.user.login || a.login} — Лира ищет и там.` : "";
+  const a = S && lastAccount; $("#kn-site").textContent = a && a.logged_in ? `Знания с сайта тоже подключены: аккаунт ${a.user && a.user.login || a.login} — Мира ищет и там.` : "";
 }
 $$("#dc-try button").forEach(b => b.onclick = () => {             // пример — вопросом в «Чат»: остаётся нажать «Отправить»
   const nb = $('nav button[data-p="chat"]'); if (nb) nb.click();
@@ -152,7 +152,7 @@ const ML_GUIDE = {
   yandex: { who: "Яндекс", page: "«Пароли приложений» Яндекса", url: "https://id.yandex.ru/security/app-passwords", label: "Пароль приложения от Яндекса",
     steps: ["Откройте страницу паролей приложений Яндекс ID.", "Выберите «Почта», назовите пароль <b>Dewiar</b> и нажмите «Создать».",
             "Скопируйте показанный пароль и вставьте его в поле «Пароль приложения» ниже, затем «Подключить».",
-            "Чтобы Лира читала письма: Яндекс Почта → «Все настройки» → «Почтовые программы» → включите «С сервера imap.yandex.ru по протоколу IMAP»."],
+            "Чтобы Мира читала письма: Яндекс Почта → «Все настройки» → «Почтовые программы» → включите «С сервера imap.yandex.ru по протоколу IMAP»."],
     link2: ["Открыть настройки почтовых программ", "https://mail.yandex.ru/#setup/client"] },
   mailru: { who: "Mail.ru", page: "«Пароли для внешних приложений»", url: "https://account.mail.ru/user/2-step-auth/passwords/", label: "Пароль для внешнего приложения",
     steps: ["Откройте «Пароли для внешних приложений» в настройках безопасности Mail.ru.", "«Добавить» → название <b>Dewiar</b> → доступ «Полный (IMAP, SMTP)».",
@@ -703,7 +703,7 @@ function loadMeetings() {
   }).catch(() => {});
 }
 
-/* «О программе» → «Для отладки: что Лира сейчас учитывает» (24.10): части подсказки модели — размер, начало, где поправить */
+/* «О программе» → «Для отладки: что Мира сейчас учитывает» (24.10): части подсказки модели — размер, начало, где поправить */
 async function ctxvLoad() {
   const box = $("#ctxv-list"); if (!box) return;
   box.innerHTML = '<div class="hint">Собираю…</div>';

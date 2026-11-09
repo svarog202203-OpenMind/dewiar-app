@@ -1,7 +1,7 @@
 """№542 (пакет 04.11, ПК 0.82.2): «на сколько хватает 1 талер?». Кабинет сайта знал «Хватит примерно на N ответов», а в
-программе и на телефоне было видно только «на сколько хватит всего счёта» — и то, пока он не пуст; Лира отвечала наугад.
+программе и на телефоне было видно только «на сколько хватит всего счёта» — и то, пока он не пуст; Мира отвечала наугад.
 Теперь: сервер отдаёт per_taler (и до пополнения), «Мозг» → «ИИ-баланс» показывает «1 талер ≈ N ответов» (ПК и телефон),
-в руководстве — раздел «Талер», а к вопросу о талерах Лира получает настоящие числа своего счёта."""
+в руководстве — раздел «Талер», а к вопросу о талерах Мира получает настоящие числа своего счёта."""
 import json, os, re, sys
 from pathlib import Path
 ROOT = Path(os.environ.get("DEWIAR_ROOT") or Path(__file__).resolve().parent.parent)
@@ -30,7 +30,7 @@ r = subprocess.run(["node", "-e", js + "; console.log(JSON.stringify([perTaler({
                    capture_output=True, text=True)
 ok(r.stdout.strip() == "[64,64,0,0]", f"1 талер: с сервера / по остатку / пусто — {r.stdout.strip() or r.stderr[:100]}")
 
-# руководство: Лира находит ответ
+# руководство: Мира находит ответ
 import guide  # noqa: E402
 g = json.loads((ROOT / "data" / "guide.json").read_text(encoding="utf-8"))
 t = next((x for x in g if x["id"] == "taler"), None)
@@ -43,7 +43,7 @@ import engine as E  # noqa: E402
 e = E.Engine.__new__(E.Engine)
 e.cloud = type("C", (), {"status": lambda self: {"connected": True, "per_taler": 64, "balance": 2.5, "balance_text": "", "turns": 160}})()
 s = e._taler_now()
-ok("1 талер ≈ 64 обычных ответов" in s and "примерно на 160 ответов" in s, f"Лире — настоящие числа: {s[:110]}")
+ok("1 талер ≈ 64 обычных ответов" in s and "примерно на 160 ответов" in s, f"Мире — настоящие числа: {s[:110]}")
 e.cloud = type("C", (), {"status": lambda self: {"connected": False}})()
 ok("не подключены" in e._taler_now(), "облако не подключено — так и скажет")
 import engine_answer as EA  # noqa: E402

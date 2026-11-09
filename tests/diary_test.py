@@ -45,7 +45,7 @@ class FakeHost:
         self.tasks = type("T", (), {"tasks": {}})()
         self.s = type("S", (), {"get": lambda self, *k: None})()
         self.asked = []
-    def persona_name(self): return "Лира"
+    def persona_name(self): return "Мира"
     def diary_ask(self, instr, msg):
         self.asked.append((instr, msg))
         return "ЗАГОЛОВОК: Первый день\nНАСТРОЕНИЕ: ✨\nДНЕВНИК:\nСегодня хозяин впервые со мной заговорил. Я запомнил его голос.\nНА ЗАВТРА:\n- Поздороваться по имени"
@@ -61,7 +61,7 @@ night = dt.datetime.combine(today, dt.time(1, 30))
 ok(di.pending(now=night) is None, "в половине второго ночи о вчерашнем ещё не пишем (ждём 3:00)")
 ok(di.pending(now=dt.datetime.combine(today, dt.time(3, 5))) == y, "после 3:00 — пора написать о вчерашнем дне")
 got = di.write(y)
-ok(got and got["title"] == "Первый день" and "Лира" in h.asked[0][0] and "привет 0" in h.asked[0][1],
+ok(got and got["title"] == "Первый день" and "Мира" in h.asked[0][0] and "привет 0" in h.asked[0][1],
    "запись пишется голосом персонажа по репликам дня")
 f = h.workspace.root / f"Дневник/{y}.md"
 txt = f.read_text(encoding="utf-8")
@@ -73,10 +73,10 @@ ok(di.pending(now=dt.datetime.combine(today, dt.time(9))) is None and f"{y2}" in
 ok("Поздороваться по имени" in di.prompt() and "«Первый день»" in di.prompt(), "выводы на завтра — в подсказку")
 di.data["insights"]["day"] = str(today - dt.timedelta(days=4))
 ok(di.prompt() == "", "старые выводы (4 дня) в подсказку уже не идут")
-h.workspace.diary("Днём записал короткую мысль.", "Лира")
+h.workspace.diary("Днём записал короткую мысль.", "Мира")
 days = h.workspace.diary_days(di.data.get("titles"))
-ok(days[1].get("who") == "Лира" and (di.data.get("insights") or {}).get("who") == "Лира",
-   "у ночной записи — кто писал (16.10: переключил на Патрика — а записи Лиры подписаны как его)")
+ok(days[1].get("who") == "Мира" and (di.data.get("insights") or {}).get("who") == "Мира",
+   "у ночной записи — кто писал (16.10: переключил на Патрика — а записи Миры подписаны как его)")
 ok(days[0]["day"] == str(today) and days[1]["title"] == "Первый день" and days[1]["night"] and days[1]["preview"].startswith("Сегодня хозяин"),
    f"студия: дни с заголовками и началом текста ({[(x['day'], x['title'], x['count']) for x in days]})")
 
@@ -179,8 +179,8 @@ try:
     t = day.read_text(encoding="utf-8") if day.exists() else ""
     ok(t.count("## 🌙") == 1 and "собаку зовут Бублик" in t and "Отвечать короче" in t, "в файле дня — одна ночная запись (вторая её заменила)")
     nr = [r for r in requests() if r["messages"][-1]["content"].startswith("Сейчас ночь")]
-    ok(nr and not nr[0]["tools"] and "Лира" in nr[0]["messages"][-1]["content"] and "Бублик" in nr[0]["messages"][-1]["content"],
-       "запись пишет модель без инструментов, голосом Лиры, по репликам дня")
+    ok(nr and not nr[0]["tools"] and "Мира" in nr[0]["messages"][-1]["content"] and "Бублик" in nr[0]["messages"][-1]["content"],
+       "запись пишет модель без инструментов, голосом Миры, по репликам дня")
     ds = R["list"].get("days") or []
     ok(ds and ds[0]["title"] == "День, когда я узнал про Бублика" and ds[0]["night"] and (R["list"].get("insights") or {}).get("lines"),
        "студия: день с заголовком и выводы «на завтра»")
@@ -191,10 +191,10 @@ try:
     ok("свой дневник" in sysp, "днём ассистент сам записывает мысли в дневник (подсказка)")
     # душа (пишется по дневнику) и конституция — в подсказке разговора
     sd = (R["soul"] or {}).get("data") or {}
-    sf = tmp / "ws/Память/Душа/Лира.md"
+    sf = tmp / "ws/Память/Душа/Мира.md"
     ok(not R["soul0"].get("text") and R["soul0"].get("nights", 0) >= 1, "души сначала нет — она вырастет из дневника")
     ok("## Кто я" in sd.get("text", "") and sf.exists() and "Бублик" in sf.read_text(encoding="utf-8"),
-       f"«Обновить по дневнику» — Лира пишет свою душу по ночным записям ({(R['soul'] or {}).get('error')})")
+       f"«Обновить по дневнику» — Мира пишет свою душу по ночным записям ({(R['soul'] or {}).get('error')})")
     soul_req = [r for r in requests() if r["messages"][-1]["content"].startswith("Перечитай свой дневник")]
     ok(soul_req and "День, когда я узнал про Бублика" in soul_req[0]["messages"][-1]["content"] and not soul_req[0]["tools"],
        "душа пишется по дневнику, без инструментов")
@@ -205,7 +205,7 @@ try:
 
     # ночь: вчерашний день — живой, ещё не описан; ассистент «просыпается» и пишет сам
     yday = dt.date.today() - dt.timedelta(days=1)
-    (tmp / f"st/days/{yday}.jsonl").write_text("".join(json.dumps({"t": "21:00", "u": f"вечерний вопрос {i}", "a": "ответ", "who": "Лира"}, ensure_ascii=False) + "\n"
+    (tmp / f"st/days/{yday}.jsonl").write_text("".join(json.dumps({"t": "21:00", "u": f"вечерний вопрос {i}", "a": "ответ", "who": "Мира"}, ensure_ascii=False) + "\n"
                                                        for i in range(3)), encoding="utf-8")
     cfg = json.loads((tmp / "cfg/settings.json").read_text(encoding="utf-8")); cfg["diary"] = {"night": True, "hour": 0}
     (tmp / "cfg/settings.json").write_text(json.dumps(cfg))
@@ -229,17 +229,17 @@ finally:
 
 # студия: дневник общий — у записи подпись, кто писал, а не имя текущего персонажа (16.10)
 from playwright.sync_api import sync_playwright  # noqa: E402
-DAY = {"day": "2026-10-15", "title": "Тихий четверг", "mood": "🌙", "who": "Лира", "night": True, "count": 1, "preview": "День…",
+DAY = {"day": "2026-10-15", "title": "Тихий четверг", "mood": "🌙", "who": "Мира", "night": True, "count": 1, "preview": "День…",
        "text": "# Дневник — 15 октября 2026\n\n## 🌙 Ночью — о прожитом дне · «Тихий четверг» 🌙\n\nДень, в котором я сказала всего две реплики.\n"}
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1360, "height": 900}); perr = []
     pg.on("pageerror", lambda e: perr.append(str(e)))
     pg.add_init_script("window.pywebview = { api: new Proxy({}, { get: () => () => Promise.resolve(true) }) };")
     pg.goto((ROOT / "ui/settings.html").as_uri() + "?port=1"); pg.wait_for_timeout(1000)
-    r = pg.evaluate("""async (day) => { core.call = (c) => Promise.resolve(c === 'diary_list' ? { days: [day], insights: { lines: ['Короче по утрам'], who: 'Лира' } } : {});
+    r = pg.evaluate("""async (day) => { core.call = (c) => Promise.resolve(c === 'diary_list' ? { days: [day], insights: { lines: ['Короче по утрам'], who: 'Мира' } } : {});
         await loadDiary(); await new Promise(r => setTimeout(r, 300));
         return [$('#d-lead').textContent, $('#d-ins').textContent, $('#d-days').textContent, $('#d-page').textContent]; }""", DAY)
-    ok("Общий дневник" in r[0] and "Лира" in r[1] and "Лира" in r[2] and "пишет Лира" in r[3],
+    ok("Общий дневник" in r[0] and "Мира" in r[1] and "Мира" in r[2] and "пишет Мира" in r[3],
        f"студия: дневник общий, у записи — кто её написал: {[x[:80] for x in r]}")
     ok(not perr, f"студия без ошибок: {perr[:2]}")
     b.close()

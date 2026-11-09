@@ -139,7 +139,7 @@ class Host:
         self.toolbox.run = lambda name, args: (f"Результаты поиска: {args.get('query')} — 1. Ноутбук, 34 990 ₽"
                                                if name == "web_search" else "Готово.")
         self.said = []
-    def persona_name(self): return "Лира"
+    def persona_name(self): return "Мира"
     def memory(self): return ""
     def llm_profile(self): return {"name": "mock", "kind": "openai", "base_url": f"http://127.0.0.1:{srv.server_port}/v1", "model": "m"}
     def max_steps(self): return 30

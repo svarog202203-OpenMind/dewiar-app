@@ -1,7 +1,7 @@
 /* Студия Dewiar, «Вопрос — ответ» (27.10, по макету «Dewiar — обучение и «Команда»», владелец: «удобно, красиво, плиткой,
-   с поиском»). Тот же текст, что руководство на сайте и ответы Лиры (data/guide.json, core/guide.py): core.call("guide")
+   с поиском»). Тот же текст, что руководство на сайте и ответы Миры (data/guide.json, core/guide.py): core.call("guide")
    — всё, {q} — поиск (ids), {id} — статья. Слева — плитки разделов (или статьи раздела, или найденное), справа — статья:
-   что это, как сделать, «попробуйте сказать» (▶ — фраза уйдёт Лире), советы, «Открыть раздел». */
+   что это, как сделать, «попробуйте сказать» (▶ — фраза уйдёт Мире), советы, «Открыть раздел». */
 let QA = { all: null, group: "", hits: null, cur: "", t: 0 };
 const QA_GROUPS = {          // вид плиток: подложка, цвет значка, рисунок
   "Начало": ["#DDE3F7", "#3F4BD8", "M12 3l8 4.5v9L12 21l-8-4.5v-9z M12 12l8-4.5 M12 12v9 M12 12L4 7.5"],
@@ -37,7 +37,7 @@ function qaLeft() {
   if (QA.hits) {
     box.innerHTML = `<div class="qa-head"><button class="btn small" id="qa-back">Все разделы</button><span>${QA.hits.length ? `Нашлось: ${qaWord(QA.hits.length, "ответ", "ответа", "ответов")}` : "Ничего не нашлось"}</span></div>`
       + (QA.hits.length ? `<div class="qa-rows">${QA.hits.map(id => byId[id]).filter(Boolean).map(row).join("")}</div>`
-        : `<p class="qa-none">Попробуйте другими словами — или нажмите «Спросить Лиру»: она ответит по этому же руководству.</p>`);
+        : `<p class="qa-none">Попробуйте другими словами — или нажмите «Спросить Миру»: она ответит по этому же руководству.</p>`);
   } else if (QA.group) {
     const list = qaGroups()[QA.group] || [];
     box.innerHTML = `<div class="qa-head"><button class="btn small" id="qa-back">Все разделы</button><span>${escH(QA.group)}</span></div><div class="qa-rows">${list.map(row).join("")}</div>`;
@@ -69,21 +69,21 @@ function qaOpen(id) {
   box.innerHTML = `<small class="qa-meta">${escH(s.group || "")} · ${escH((s.where || []).map(w => QA_WHERE[w] || w).join(" и "))}</small>`
     + `<h2>${escH(s.title)}</h2><p class="qa-lead">${escH(s.lead || "")}</p>`
     + ((s.how || []).length ? `<h4>Как сделать</h4><ul class="qa-how">${li(s.how)}</ul>` : "")
-    + ((s.say || []).length ? `<div class="qa-say"><h4>Попробуйте сказать</h4>${s.say.slice(0, 6).map((x, i) => `<button class="qa-try" data-i="${i}" title="Отправить Лире">`
+    + ((s.say || []).length ? `<div class="qa-say"><h4>Попробуйте сказать</h4>${s.say.slice(0, 6).map((x, i) => `<button class="qa-try" data-i="${i}" title="Отправить Мире">`
         + `<span>«${escH(x)}»</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>`).join("")}</div>` : "")
     + ((s.tips || []).length ? `<h4>Советы</h4><ul class="qa-tips">${li(s.tips)}</ul>` : "")
     + `<div class="qa-acts">${sec && $(`nav button[data-p="${sec}"]`) ? `<button class="btn primary" id="qa-go">Открыть раздел</button>` : ""}`
-    + `<button class="btn" id="qa-lira">Не получилось — спросить Лиру</button>`
+    + `<button class="btn" id="qa-lira">Не получилось — спросить Миру</button>`
     + `<a class="qa-site" href="${typeof GUIDE_URL !== "undefined" ? GUIDE_URL : "https://dewiar.pro/dwrapp/guide.php"}#${escH(s.id)}" target="_blank" rel="noopener">На сайте, со снимками</a></div>`;
   $$("#qa-art .qa-try").forEach(b => b.onclick = async () => {
     b.disabled = true;
-    try { await core.call("say", { text: s.say[+b.dataset.i] }); toast("Отправил Лире — смотрите виджет", 2500); } catch (e) { toast(e.message); }
+    try { await core.call("say", { text: s.say[+b.dataset.i] }); toast("Отправил Мире — смотрите виджет", 2500); } catch (e) { toast(e.message); }
     setTimeout(() => { b.disabled = false; }, 1500);
   });
   if ($("#qa-go")) $("#qa-go").onclick = () => { const b = $(`nav button[data-p="${sec}"]`); if (b) b.click(); };
   $("#qa-lira").onclick = () => qaAsk(`Помоги: ${s.title.replace(/[«»]/g, "")}. ${$("#qa-q").value.trim()}`.trim());
 }
-function qaAsk(text) {                                   // вопрос — в «Чат», ответ Лиры там же (по этому же руководству)
+function qaAsk(text) {                                   // вопрос — в «Чат», ответ Миры там же (по этому же руководству)
   const q = (text || $("#qa-q").value || "").trim();
   if (!q) { $("#qa-q").focus(); return; }
   const b = $('nav button[data-p="chat"]'); if (b) b.click();

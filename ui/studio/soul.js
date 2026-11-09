@@ -42,7 +42,7 @@ function renderDiaryDay(day) {
       return `<div class="dentry edit${s.night ? " night" : ""}"><div class="dt">${s.night ? "🌙 Ночная запись" : escH(s.head || "Запись")} — правка</div>`
         + (t !== null ? `<input type="text" id="dent-title" maxlength="80" placeholder="Название" value="${escH(t)}">` : "")
         + `<textarea id="dent-text">${escH(s.body.trim())}</textarea><div class="actions"><button class="btn primary" id="dent-save">Сохранить</button>`
-        + `<button class="btn" id="dent-cancel">Отмена</button>${s.night ? `<small class="hint">«**На завтра:**» и строки «- …» под ним — выводы, которые Лира держит в голове.</small>` : ""}</div></div>`;
+        + `<button class="btn" id="dent-cancel">Отмена</button>${s.night ? `<small class="hint">«**На завтра:**» и строки «- …» под ним — выводы, которые Мира держит в голове.</small>` : ""}</div></div>`;
     }
     if (s.night) {
       const t = s.head.match(/«(.+?)»\s*(.*)$/), [main, tom] = s.body.split(/\n\*\*На завтра:\*\*\n/);
@@ -75,7 +75,7 @@ function renderDiaryDay(day) {
 async function loadDiary(focus) {
   const name = curName();
   // дневник один на всю команду: днём пишет тот, кто говорил, ночью — тот, кто был с вами (подпись — у каждой записи);
-  // раньше здесь стояло имя текущего персонажа, и записи Лиры выглядели записями Патрика (16.10)
+  // раньше здесь стояло имя текущего персонажа, и записи Миры выглядели записями Патрика (16.10)
   $("#d-lead").textContent = "Общий дневник ваших помощников: что было, что узнали о вас, о чём думали. Днём — короткие мысли " +
     "после разговоров, ночью — запись о прожитом дне и выводы на завтра. У каждой записи — кто её написал.";
   try {

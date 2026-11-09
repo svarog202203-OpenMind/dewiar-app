@@ -1,6 +1,6 @@
 /* Студия, «Устройства» (0.56; письмо пользователя 28.10: «хрен найдёшь, где эта синхронизация… почему нельзя вынести
    синхронизацию отдельно… на компе настроил — другие компы надо легко подключить… «Синхронизировать сейчас»…
-   визуальное состояние подключённых юнитов»). Одна страница: карта — Лира в середине, вокруг все ваши устройства (на
+   визуальное состояние подключённых юнитов»). Одна страница: карта — Мира в середине, вокруг все ваши устройства (на
    связи — яркая линия); это устройство — имя, синхронизация, «Синхронизировать сейчас»; «Подключить ещё устройство» —
    6 цифр и QR на 10 минут (подключилось — видно сразу); «Ввести код»; список всех устройств — вид, версия, когда было на
    связи, «Убрать из списка». Ядро: devices_get {fresh}, device_rename {name}, device_forget {id}, pair_new, pair_claim
@@ -44,7 +44,7 @@ async function dvRefresh() {
   try { DV = await core.call("devices_get", { fresh: true }); } catch (e) { return; }
   const fresh = (DV.devices || []).filter(d => !was.has(d.id) && !d.me);
   if (fresh.length && DV_CODE) {                         // по коду подключилось новое устройство — код больше не нужен
-    toast(`Подключилось: ${fresh.map(d => d.name || DV_APP[d.app]).join(", ")} — теперь это одна Лира`, 4000);
+    toast(`Подключилось: ${fresh.map(d => d.name || DV_APP[d.app]).join(", ")} — теперь это одна Мира`, 4000);
     dvCodeHide();
   }
   dvRender();
@@ -64,7 +64,7 @@ function dvRender() {
   $("#dv-e2e").checked = !!(st.e2e || {}).on; $("#dv-e2e").disabled = !st.available || !st.on;
   // подключить ещё: есть вход — код; нет — подсказка
   $("#dv-give-go").disabled = false; $("#dv-give-go").classList.toggle("ghost", !d.can_pair);
-  $("#dv-give-hint").textContent = d.can_pair ? "Покажите код другому компьютеру или телефону — он станет той же Лирой: общая память, заметки и дела."
+  $("#dv-give-hint").textContent = d.can_pair ? "Покажите код другому компьютеру или телефону — он станет той же Мирой: общая память, заметки и дела."
     : "Здесь ещё нет входа в Dewiar. Если Dewiar уже работает на другом устройстве — введите его код справа. Если это первое устройство — подключите Dewiar в «Мозге».";
   const others = devs.filter(x => !x.me), on = others.filter(dvOn).length;
   $("#dv-count").textContent = others.length ? `ещё ${others.length} · на связи сейчас: ${on}` : "пока только это";
@@ -92,21 +92,21 @@ function dvRender() {
   }
 }
 
-/* карта: Лира в середине, устройства по кругу (0.66, владелец: «схему — немножко красивее и аккуратнее»; обводки он не
+/* карта: Мира в середине, устройства по кругу (0.66, владелец: «схему — немножко красивее и аккуратнее»; обводки он не
    любит): устройства — плитки с цветом своего вида (компьютер, телефон, браузер, облако) и белым значком, без рамок;
-   на связи — точка-огонёк и плавная линия к Лире, по которой бегут искры; давно не было — бледная плитка и пунктир.
-   Под плиткой — имя и состояние. Лира — светящийся шар с мягкими кругами вокруг. */
+   на связи — точка-огонёк и плавная линия к Мире, по которой бегут искры; давно не было — бледная плитка и пунктир.
+   Под плиткой — имя и состояние. Мира — светящийся шар с мягкими кругами вокруг. */
 const DV_TONE = { pc: ["#9a8cff", "#6a55e6"], phone: ["#5fdcb6", "#1fa585"], web: ["#7fc8ff", "#4a86ee"], cloud: ["#a8c0ff", "#7b8ff5"] };
 function dvMap(devs) {
   const W = 560, H = 390, cx = W / 2, cy = H / 2 + 2, n = Math.max(devs.length, 1), RX = 210, RY = 128, T = 50;
   const all = typeof personas !== "undefined" && Array.isArray(personas) ? personas : [];
   const who = all.find(p => p.id === (typeof active !== "undefined" && active ? active : S && S.persona)) || null;
-  const nm = ((who && who.name) || "Лира").slice(0, 9);
+  const nm = ((who && who.name) || "Мира").slice(0, 9);
   let lines = "", nodes = "", defs = "";
   devs.forEach((d, i) => {
     const a = -Math.PI / 2 + (2 * Math.PI * i) / n + (n === 2 ? Math.PI / 2 : 0);
     const x = cx + RX * Math.cos(a), y = cy + RY * Math.sin(a), on = dvOn(d), app = d.app || "pc", tone = DV_TONE[app] || DV_TONE.pc;
-    // линия — мягкой дугой от края облика Лиры: середина чуть отведена в сторону, к Лире подходит не по прямой
+    // линия — мягкой дугой от края облика Миры: середина чуть отведена в сторону, к Мире подходит не по прямой
     const L = Math.hypot(x - cx, y - cy) || 1, sx = cx + (x - cx) / L * 58, sy = cy + (y - cy) / L * 58;
     const mx = (sx + x) / 2 + (y - cy) * 0.1, my = (sy + y) / 2 - (x - cx) * 0.1;
     defs += `<linearGradient id="dvg${i}" gradientUnits="userSpaceOnUse" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"><stop offset="0" stop-color="#8b7cff"/><stop offset="1" stop-color="${tone[0]}"/></linearGradient>`
@@ -169,7 +169,7 @@ $("#dv-take-go").onclick = async (ev) => {
   try {
     const d = await core.call("pair_claim", { code });
     $("#dv-codein").value = "";
-    r.className = "res ok"; r.textContent = (d.account ? "Готово — вход тем же аккаунтом. " : "Готово. ") + "Это устройство — та же Лира: память, заметки и дела придут в течение минуты."
+    r.className = "res ok"; r.textContent = (d.account ? "Готово — вход тем же аккаунтом. " : "Готово. ") + "Это устройство — та же Мира: память, заметки и дела придут в течение минуты."
       + (d.brain_kept ? " Ваша модель осталась главной." : " Отвечают модели Dewiar.");
     setTimeout(() => loadMyDevices(true), 2500);
   } catch (e) { r.className = "res bad"; r.textContent = e.message; } finally { ev.target.disabled = false; }
@@ -252,7 +252,7 @@ $("#dv-home-go").onclick = async (ev) => {
       let x; try { x = await core.call("homelan_get"); } catch (e) { return; }
       const fresh = (x.phones || []).find(q => q.tid === p.tid);
       dvHome(x);
-      if (fresh) { dvHomeCodeHide(); toast(`Подключился «${fresh.name || "телефон"}» — теперь это одна Лира`, 4000); loadMyDevices(false); }
+      if (fresh) { dvHomeCodeHide(); toast(`Подключился «${fresh.name || "телефон"}» — теперь это одна Мира`, 4000); loadMyDevices(false); }
     }, 3000);
   } catch (e) { r.className = "res bad"; r.textContent = e.message; } finally { ev.target.disabled = false; }
 };

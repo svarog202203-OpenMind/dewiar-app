@@ -1,6 +1,6 @@
-"""Персонажи с 0.36: встроенных двое — Лира и Патрик (оба с живым лицом); Агент, Джарвис, Эва и Кодер — готовые шаблоны.
+"""Персонажи с 0.36: встроенных двое — Мира и Патрик (оба с живым лицом); Агент, Джарвис, Эва и Кодер — готовые шаблоны.
 Кто пользовался шаблонным (выбран, учил имя) — тот остаётся своим под тем же id, с живым лицом и ролью из шаблона;
-неиспользованные — только в «Готовых»; добавить из «Готовых» — одной кнопкой; неизвестный выбранный — Лира."""
+неиспользованные — только в «Готовых»; добавить из «Готовых» — одной кнопкой; неизвестный выбранный — Мира."""
 import json, os, sys, tempfile
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
@@ -22,12 +22,12 @@ SETTINGS_PATH.write_text(json.dumps({"persona": "eva"}), encoding="utf-8")
 import personas as P  # noqa: E402
 ps = P.Personas()
 ids = [p["id"] for p in ps.all()]
-ok(ids[:2] == ["lira", "patrik"] and set(ids) == {"lira", "patrik", "eva", "jarvis"}, f"Лира и Патрик + те, кем пользовались (Эва выбрана, Джарвис учил имя): {ids}")
-ok(ps.get("patrik").get("live") == "patrik" and ps.get("lira").get("live") == "lira", "у Лиры и Патрика — живые лица")
+ok(ids[:2] == ["lira", "patrik"] and set(ids) == {"lira", "patrik", "eva", "jarvis"}, f"Мира и Патрик + те, кем пользовались (Эва выбрана, Джарвис учил имя): {ids}")
+ok(ps.get("patrik").get("live") == "patrik" and ps.get("lira").get("live") == "lira", "у Миры и Патрика — живые лица")
 e = ps.get("eva")
 ok(e["name"] == "Эва" and e.get("live") == "eva" and e.get("route") and not e.get("builtin"), "Эва осталась своей: имя, живое лицо, роль — из шаблона")
 ok("джарвиз" in ps.get("jarvis")["aliases"], "у Джарвиса — выученное произношение")
-ok(ps.get("dewiar")["id"] == "lira", "неизвестный (не перенесённый) — Лира")
+ok(ps.get("dewiar")["id"] == "lira", "неизвестный (не перенесённый) — Мира")
 g = {x["id"]: x for x in ps.gallery()}
 ok(g["dewiar"]["template"] and not g["dewiar"]["installed"] and g["eva"]["installed"], "в «Готовых»: Агент — добавить, Эва — уже в команде")
 ok(ps.gallery_add("agent") == "agent" and ps.get("agent")["name"] == "Кодер" and ps.get("agent").get("route"), "Кодер добавлен из «Готовых» — с ролью")

@@ -1,6 +1,6 @@
 """«Близкие»: переписка между помощниками разных людей через облако Dewiar — со сквозным шифрованием.
 
-«Лира, напиши Андрею, что я задержусь» — у Андрея его помощник покажет сообщение и скажет вслух: «Сообщение от Михаила…».
+«Мира, напиши Андрею, что я задержусь» — у Андрея его помощник покажет сообщение и скажет вслух: «Сообщение от Михаила…».
 Близкими становятся по приглашению: ссылка (…/download.php?close=ТОКЕН) или QR с ней; принять — accept(ссылка).
 Устройство хранит свою пару ключей X25519 (закрытый — зашифрован ключом этого компьютера, crypt.device_key) и шлёт
 серверу только открытый (/close/hello). Сообщение шифруется для всех устройств получателя и для других своих
@@ -770,7 +770,7 @@ class Close:
         return out
 
     def gsend(self, gid, text="", files=None, remind_at=None):
-        """Письмо в группу: один конверт на все устройства участников (и мои). remind_at (datetime) — «Лира в группе»:
+        """Письмо в группу: один конверт на все устройства участников (и мои). remind_at (datetime) — «Мира в группе»:
         напоминание у каждого участника (и у меня) в этот срок."""
         if not self.st.get("me") or time.time() - float(self.st.get("hello_at") or 0) > 600:
             self.hello()
@@ -1132,7 +1132,7 @@ class Close:
                 "from": it.get("peer", ""), "who": str(it.get("name") or body.get("name") or "")[:40], "sid": _int(it.get("id"))}
         rem = body.get("rem") if isinstance(body.get("rem"), dict) else None
         if rem and not item["out"] and not any(x.get("mid") == item["mid"] for x in self.st["hist"].get(gid) or []):
-            item["rem"] = {"at": _int(rem.get("at")), "rid": self._remind(g, rem, item["who"])}   # «Лира в группе»: напомнит и здесь
+            item["rem"] = {"at": _int(rem.get("at")), "rid": self._remind(g, rem, item["who"])}   # «Мира в группе»: напомнит и здесь
         if not self._add(gid, item) or item["out"]:
             return 0
         name = f"{(item['who'] or 'Кто-то').split()[0]} в «{g.get('name') or 'группе'}»"
@@ -1427,7 +1427,7 @@ class Close:
         with self._lock:
             people = list(self.st["people"])
         g = who and (self.group_of(who) or (None if match_name(who, people) else self.group_match(who)))
-        if g:                                           # «что ответили в группе Семья?» — «кто что берёт?» Лира собирает ответы
+        if g:                                           # «что ответили в группе Семья?» — «кто что берёт?» Мира собирает ответы
             n = max(n, 20)
             lines = [f"{time.strftime('%d.%m %H:%M', time.localtime(m.get('ts', 0) / 1000))} {'вы' if m.get('out') else (m.get('who') or 'кто-то')}: "
                      f"{m.get('t') or ''}" + (f" [файлы: {', '.join(x.get('name', '') for x in m.get('f') or [])}]" if m.get("f") else "")

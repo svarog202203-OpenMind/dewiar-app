@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <link rel="stylesheet" href="../../../../ui/assets/fonts.css">
 <style>
-/* Урок 22 · Страница плагина. Светлый неоморфизм серии. Главная вещь урока — у плагина своя страница: бросили сорок резюме — кандидаты разобраны и сравнены; кнопки, настройки и «спросить Лиру» — там же. */
+/* Урок 22 · Страница плагина. Светлый неоморфизм серии. Главная вещь урока — у плагина своя страница: бросили сорок резюме — кандидаты разобраны и сравнены; кнопки, настройки и «спросить Миру» — там же. */
 :root { --bg: #dbe5f1; --nd: #b8c5d6; --nl: #f7fbff; --ink: #24324a; --mut: rgba(36,50,74,.66); --accent: #4560ea;
   --brand: linear-gradient(135deg, #6a8dff 0%, #4f6cf0 100%); --lira: #5aa9e6; --patrik: #e59a1f; --ok: #2fb383; --tg: #2AABEE;
   --raise: 14px 14px 32px var(--nd), -14px -14px 32px var(--nl); --raise-s: 6px 6px 14px var(--nd), -6px -6px 14px var(--nl);
@@ -134,7 +134,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
 </style></head>
 <body><div id="film">
   <div id="bg"></div><div class="blob" id="b1"></div><div class="blob" id="b2"></div>
-  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Лиры</b><span>Урок 22 · Страница плагина</span></div></div>
+  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Миры</b><span>Урок 22 · Страница плагина</span></div></div>
   <div class="layer" id="L-title"><div id="plane"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/><path d="M12.5 9h5M12.5 12.5h5M12.5 16h3"/></svg></div>
     <div id="t-title"><h1>Страница плагина</h1><p>Свой раздел у каждого плагина — кнопки, настройки, результаты</p></div></div>
 
@@ -150,7 +150,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
         <div class="tabs"><span id="tb1" class="on">Резюме и подбор</span><span id="tb2">Сделать сейчас</span><span>Настройки</span><span>Файлы</span></div>
         <div class="pane" id="pn1"><div class="fun"><div><h6>Новый<b>12</b></h6><p>Орлова Е.</p><p>Гаврик М.</p><p>Савич Д.</p><p>Бондарь О.</p></div><div><h6>Интересен<b>6</b></h6><p>Петров С.</p><p>Лис А.</p><p>Жук Т.</p></div><div><h6>Собеседование<b>3</b></h6><p>Ковалёва И.</p><p>Мороз П.</p></div><div><h6>Оффер<b>1</b></h6><p>Жданова В.</p></div></div></div>
         <div class="pane" id="pn2"><div class="acts">
-          <div class="ac"><b>Новая вакансия</b><small>Под неё Лира отбирает и оценивает</small><div class="f" id="f1"></div><div class="f" id="f2"></div><span class="go" id="go1">Сохранить вакансию</span></div>
+          <div class="ac"><b>Новая вакансия</b><small>Под неё Мира отбирает и оценивает</small><div class="f" id="f1"></div><div class="f" id="f2"></div><span class="go" id="go1">Сохранить вакансию</span></div>
           <div class="ac"><b>Кандидаты</b><small>Кто в базе — по этапу или по словам</small><div class="f">этап: интересен</div><div class="f">бухгалтер</div><span class="go" id="go2">Показать</span></div></div>
           <div class="tbl" id="tbl"><div><span>Имя</span><span>Должность</span><span>Стаж</span><span>Этап</span></div>
             <div><span>Ирина Ковалёва</span><span>гл. бухгалтер</span><span>7 лет</span><span>собеседование</span></div>
@@ -164,7 +164,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
     <div class="card" id="set"><h3>Настройки</h3><label>ПАПКА С РЕЗЮМЕ</label><div class="in">📁 ~/Документы/Резюме</div>
       <label>О КОМПАНИИ — ДЛЯ ПИСЕМ КАНДИДАТАМ</label><div class="in">ООО «Север», Минск, производство</div>
       <div class="jb">🗓 Новые резюме из папки — по будням в 10:00<span class="tgl" id="tg"><i></i></span></div></div>
-    <div class="toast" id="ring"><small>ЛИРА · 10:00</small><div class="tm">+3 резюме</div><p>Новые на бухгалтера: Мороз, Савич, Бондарь. У Мороза уточните стаж в 1С.</p></div>
+    <div class="toast" id="ring"><small>МИРА · 10:00</small><div class="tm">+3 резюме</div><p>Новые на бухгалтера: Мороз, Савич, Бондарь. У Мороза уточните стаж в 1С.</p></div>
     <div id="pages">
       <div class="pp"><div class="ph"><i>🧑‍💼</i><b>Рекрутер</b></div><div class="pv"><p>Ирина Ковалёва<em>87</em></p><p>Сергей Петров<em>74</em></p><p>Анна Лис<em>68</em></p><p>Турнир лучших<em>→</em></p></div><small>Кандидаты, этапы, сравнение</small></div>
       <div class="pp"><div class="ph"><i style="background:rgba(74,139,232,.18)">📄</i><b>Тендеры</b></div><div class="pv"><p>Поставка бумаги<em>12 дн.</em></p><p>Ремонт кровли<em>5 дн.</em></p><p>Мебель для школы<em>9 дн.</em></p><p>Мои запросы<em>3</em></p></div><small>Лента с фильтрами и сроками</small></div>
@@ -174,7 +174,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
 
   <div class="layer" id="L-end"><div id="end"><h1>dewiar.pro</h1><p>Бесплатно · Windows, Linux, Android и браузер</p><span class="next">Скоро — новые уроки</span></div></div>
 
-  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Лира</b></div>
+  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Мира</b></div>
   <div class="seat" id="s-patrik" style="--c:var(--patrik)"><div class="orb"><canvas id="e-patrik" width="600" height="600"></canvas></div><b>Патрик</b></div>
   <div id="sub"></div>
 </div>

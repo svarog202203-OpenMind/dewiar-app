@@ -121,7 +121,7 @@ v2 = tmp / "Хранилище 2"
 (v2 / "Dewiar/Идеи/Сад.md").write_text("# Сад\n\nтеплица из поликарбоната\n", encoding="utf-8")
 (root / "Память/Уроки задач.md").write_text("# Уроки задач\n\n- служебное\n", encoding="utf-8")
 s.update({"obsidian": {"folder": "Dewiar"}})
-ob.index_info = lambda: {"name": "Лира", "days": [{"day": "2026-10-03", "label": "3 октября 2026", "title": "День, когда получилось", "mood": "🌿"}]}
+ob.index_info = lambda: {"name": "Мира", "days": [{"day": "2026-10-03", "label": "3 октября 2026", "title": "День, когда получилось", "mood": "🌿"}]}
 st = ob.connect(str(v2))
 m2 = v2 / "DEWIAR"
 ok(m2.is_dir() and not (v2 / "Dewiar").exists() and ob.public()["folder"] == "DEWIAR", "прежняя папка «Dewiar» стала заметной «DEWIAR»")
@@ -151,7 +151,7 @@ ok(ws.save_note("Письмо Олегу", "текст", "Письма") == "З�
 ok(not (m2 / "Память/Уроки задач.md").exists(), "служебные «Уроки задач» в хранилище не выносятся")
 idx = (m2 / "DEWIAR.md").read_text(encoding="utf-8") if (m2 / "DEWIAR.md").exists() else ""
 ok("[[DEWIAR/Память/Обо мне|Обо мне]]" in idx and "[[DEWIAR/Запомнить на будущее|Запомнить на будущее]]" in idx
-   and "«День, когда получилось» 🌿" in idx and "Лира" in idx, "сверху — «DEWIAR.md»: что знает, дневник, заметки (ссылки ведут куда надо)")
+   and "«День, когда получилось» 🌿" in idx and "Мира" in idx, "сверху — «DEWIAR.md»: что знает, дневник, заметки (ссылки ведут куда надо)")
 ok(not (root / "Заметки/DEWIAR.md").exists(), "оглавление — только в Obsidian, к ассистенту не возвращается")
 ap = json.loads((v2 / ".obsidian/appearance.json").read_text(encoding="utf-8"))
 css = (v2 / ".obsidian/snippets/dewiar.css").read_text(encoding="utf-8") if (v2 / ".obsidian/snippets/dewiar.css").exists() else ""

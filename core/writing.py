@@ -166,7 +166,7 @@ class Writing:
         s = self.maybe_scan(30)
         if not s["files"]:
             return ("Своих текстов в папках «Документов» не нашлось. Скажи: пусть добавит папку с рукописью в студии → «Документы» "
-                    "(считаются .md, .txt, .docx, .odt, .html) — тогда Лира будет считать, сколько написано за день.")
+                    "(считаются .md, .txt, .docx, .odt, .html) — тогда Мира будет считать, сколько написано за день.")
         parts = [f"Сегодня написано {words_ru(s['today'])}" + (f" из цели {words_ru(s['goal'])}" if s["goal"] else "") + "."]
         if s["touched"]:
             parts.append("Больше всего — в " + ", ".join(f"«{t['name']}» (+{t['n']})" for t in s["touched"][:3]) + ".")

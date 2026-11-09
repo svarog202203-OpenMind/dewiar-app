@@ -61,7 +61,7 @@ with sync_playwright() as p:
         g = pg.evaluate("() => ({ task_b: document.querySelector('#task').getBoundingClientRect().bottom, bar_t: document.querySelector('#bar').getBoundingClientRect().top, btns: document.querySelectorAll('#task .tbtn button').length })")
         ok(g["btns"] == 3 and g["task_b"] <= g["bar_t"] + 1, f"{h}: готовая задача с кнопками — над панелью, не на ней: {g}")
         pg.evaluate("""() => { tasks.y.status = 'running'; tasks.y.progress = [1, 7]; tasks.y.activity = 'run_command'; renderTask();
-            tlReset('Лира, а теперь на основании расшифровки сделай презентацию'); showCap('Лира, а теперь на основании расшифровки сделай презентацию', '');
+            tlReset('Мира, а теперь на основании расшифровки сделай презентацию'); showCap('Мира, а теперь на основании расшифровки сделай презентацию', '');
             TL.steps = [{}, {}]; moreBtn(); for (const f of core._on.confirm || []) f({ text: 'Выполнить команду? Подробности — на экране.' }); }""")
         pg.wait_for_timeout(400)
         g = pg.evaluate(GEOM.replace("bar_t: r('#bar').top", "bar_t: r('#bar').top, yn_t: r('#yn').top, yn_b: r('#yn').bottom"))

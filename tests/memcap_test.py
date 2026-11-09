@@ -1,4 +1,4 @@
-"""Dewiar не может «положить» компьютер: у ядра и окон — свои потолки памяти (systemd), программы, открытые Лирой,
+"""Dewiar не может «положить» компьютер: у ядра и окон — свои потолки памяти (systemd), программы, открытые Мирой,
 живут отдельно от ядра, голоса уступают процессор. Без настоящего systemd: systemd-run подменяется скриптом."""
 import os
 import subprocess
@@ -42,7 +42,7 @@ cmd = M.scope_cmd(["python3", "ui/app.py"], "ui", "Dewiar — окна")
 ok(cmd[:5] == ["systemd-run", "--user", "--scope", "--quiet", "--collect"] and "MemoryMax=4096M" in cmd and "MemoryHigh=3584M" in cmd
    and cmd[-2:] == ["python3", "ui/app.py"], f"окна — в коробке с потолком: {' '.join(cmd)}")
 app = M.scope_cmd(["xdg-open", "https://ya.ru"])
-ok(app[0] == "systemd-run" and not any(x.startswith("Memory") for x in app), "программа, открытая Лирой, — отдельно и без потолка")
+ok(app[0] == "systemd-run" and not any(x.startswith("Memory") for x in app), "программа, открытая Мирой, — отдельно и без потолка")
 ok("--scope" in log.read_text(), "возможность проверена пробным запуском")
 os.environ["DEWIAR_NO_SCOPE"] = "1"
 M._SCOPE.clear()
@@ -50,7 +50,7 @@ ok(M.scope_cmd(["xdg-open", "x"]) == ["xdg-open", "x"], "без systemd — за
 os.environ.pop("DEWIAR_NO_SCOPE")
 M._SCOPE.clear()
 
-# launch() Лиры идёт через systemd-run (и не закроется при перезапуске ядра)
+# launch() Миры идёт через systemd-run (и не закроется при перезапуске ядра)
 os.environ.pop("DEWIAR_DRY_TOOLS", None)
 import tools  # noqa: E402
 log.write_text("")

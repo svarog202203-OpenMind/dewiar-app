@@ -1156,7 +1156,7 @@ async def _run_scenario(core, sc, judge_prof, work, log, t0, res):
                 if stp.get("image") and img is None:
                     res["skipped"] = "нет шрифта с кириллицей для картинки"
                     return res
-                if stp.get("persona"):                  # кто отвечает на этот шаг (команда: Лира, Патрик)
+                if stp.get("persona"):                  # кто отвечает на этот шаг (команда: Мира, Патрик)
                     await core.call("persona_set", id=stp["persona"])
                 said = fill(stp["say"])
                 ans, ev = await core.say(said, img)
@@ -1178,7 +1178,7 @@ async def _run_scenario(core, sc, judge_prof, work, log, t0, res):
                 used = [x["name"] for s in res["steps"] for x in s.get("tools") or []]
                 res["checks"].append({"name": f"действие {name} выполнено", "ok": any(x["name"] == name and x["ok"] for s in res["steps"]
                                                                                    for x in s.get("tools") or []), "detail": ", ".join(used)})
-            # «как в жизни» (18.10: на съёмке «позвони», «включи видео» срабатывали раз, а потом — одни слова; «Я Лира.»
+            # «как в жизни» (18.10: на съёмке «позвони», «включи видео» срабатывали раз, а потом — одни слова; «Я Мира.»
             # повторялось слово в слово): действие — на каждую просьбу, а не только на первую; ответы — не копия прошлых
             real = [s_ for s_ in res["steps"] if s_["say"] != "[новый разговор]"]
             for name, n in (sc.get("tool_count") or {}).items():

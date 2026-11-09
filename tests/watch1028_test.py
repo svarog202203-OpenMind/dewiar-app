@@ -1,4 +1,4 @@
-"""«Дозор» (0.58; владелец 28.10: «хожу по дому и раз в 5–10 минут смотрю, нет ли ответа… вот бы Лира так умела — смотрела
+"""«Дозор» (0.58; владелец 28.10: «хожу по дому и раз в 5–10 минут смотрю, нет ли ответа… вот бы Мира так умела — смотрела
 на экран по заданию и, если выполнено, сообщала на компе и на телефоне»; «описать везде, в уроках, в курсе… и показать»).
 Ядро: дозор за папкой (новый докачанный файл), страницей (слово или изменение), экраном (сначала своё сравнение, модель —
 только если экран изменился; «ДА — …» — готово); срок — сам кончается; «Стоп». Готово — голос, уведомление, конверт
@@ -211,7 +211,7 @@ with sync_playwright() as p:
       $('nav button[data-p="watch"]').click(); }""", ST)
     pg.wait_for_timeout(600)
     t = pg.inner_text("#p-watch")
-    ok("Лира присмотрит и скажет, когда готово" in t and "Claude ответил" in t and "смотрела в" in t and "появился файл «фильм.mp4»" in t,
+    ok("Мира присмотрит и скажет, когда готово" in t and "Claude ответил" in t and "смотрела в" in t and "появился файл «фильм.mp4»" in t,
        "раздел «Дозор»: что это, что ждёт сейчас (с последней проверкой), чем кончилось")
     ok(pg.evaluate("document.querySelector('#wt-dot').classList.contains('on')"), "в меню — точка, пока идёт дозор")
     if SHOTS: pg.screenshot(path=str(Path(SHOTS) / "studio-watch.png"), full_page=True)
@@ -224,8 +224,8 @@ with sync_playwright() as p:
     ok(["watch_stop", {"id": "a1"}] in pg.evaluate("_calls"), "«Стоп»")
     ok(pg.evaluate("HM_APPS.some(a => a.id === 'watch') && HM_DEFAULT.includes('watch')"), "на «Главной» — значок «Дозор»")
     nav = pg.evaluate("[...document.querySelectorAll('nav > *')].map(x => x.dataset.p || x.textContent)")
-    i = nav.index("Лира делает сама")
-    ok(nav[i + 1:i + 3] == ["tasks", "watch"], f"в меню — группа «Лира делает сама»: «Задачи» и «Дозор» (28.10, владелец: «где разместить разумно»): {nav[i:i + 3]}")
+    i = nav.index("Мира делает сама")
+    ok(nav[i + 1:i + 3] == ["tasks", "watch"], f"в меню — группа «Мира делает сама»: «Задачи» и «Дозор» (28.10, владелец: «где разместить разумно»): {nav[i:i + 3]}")
     pg.set_viewport_size({"width": 720, "height": 1000}); pg.wait_for_timeout(200)
     ok(pg.evaluate("document.documentElement.scrollWidth <= innerWidth"), "узкое окно — без прокрутки вбок")
     # виджет
@@ -239,7 +239,7 @@ with sync_playwright() as p:
     ok(h.evaluate("document.getElementById('b-watch').hidden"), "виджет: дозоров нет — глаза нет")
     h.evaluate("(st) => core.emit('watch', st)", ST); h.wait_for_timeout(200)
     ok(not h.evaluate("document.getElementById('b-watch').hidden") and "Claude ответил" in h.evaluate("document.getElementById('b-watch').title"),
-       "идёт дозор — у виджета глаз, в подсказке — что Лира ждёт")
+       "идёт дозор — у виджета глаз, в подсказке — что Мира ждёт")
     h.click("#b-watch"); h.wait_for_timeout(100)
     calls = h.evaluate("window.apiCalls || []")      # с 0.71 — toggle_settings: второе нажатие сворачивает студию
     ok(["open_settings", "watch"] in calls or ["toggle_settings", "watch"] in calls, f"нажали на глаз — «Дозор» в студии: {calls[-2:]}")
@@ -259,7 +259,7 @@ with sync_playwright() as p:
       ownApply({ ts: Date.now(), ping: { title: '👁 Дозор: готово', text: 'Claude — файлы', wid: 'w1', what: 'Claude даст файлы ARK и ZIP', note: 'в окне Claude: кнопки скачать ARK и ZIP', dev: 'Рабочий', shot: { id: 'f1', key: 'k' } } });
       await new Promise(r => setTimeout(r, 300));
       const c = document.querySelector('.wcard'); return [c ? c.innerText : '', !!document.querySelector('#wshot img')]; }""")
-    ok("Лира увидела: в окне Claude" in r[0] and "Не то — ждать дальше" in r[0] and r[1], f"телефон: карточка «Дозор» — что ждали, что увидела, снимок: {r[0][:80]!r}")
+    ok("Мира увидела: в окне Claude" in r[0] and "Не то — ждать дальше" in r[0] and r[1], f"телефон: карточка «Дозор» — что ждали, что увидела, снимок: {r[0][:80]!r}")
     pg.click("#w-more"); pg.wait_for_timeout(200)
     ok(pg.evaluate("sentOwn") == [{"watch_more": {"id": "w1", "why": "в окне Claude: кнопки скачать ARK и ZIP"}}], "«Не то — ждать дальше» — компьютеру")
     b.close()
@@ -271,6 +271,6 @@ guide = {a["id"]: a for a in json.loads((ROOT / "data/guide.json").read_text(enc
 tricks = json.loads((ROOT / "data/tricks.json").read_text(encoding="utf-8"))
 ok("watch" in guide and any(l["title"].startswith("Дозор") and any(s_.get("open") == "watch" for s_ in l["steps"]) for c in course.COURSES for l in c["lessons"])
    and any(g["id"] == "watch" for g in tricks["groups"]) and re.search(r"\n  watch: \{", (ROOT / "ui/assets/help.js").read_text(encoding="utf-8")),
-   "описано: статья в справке, урок в курсе «Лира для работы», «Что я умею», «?» в разделе")
+   "описано: статья в справке, урок в курсе «Мира для работы», «Что я умею», «?» в разделе")
 print("\nИТОГ:", "всё прошло" if not fails else f"провалов {len(fails)}")
 sys.exit(1 if fails else 0)

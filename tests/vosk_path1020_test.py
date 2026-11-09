@@ -96,7 +96,7 @@ log = run_core(state, {})
 copy = base / "ascii" / "Dewiar" / "models" / VOSK
 ok("слух готов" in log and (copy / ".complete").exists() and "Kaldi его не откроет" in log and "не загрузилась" not in log,
    f"ядро: модель имён — из ASCII-копии, слух готов: {[l for l in log.splitlines() if 'слух' in l or 'Kaldi' in l or 'Vosk' in l][:4]}")
-ok("Имена (мгновенно): лира" in log, "имена слышны (модель имён загружена)")
+ok("Имена (мгновенно): мира" in log, "имена слышны (модель имён загружена)")
 
 # испорченная копия, которую не починить: слух всё равно поднимается — без модели имён, кнопка работает
 base = tmp / "core2"

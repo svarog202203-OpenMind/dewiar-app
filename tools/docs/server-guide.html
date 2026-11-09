@@ -1,4 +1,4 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Первый сервер для Лиры — пошаговая инструкция</title>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Первый сервер для Миры — пошаговая инструкция</title>
 <link rel="stylesheet" href="../../ui/assets/fonts.css"><style>
 @page { size: A4; margin: 16mm 16mm 18mm; }
 :root { --ink:#1b1d2a; --muted:#5b6075; --dim:#8a8fa3; --line:#e2e4ec; --acc:#5b4fd6; --soft:#f3f2fd; --code:#f4f5f8; --warn:#fff5e6; --warnb:#e9a23b; --ok:#e9f8f1; --okb:#22a06b; }
@@ -52,7 +52,7 @@ h2 { break-after: avoid; } .sm { font-size: 9pt; color: var(--muted); }
 ul.check li ul, ol.steps li ul { margin: 1mm 0 0; padding-left: 5mm; } ol.steps li ul li { margin: .6mm 0; }
 table td:first-child { width: 30%; }
 </style></head><body>
-<h1>Первый сервер для Лиры</h1>
+<h1>Первый сервер для Миры</h1>
 <p class="lead">Пошаговая инструкция: от голого компьютера с двумя видеокартами до сервера, который отвечает людям вместо главного,
 когда тот занят, и рисует картинки «как фото» для «Художника». Каждый шаг — что сделать и как понять, что получилось.</p>
 <p class="meta">Dewiar 0.77.0 и новее · 31 октября 2026 · сервер с двумя видеокартами NVIDIA (RTX 3090 или RTX A4000)</p>
@@ -145,7 +145,7 @@ table td:first-child { width: 30%; }
   <li>Нажмите «Проверить» у каждой: сайт задаст вопрос модели (или нарисует пробную картинку) и покажет время.</li>
   <li>Вкладка «Сервер» → «Проверка»: строка «Мощности: N из N отвечают».</li>
 </ol>
-<h3>В самой Лире</h3>
+<h3>В самой Мире</h3>
 <ol class="steps">
   <li>Студия → «Плагины» → «Художник» → «Установить» (или на главной — карточка «Попробуйте плагин»).</li>
   <li>Скажите: <b>«Нарисуй фотографию рыжего кота на подоконнике, утренний свет»</b>. Откроется браузер с картинкой — генератор работает.</li>
@@ -163,7 +163,7 @@ table td:first-child { width: 30%; }
 <tr><td>В кабинете красная точка «не отвечает»</td><td>Сайт не видит сервер. На сервере сайта: <code>curl http://192.168.1.50:8001/v1/models</code>. Нет ответа — сеть или брандмауэр (шаг 10).</td></tr>
 <tr><td>«неверный ключ доступа»</td><td>На новом сервере: <code>sudo grep KEY /etc/dewiar-worker.conf</code> — этот ключ вставить в кабинете у строки сервера.</td></tr>
 <tr><td>«без действий»</td><td>В файле настроек <code>TOOLS=qwen3_coder</code>, затем <code>sudo dewiar-worker apply</code>.</td></tr>
-<tr><td>В Лире: «генератор картинок пока не подключён»</td><td>В кабинете нет строки «· картинки» или она красная — <code>sudo dewiar-worker check</code> на сервере.</td></tr>
+<tr><td>В Мире: «генератор картинок пока не подключён»</td><td>В кабинете нет строки «· картинки» или она красная — <code>sudo dewiar-worker check</code> на сервере.</td></tr>
 </table>
 
 <h2><span class="n">8</span>Управление сервером</h2>

@@ -86,10 +86,10 @@ ok(sy._apply_extra("mind", "constitution", {"text": ["не", "текст"]}, Fal
 n = len(h.pushes)
 sy._apply_extra("mind", "constitution", {"text": before}, False)
 ok(len(h.pushes) == n, "та же конституция — без лишнего уведомления")
-ok(sy._apply_extra("soul", "Лира", {"text": "Я — " + "очень " * 3000}, False) is False and h.soul.soul("Лира") == "",
+ok(sy._apply_extra("soul", "Мира", {"text": "Я — " + "очень " * 3000}, False) is False and h.soul.soul("Мира") == "",
    "слишком длинная «душа» не принимается")
-sy._apply_extra("soul", "Лира", {"text": "Я люблю утро.⁦"}, False)
-ok(h.soul.soul("Лира").strip() == "Я люблю утро.", "обычная душа ложится, без невидимых знаков")
+sy._apply_extra("soul", "Мира", {"text": "Я люблю утро.⁦"}, False)
+ok(h.soul.soul("Мира").strip() == "Я люблю утро.", "обычная душа ложится, без невидимых знаков")
 ok(sy._apply_extra("diary", "2026-10-19", {"text": "д" * (S.DIARY_MAX + 1)}, False) is False
    and not (tmp / "ws/Дневник/2026-10-19.md").exists(), "день дневника больше предела — не принимается")
 ok(sy._apply_extra("diary", "../../etc", {"text": "x"}, False) is False, "имя дня дневника — только дата")

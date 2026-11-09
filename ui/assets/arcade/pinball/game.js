@@ -1,6 +1,6 @@
 /* Звёздный пинбол (27.10, владелец: «рычажки справа и слева внизу, отбиваем шарик, а он выбивает разные очки… может
    быть попробуем и такую красоту возродить»). Ночной стол: три планеты-отбойника, звёзды-мишени, кометы, «Чёрная
-   дыра», три верхние дорожки и созвездие Лиры посередине — пять его звёзд зажигаются заданиями; все пять — звездопад
+   дыра», три верхние дорожки и созвездие Миры посередине — пять его звёзд зажигаются заданиями; все пять — звездопад
    (ещё два мячика). Физика своя: 10 подшагов на кадр, шарик — круг, стенки — отрезки, флипперы — вращающиеся
    «капсулы» (скорость поверхности передаётся шарику). Широкое окно (лист «Досуг» на компьютере) — стол посередине,
    слева правила и рекорд, справа табло и задания; узкое (телефон) — стол во весь экран, табло сверху.
@@ -63,7 +63,7 @@ const FLIP = [
   { px: 222, py: 1098, len: 104, r0: 17, r1: 9, side: 1, rest: .52, up: -.46, a: .52, w: 0 },
   { px: 448, py: 1098, len: 104, r0: 17, r1: 9, side: -1, rest: .52, up: -.46, a: .52, w: 0 }
 ];
-// созвездие Лиры: Вега, ε (только рисунок), ζ, δ, γ (Сулафат), β (Шелиак)
+// созвездие Миры: Вега, ε (только рисунок), ζ, δ, γ (Сулафат), β (Шелиак)
 const LYRA = { vega: [300, 690], eps: [348, 668], zeta: [318, 760], delta: [372, 784], gamma: [356, 876], beta: [300, 852] };
 const LYRA_LINES = [['vega', 'eps'], ['vega', 'zeta'], ['zeta', 'delta'], ['delta', 'gamma'], ['gamma', 'beta'], ['beta', 'zeta']];
 const STARS = [
@@ -115,7 +115,7 @@ function titleScreen(g) {
   const list = STARS.map((s) => `<li><b>${s.name}</b> — ${s.task}</li>`).join('');
   g.screen({
     kicker: A.framed ? 'Досуг' : 'Аркада', title: 'Звёздный пинбол',
-    html: `<p>Отбивайте шарик флипперами и зажигайте звёзды созвездия Лиры. Все пять — звездопад: на поле выйдут ещё два шарика.</p>
+    html: `<p>Отбивайте шарик флипперами и зажигайте звёзды созвездия Миры. Все пять — звездопад: на поле выйдут ещё два шарика.</p>
       <ul class="pb-stars">${list}</ul>${g.best ? `<p class="record">Рекорд: ${fmt(g.best)}</p>` : ''}`,
     button: 'Играть', onGo: () => startGame(g)
   });
@@ -153,14 +153,14 @@ function star(g, i) {
   g.sfx('power');
   const n = S.stars.filter(Boolean).length;
   if (n === 5) constellation(g);
-  else say('Звезда ' + STARS[i].name + '!', `Созвездие Лиры: ${n} из 5`);
+  else say('Звезда ' + STARS[i].name + '!', `Созвездие Миры: ${n} из 5`);
 }
 function constellation(g) {
   add(g, 25000, 335, 760, C.gold);
   S.level++; S.stars = [0, 0, 0, 0, 0]; S.bumps = 0;
   const extra = S.firstConst; S.firstConst = false;
   if (extra) S.extra++;
-  say('Созвездие Лиры!', extra ? 'Звездопад и ещё один шарик в запас' : 'Звездопад: ещё два шарика');
+  say('Созвездие Миры!', extra ? 'Звездопад и ещё один шарик в запас' : 'Звездопад: ещё два шарика');
   g.sfx('win'); g.shake(10, .4);
   for (const k in LYRA) g.fx.burst(LYRA[k][0], LYRA[k][1], { n: 26, colors: ['#fff', C.gold, C.cyan, C.pink], speed: 520, size: 9, shape: 'star', life: 1.3, gravity: 200 });
   // звездопад: шарик из «Чёрной дыры» и шарик из канала запуска
@@ -463,13 +463,13 @@ function buildBg(scale) {
   // канал запуска
   c.fillStyle = 'rgba(6,4,22,.55)'; c.fillRect(640, 430, 50, 850);
   for (let y = 1150; y > 520; y -= 60) { c.strokeStyle = 'rgba(255,111,208,.22)'; c.lineWidth = 4; c.lineCap = 'round'; c.beginPath(); c.moveTo(653, y + 10); c.lineTo(665, y); c.lineTo(677, y + 10); c.stroke(); }
-  // созвездие Лиры — линии и подпись
+  // созвездие Миры — линии и подпись
   c.strokeStyle = 'rgba(150,220,255,.28)'; c.lineWidth = 2; c.setLineDash([2, 7]); c.lineCap = 'round';
   for (const [a, b] of LYRA_LINES) { c.beginPath(); c.moveTo(LYRA[a][0], LYRA[a][1]); c.lineTo(LYRA[b][0], LYRA[b][1]); c.stroke(); }
   c.setLineDash([]);
   c.beginPath(); c.arc(330, 780, 150, 0, Math.PI * 2); c.strokeStyle = 'rgba(169,139,255,.16)'; c.lineWidth = 2; c.stroke();
   c.beginPath(); c.arc(330, 780, 162, 0, Math.PI * 2); c.strokeStyle = 'rgba(169,139,255,.08)'; c.lineWidth = 8; c.stroke();
-  c.font = `italic 600 30px ${A.FONT}`; c.textAlign = 'center'; c.fillStyle = 'rgba(200,190,255,.32)'; c.fillText('Лира', 420, 930);
+  c.font = `italic 600 30px ${A.FONT}`; c.textAlign = 'center'; c.fillStyle = 'rgba(200,190,255,.32)'; c.fillText('Мира', 420, 930);
   // подписи у целей
   c.font = `500 15px ${A.FONT}`; c.fillStyle = 'rgba(210,200,255,.5)';
   c.save(); c.translate(90, 650); c.rotate(-Math.PI / 2); c.fillText('звёзды-мишени', 0, 0); c.restore();
@@ -694,7 +694,7 @@ function drawHudTop(c) {                                  // телефон: т�
   c.fillText((S.X > 1 ? '×' + S.X + '   ' : '') + (S.mode === 'title' ? '' : 'шарик ' + Math.min(S.ball, 3 + S.extra)), SW - 24, 30);
   for (let i = 0; i < ballsLeft(); i++) { c.beginPath(); c.arc(SW - 32 - i * 26, 50, 8, 0, Math.PI * 2); c.fillStyle = '#d9dcff'; c.fill(); }
   const m = S.msg;
-  drawLed(c, 16, 66, SW - 32, 44, m ? m.t + (m.s ? ' · ' + m.s : '') : S.mode === 'title' ? 'Звёздный пинбол' : `Созвездие Лиры: ${S.stars.filter(Boolean).length} из 5`);
+  drawLed(c, 16, 66, SW - 32, 44, m ? m.t + (m.s ? ' · ' + m.s : '') : S.mode === 'title' ? 'Звёздный пинбол' : `Созвездие Миры: ${S.stars.filter(Boolean).length} из 5`);
 }
 function drawPanels(c, g) {                               // широкое окно: слева правила, справа табло и задания
   const L0 = 28, LW = TX - 56, R0 = TX + W * TS + 28, RW = SW - R0 - 28;
@@ -714,7 +714,7 @@ function drawPanels(c, g) {                               // широкое ок
   c.font = `600 18px ${A.FONT}`; c.fillStyle = C.dim;
   c.fillText((S.mode === 'title' ? '3 шарика' : 'шарик ' + Math.min(S.ball, 3 + S.extra)) + (S.X > 1 ? '  ·  бонус ×' + S.X : '') + (S.level > 1 ? '  ·  круг ' + S.level : ''), R0, 274);
   const m = S.msg;
-  drawLed(c, R0, 292, RW, 70, m ? m.t : 'Созвездие Лиры', m ? m.s : `${S.stars.filter(Boolean).length} из 5 звёзд`);
+  drawLed(c, R0, 292, RW, 70, m ? m.t : 'Созвездие Миры', m ? m.s : `${S.stars.filter(Boolean).length} из 5 звёзд`);
   c.textAlign = 'left'; c.textBaseline = 'alphabetic';
   STARS.forEach((s, i) => {
     const y = 400 + i * 34, on = S.stars[i];
@@ -741,7 +741,7 @@ function draw(ctx, g) {
 /* ---------------- обложка (?shot) ---------------- */
 function shotScene() {
   S = fresh(); S.mode = 'play'; S.score = 48250; S.stars = [1, 1, 0, 1, 0]; S.lanes = [1, 0, 1]; S.drops = [0, 1, 0, 0]; S.stands = [1, 0, 0]; S.X = 3;
-  S.bumps = 14; S.kick = [true, true]; S.save = 5; S.tint = { col: '#3fd2f2', k: .3 }; S.msg = { t: 'Звезда Сулафат!', s: 'Созвездие Лиры: 3 из 5', life: 99 };
+  S.bumps = 14; S.kick = [true, true]; S.save = 5; S.tint = { col: '#3fd2f2', k: .3 }; S.msg = { t: 'Звезда Сулафат!', s: 'Созвездие Миры: 3 из 5', life: 99 };
   S.fl.b[1] = .16;
   const b = newBall(); Object.assign(b, { x: 380, y: 610, vx: 300, vy: -900, ready: false });
   for (let i = 6; i > 0; i--) b.trail.push(b.x - 300 * i * .01, b.y + 900 * i * .01);

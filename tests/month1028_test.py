@@ -1,4 +1,4 @@
-"""«Мой месяц с Лирой» (0.61; план «Лира — любимица всех»: «итоги месяца: что сделали, сколько дел и напоминаний, траты по
+"""«Мой месяц с Мирой» (0.61; план «Мира — любимица всех»: «итоги месяца: что сделали, сколько дел и напоминаний, траты по
 категориям, лучшие моменты»). month.py считает месяц из «Дел», журнала напоминаний, «Денег», заметок и дневника; голосом —
 инструмент month_summary («как прошёл мой месяц?»); студия — карточка на «Главной» первые 7 дней месяца: лента дней,
 крупные числа, куда ушли деньги, «Рассказать голосом», «Скрыть» до следующего месяца."""
@@ -50,7 +50,7 @@ ok(d["rem"]["n"] == 2, f"напоминания: только прозвенев
 ok(d["money"]["expense"] == 560 and d["money"]["income"] == 1500 and d["money"]["cats"][0] == {"name": "дом", "sum": 300.0}, f"деньги: траты октября по категориям: {d['money']}")
 ok(d["notes"]["n"] == 1 and d["diary"]["days"] == 2 and not d["empty"], "заметки и дни дневника — за этот месяц")
 c = M.context(d)
-ok("Мой месяц с Лирой — октябрь 2026" in c and "Сделано дел: 6" in c and "«починил кран»" in c and "дом 300" in c, "строки для модели")
+ok("Мой месяц с Мирой — октябрь 2026" in c and "Сделано дел: 6" in c and "«починил кран»" in c and "дом 300" in c, "строки для модели")
 e = M.gather(SimpleNamespace(done=Done(tmp / "none.json"), money=Money(tmp / "m2.json", None), _reminder_log=lambda: [], workspace=None, watches=None, care=None), "2026-10")
 ok(e["empty"] and "почти нет" in M.context(e), "пустой месяц — честно: записей нет")
 import tools  # noqa: E402
@@ -102,7 +102,7 @@ try:
         if today.day > 7:
             ok(pg.evaluate("document.getElementById('hm-month').hidden"), "после 7-го числа карточки месяца на главной нет")
         pg.evaluate("moLoad(true)"); time.sleep(1)
-        ok(pg.is_visible("#hm-month") and pg.inner_text("#hm-month h2").startswith("Ваш ") and "с Лирой" in pg.inner_text("#hm-month h2"), f"карточка «Ваш … с Лирой»: {pg.inner_text('#hm-month h2')!r}")
+        ok(pg.is_visible("#hm-month") and pg.inner_text("#hm-month h2").startswith("Ваш ") and "с Мирой" in pg.inner_text("#hm-month h2"), f"карточка «Ваш … с Мирой»: {pg.inner_text('#hm-month h2')!r}")
         sts = pg.evaluate("[...document.querySelectorAll('#hm-month .mo-st')].map(e => e.innerText.replace(/\\s+/g, ' '))")
         ok(any(s.startswith("5 дел сделано") for s in sts) and any(s.startswith("3 напоминания") for s in sts) and any(s.startswith("420 ") for s in sts), f"числа: дела, напоминания, траты: {sts}")
         ok(pg.evaluate("document.querySelectorAll('#hm-month .mo-rib i').length") == (M.bounds(pm)[1] - M.bounds(pm)[0]).days

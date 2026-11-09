@@ -28,7 +28,7 @@ for i in range(12):
 for i in range(14):
     nodes.append({"id": f"s{i}", "kind": "skill", "label": f"skill-{i}", "degree": 1})
 for i in range(6):
-    nodes.append({"id": f"e{i}", "kind": "entity", "label": ["Минск", "Аргон", "Лира", "Андрей", "Офис", "Дача"][i], "degree": 3})
+    nodes.append({"id": f"e{i}", "kind": "entity", "label": ["Минск", "Аргон", "Мира", "Андрей", "Офис", "Дача"][i], "degree": 3})
 edges = [{"from": n["id"], "to": "h-" + n["kind"], "kind": "hub", "w": 0.5} for n in nodes if n["kind"] in ("note", "diary", "skill")]
 edges += [{"from": f"n{rnd.randrange(18)}", "to": f"e{rnd.randrange(6)}", "kind": "mention", "w": 0.6} for _ in range(20)]
 edges += [{"from": f"d{i}", "to": f"d{i + 1}", "kind": "time", "w": 0.5} for i in range(11)] + [{"from": "me", "to": f"e{i}", "kind": "mention", "w": 0.7} for i in range(6)]

@@ -73,7 +73,7 @@ class Eng(SeniorMixin):
 E = Eng()
 ok(E.mode() == "me" and not E.senior.scam("мне позвонили из банка, просят код из смс"), "по умолчанию — «Для меня»; тревог про мошенников нет")
 E.s.d["ui"]["intro"] = ""
-ok(E.mode_public()["first"] is True, "новый человек — первым экраном «Для кого эта Лира?»")
+ok(E.mode_public()["first"] is True, "новый человек — первым экраном «Для кого эта Мира?»")
 E.s.d["ui"]["mode_seen"] = 1
 ok(E.mode_public()["first"] is False, "показан — больше сам не открывается")
 E.mode_set("senior")
@@ -148,7 +148,7 @@ ok({"выпила", "выпил", "приняла"} <= ToolsMixin.ACK_WORDS, "«
 src = (ROOT / "core/engine_tools.py").read_text(encoding="utf-8")
 ok('self.alarm_finish("seen" if med else "ack")' in src and "Отлично, отметила." in src, "заговорили о другом — лекарство не считается выпитым")
 
-# Часть 2 — студия: «Лира — для меня ▾» на «Главной», три карточки, раздел «Для старших»
+# Часть 2 — студия: «Мира — для меня ▾» на «Главной», три карточки, раздел «Для старших»
 import re  # noqa: E402
 from playwright.sync_api import sync_playwright  # noqa: E402
 SHOTS = os.environ.get("DEWIAR_SHOTS")
@@ -172,7 +172,7 @@ with sync_playwright() as p:
         return Promise.resolve({}); };
       mdLoad(); }""")
     pg.wait_for_timeout(400)
-    ok(pg.inner_text("#hm-mode") == "Лира — для меня", "на «Главной» — «Лира — для меня»")
+    ok(pg.inner_text("#hm-mode") == "Мира — для меня", "на «Главной» — «Мира — для меня»")
     pg.click("#hm-mode"); pg.wait_for_timeout(300)
     r = pg.evaluate("() => [...document.querySelectorAll('#md-dlg .md-card .md-txt b')].map(x => x.textContent)")
     ok(r == ["Для меня", "Для ребёнка", "Для старших"] and pg.evaluate("document.querySelector('#md-dlg .md-card[aria-pressed=true]').dataset.m") == "me"
@@ -196,22 +196,22 @@ with sync_playwright() as p:
        "лекарства — списком по времени; кто ещё не открыл Dewiar — так и сказано")
     pg.click("#sr-on"); pg.wait_for_timeout(400)
     ok(["mode_set", {"mode": "senior"}] in pg.evaluate("_calls") and "включён — Галина Петровна" in pg.inner_text("#sr-bar")
-       and pg.inner_text("#hm-mode") == "Лира — для старших", "«Включить режим» — включён, на «Главной» — «для старших»")
+       and pg.inner_text("#hm-mode") == "Мира — для старших", "«Включить режим» — включён, на «Главной» — «для старших»")
     pg.click("#sr-test"); pg.wait_for_timeout(300)
     ok("Отправлено: 1" in pg.inner_text("#sr-tres"), "«Проверить» — пробное сообщение ушло")
     if SHOTS: pg.screenshot(path=str(Path(SHOTS) / "studio-senior.png"), full_page=True)
     pg.click("#sr-off"); pg.wait_for_timeout(300)
-    ok(["mode_set", {"mode": "me"}] in pg.evaluate("_calls") and pg.inner_text("#hm-mode") == "Лира — для меня", "«Вернуть обычный режим»")
+    ok(["mode_set", {"mode": "me"}] in pg.evaluate("_calls") and pg.inner_text("#hm-mode") == "Мира — для меня", "«Вернуть обычный режим»")
     # 28.10, владелец: «удобнее, чтобы режимы удобно переключались… иконка с совой на главной не нужна?» — плитка «Режимы»
     ok(pg.evaluate("HM_APPS.some(a => a.id === 'modes') && !HM_APPS.some(a => a.id === 'kids') && HM_DEFAULT.includes('modes')"), "на «Главной» — «Режимы» вместо «Дети»")
     ok(pg.evaluate("(() => { S = S || {}; S.ui = Object.assign({}, S.ui, { home_apps: ['chat', 'kids', 'notes'], home_known: ['chat', 'kids', 'notes'] }); return hmApps(); })()")[:3] == ["chat", "modes", "notes"],
        "кто настраивал главную — «Дети» стали «Режимами» на том же месте")
     pg.evaluate("hmOpen('modes')"); pg.wait_for_timeout(300)
-    ok(pg.evaluate("document.querySelector('#md-dlg').open"), "плитка «Режимы» — выбор «Для кого эта Лира?»")
+    ok(pg.evaluate("document.querySelector('#md-dlg').open"), "плитка «Режимы» — выбор «Для кого эта Мира?»")
     pg.evaluate("document.querySelector('#md-dlg').close()")
     nav = pg.evaluate("[...document.querySelectorAll('nav > *')].map(x => x.dataset.p || x.textContent)")
-    i = nav.index("Режимы Лиры")
-    ok(nav[i + 1:i + 3] == ["kids", "senior"], f"в меню — группа «Режимы Лиры»: «Для ребёнка», «Для старших»: {nav[i:i + 3]}")
+    i = nav.index("Режимы Миры")
+    ok(nav[i + 1:i + 3] == ["kids", "senior"], f"в меню — группа «Режимы Миры»: «Для ребёнка», «Для старших»: {nav[i:i + 3]}")
     pg.set_viewport_size({"width": 700, "height": 1000}); pg.wait_for_timeout(200)
     ok(pg.evaluate("document.documentElement.scrollWidth <= innerWidth"), "узкое окно — без прокрутки вбок")
     b.close()

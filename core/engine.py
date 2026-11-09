@@ -16,11 +16,11 @@ from engine_commands import CommandsMixin  # noqa: E402
 from engine_intro import IntroMixin  # noqa: E402
 from health import HealthMixin  # noqa: E402
 from engine_pay import PayMixin  # noqa: E402
-from engine_senior import SeniorMixin  # noqa: E402  режимы Лиры и «Для старших» (senior.py)
+from engine_senior import SeniorMixin  # noqa: E402  режимы Миры и «Для старших» (senior.py)
 from engine_watch import WatchMixin  # noqa: E402  «Дозор»: присмотреть и сказать, когда готово (watch.py)
 from engine_home import HomeMixin  # noqa: E402  «Дома по Wi-Fi»: синхронизация без dewiar.pro (homehub.py)
 from engine_mymusic import MyMusicMixin  # noqa: E402
-from engine_rest import RestMixin  # noqa: E402  «Отдых»: час без Лиры — не слушает и не говорит (№540)
+from engine_rest import RestMixin  # noqa: E402  «Отдых»: час без Миры — не слушает и не говорит (№540)
 
 
 class Engine(AudioMixin, AnswerMixin, ToolsMixin, MusicMixin, MyMusicMixin, BrainMixin, RemoteMixin, CommandsMixin, IntroMixin, HealthMixin,
@@ -246,10 +246,10 @@ class Engine(AudioMixin, AnswerMixin, ToolsMixin, MusicMixin, MyMusicMixin, Brai
         from sitechat import SiteChat
         self.sitechat = SiteChat(self)                              # «Чат для сайта» (0.69): настройка и заявки; отвечает dewiar.pro
         from sites import Sites
-        self.sites = Sites(STATE_DIR / "sites", self)                # «Сайты» (03.11): делает и переделывает Лира, публикация — dewiar.pro
+        self.sites = Sites(STATE_DIR / "sites", self)                # «Сайты» (03.11): делает и переделывает Мира, публикация — dewiar.pro
         self.toolbox.hooks["sites"] = self.sites
         from plugin_maker import Maker
-        self.maker = Maker(self.plugins, self)                      # Лира делает плагин по описанию словами (03.11, plugin_maker.py)
+        self.maker = Maker(self.plugins, self)                      # Мира делает плагин по описанию словами (03.11, plugin_maker.py)
         self.toolbox.hooks["maker"] = self.maker
         from sshlink import SshLink
         self.sshlink = SshLink(self)                                # запасной вход через SSH — только у владельца сервера (29.10)
@@ -257,7 +257,7 @@ class Engine(AudioMixin, AnswerMixin, ToolsMixin, MusicMixin, MyMusicMixin, Brai
         self.mailing = Mailing(self, STATE_DIR / "mailing.json")   # «Рассылка» (0.69): каждому своё письмо, по одному, с пределом в день
         self.toolbox.hooks["mailing"] = self.mailing
         from course import Course
-        self.course = Course(STATE_DIR / "course.json", self.emit)   # курс «Неделя с Лирой»: шаги засчитываются сами
+        self.course = Course(STATE_DIR / "course.json", self.emit)   # курс «Неделя с Мирой»: шаги засчитываются сами
         self.money.on_change = self.sync.soon.set
         self.money.on_add = self.family.share_spend    # расход — в общий семейный бюджет (если семья есть и делимся)
         self.money.on_delete = self.family.delete_spend
@@ -382,7 +382,7 @@ class Engine(AudioMixin, AnswerMixin, ToolsMixin, MusicMixin, MyMusicMixin, Brai
         threading.Thread(target=self._tg_sync_loop, name="tg-sync", daemon=True).start()
         threading.Thread(target=self._morning_loop, name="morning", daemon=True).start()
         threading.Thread(target=self._senior_loop, name="senior", daemon=True).start()   # «Для старших»: сводка близким
-        threading.Thread(target=self._watch_loop, name="watch", daemon=True).start()     # «Дозор»   # «Утро с Лирой» — своему телефону
+        threading.Thread(target=self._watch_loop, name="watch", daemon=True).start()     # «Дозор»   # «Утро с Мирой» — своему телефону
         threading.Thread(target=self._radio_check_loop, name="radio-check", daemon=True).start()
         threading.Thread(target=self._diary_loop, name="diary", daemon=True).start()
         threading.Thread(target=self._pay_loop, name="payments", daemon=True).start()
@@ -851,7 +851,7 @@ class Engine(AudioMixin, AnswerMixin, ToolsMixin, MusicMixin, MyMusicMixin, Brai
             log.debug("чат: %s", e)
 
     def _g(self, text):
-        """«Выключил музыку» → «Выключила музыку» у Лиры, Эвы и других героинь (только речь самого ассистента)."""
+        """«Выключил музыку» → «Выключила музыку» у Миры, Эвы и других героинь (только речь самого ассистента)."""
         try:
             from gender import for_persona
             return for_persona(text, (self.personas.get(self.s.get("persona")) or {}).get("gender"))

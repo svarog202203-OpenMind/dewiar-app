@@ -102,7 +102,7 @@ try:
         # 4. «Что показывать»
         nav("look"); time.sleep(0.8)
         groups = pg.evaluate("[...document.querySelectorAll('#sh-groups .sh-g')].map(g => g.querySelector('.sh-gh b').textContent)")
-        ok(all(g in groups for g in ("Для себя", "Семья и близкие", "Режимы Лиры", "Работа", "Обучение", "Знания", "Настройка")),
+        ok(all(g in groups for g in ("Для себя", "Семья и близкие", "Режимы Миры", "Работа", "Обучение", "Знания", "Настройка")),
            "«Оформление» → «Что показывать»: группы меню — " + ", ".join(groups))
         ok(pg.evaluate("document.querySelectorAll('#sh-sets .sh-set').length") == 3 and pg.evaluate("document.querySelector('#sh-sets [aria-pressed=true]')?.dataset.set") == "all",
            "три готовых набора, сейчас — «Всё»")

@@ -395,7 +395,7 @@ def _headers(p):
         # №524 (04.11): OpenCode Go без заголовка сессии отвечает 400 MissingSessionID («cannot be routed efficiently»).
         # Постоянный id этой установки — один и тот же между запусками (сервис держит кэш разговора по сессии)
         h["x-opencode-session"] = opencode_session()
-    # «Сеть Лиры»: человек разрешил общие вопросы на узлы людей (liranet.py) — и только основной ход разговора: флаг _net_turn
+    # «Сеть Миры»: человек разрешил общие вопросы на узлы людей (liranet.py) — и только основной ход разговора: флаг _net_turn
     # ставит engine_answer._run_turn (не в детском режиме и не «Для старших»); служебные вызовы (плагины, уроки из поправок,
     # перевод итога задачи, бот персонажа, экзамен) идут тем же профилем, но без флага — в сеть никогда (рецензия 04.11)
     if p.get("cloud") and p.get("net") and p.get("_net_turn"):
@@ -1400,7 +1400,7 @@ def drop_cjk(t):
     return _CJK.sub("", t) if t else t
 
 
-# «Сеть Лиры» (рецензия 04.11, вторая): ответил узел человека (поток помечен «: dewiar-server n…» или заголовок
+# «Сеть Миры» (рецензия 04.11, вторая): ответил узел человека (поток помечен «: dewiar-server n…» или заголовок
 # X-Dewiar-Server: n…) — вызовы из ТЕКСТА не разбираем вовсе (<tool_call>, DSML, голый JSON: так узел мог бы запустить
 # любое действие на компьютере), а вызовы из поля tool_calls — только безопасные (как NET_SAFE_TOOLS на сайте) и с
 # аргументами из самого вопроса (как net_args_bad в server/dwrapp/liranet.php).
@@ -1423,7 +1423,7 @@ _net = threading.local()
 
 
 def last_net():
-    """Ответ последнего stream_events в этом потоке дал узел «Сети Лиры» (и он принят)."""
+    """Ответ последнего stream_events в этом потоке дал узел «Сети Миры» (и он принят)."""
     return bool(getattr(_net, "v", False))
 
 
@@ -1511,7 +1511,7 @@ def net_calls_filter(calls, q, enums=frozenset()):
         args = c.get("args") if isinstance(c.get("args"), dict) else {}
         why = "не из безопасных" if c.get("name") not in NET_SAFE_TOOLS else net_args_bad(args, q or "", enums)
         if why or not isinstance(c.get("args"), dict):
-            log.warning("🌐 Сеть Лиры: вызов %s от узла не выполнен — %s", c.get("name"), why or "испорченные данные")
+            log.warning("🌐 Сеть Миры: вызов %s от узла не выполнен — %s", c.get("name"), why or "испорченные данные")
             continue
         out.append(c)
     return out
@@ -1535,7 +1535,7 @@ class _Collector:
         self.no_cjk = False
         self.usage = None                 # {"prompt": N, "cached": M | None} — если сервер посчитал (last_usage)
         self.out = None                   # токенов в ответе — если сервер посчитал (take_usage; задачи: t.data["quality"])
-        self.net = False                  # ответил узел «Сети Лиры» — вызовы из текста не разбираем, из поля — только безопасные
+        self.net = False                  # ответил узел «Сети Миры» — вызовы из текста не разбираем, из поля — только безопасные
         self.net_q = ""                   # сам вопрос человека (аргументы вызовов узла — только из него)
         self.net_enums = frozenset()
 
@@ -1661,7 +1661,7 @@ class _Collector:
         Нечитаемые аргументы — {"_raw": текст}; спасённые repair_json помечены "_truncated"."""
         tagged = self.tags.calls()
         if self.net and tagged:
-            log.warning("🌐 Сеть Лиры: узел прислал вызовы текстом (%s) — не выполняю", ", ".join(str(c.get("name")) for c in tagged)[:200])
+            log.warning("🌐 Сеть Миры: узел прислал вызовы текстом (%s) — не выполняю", ", ".join(str(c.get("name")) for c in tagged)[:200])
             tagged = []
         for i, c in enumerate(tagged):
             self.calls[1000 + i] = {"id": f"call_t{i}", "name": c["name"], "args": json.dumps(c["args"], ensure_ascii=False)}
@@ -1914,7 +1914,7 @@ def stream_events(p, system, messages, cancel=None, tools=None, _retry=0):
         col.no_cjk = not wants_cjk(messages)
         net_buf = []
         _net.v = False
-        if p.get("cloud"):                       # «Сеть Лиры»: что спрашивал человек — для проверки вызовов от узла
+        if p.get("cloud"):                       # «Сеть Миры»: что спрашивал человек — для проверки вызовов от узла
             last_u = next((m for m in reversed(messages) if m.get("role") == "user"), {})
             lc = last_u.get("content")
             col.net_q = ask_text(lc if isinstance(lc, str) else " ".join(str(x.get("text") or "") for x in lc or [] if isinstance(x, dict)))
@@ -1999,7 +1999,7 @@ def stream_events(p, system, messages, cancel=None, tools=None, _retry=0):
                         return
                 r.raise_for_status()
             if str(r.headers.get("x-dewiar-server") or "").startswith("n"):
-                col.net = True                                   # ответил узел «Сети Лиры» (не потоком — по заголовку)
+                col.net = True                                   # ответил узел «Сети Миры» (не потоком — по заголовку)
             if st is not None:
                 st["phase"] = "stream"                           # сервер ответил — дальше ждём слов модели
             for line in r.iter_lines():
@@ -2042,14 +2042,14 @@ def stream_events(p, system, messages, cancel=None, tools=None, _retry=0):
         calls = col.tool_calls()
         held, bare_calls = bare.finish()
         if col.net and bare_calls:                               # узел сети: голый JSON — не вызов, просто текст
-            log.warning("🌐 Сеть Лиры: узел прислал вызов голым JSON — не выполняю")
+            log.warning("🌐 Сеть Миры: узел прислал вызов голым JSON — не выполняю")
             bare_calls = []
         if col.net:
             ntext = "".join(net_buf) + (held or "")
             held = ""
             why = "текст узла с вызовами" if col.tags.calls() else net_suspect(ntext, [x["name"] for x in tools_all or []], col.net_q)
             if why and not (cancel is not None and cancel.is_set()):
-                log.warning("🌐 Сеть Лиры: ответ узла не показываю (%s) — спрашиваю главный мозг", why)
+                log.warning("🌐 Сеть Миры: ответ узла не показываю (%s) — спрашиваю главный мозг", why)
                 _net.v = False
                 yield from stream_events(dict(p, _net_turn=False), system, messages, cancel, tools, _retry)
                 return
@@ -2239,7 +2239,7 @@ def test_profile(p):
     win = context_window(dict(p, model=model)) if text.strip() else None
     return {"ok": bool(text.strip()), "models": models, "model": model, "api": "ollama" if base in _native else p.get("kind", "openai"),
             "tools_mode": tools_mode, "ctx": win or 0,
-            "ctx_note": (f"окно контекста {win} — мало: Лира ответит коротко" + (" и без действий" if win < 12000 else " и только с главными действиями")
+            "ctx_note": (f"окно контекста {win} — мало: Мира ответит коротко" + (" и без действий" if win < 12000 else " и только с главными действиями")
                          + ". Поставьте 32768 или больше (LM Studio — Context Length, Ollama — OLLAMA_CONTEXT_LENGTH)") if win and win < 24000 else "",
             "first_token_ms": int((first or 0) * 1000), "total_ms": int((time.monotonic() - t0) * 1000),
             "reply": text.strip()[:80], "error": "" if text.strip() else "модель не ответила текстом"}

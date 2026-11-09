@@ -60,11 +60,11 @@ ok(llm.context_window({"base_url": "http://127.0.0.1:9/v1"}) is None, "серв�
 
 import engine_answer as EA  # noqa: E402
 notes = []
-SYS_FULL = "Ты Лира. " + "Правила действий и навыки. " * 900          # ≈ 24 тыс. знаков ≈ 8 тыс. токенов
-SYS_NO = "Ты Лира. Память о пользователе. " * 120                     # ≈ 4 тыс. знаков
-SYS_LEAN = "Ты Лира. Короткие правила. " * 150                      # ≈ 3,5 тыс. знаков
+SYS_FULL = "Ты Мира. " + "Правила действий и навыки. " * 900          # ≈ 24 тыс. знаков ≈ 8 тыс. токенов
+SYS_NO = "Ты Мира. Память о пользователе. " * 120                     # ≈ 4 тыс. знаков
+SYS_LEAN = "Ты Мира. Короткие правила. " * 150                      # ≈ 3,5 тыс. знаков
 e = types.SimpleNamespace(_system=lambda with_tools=False, lean=None, personal=True: (SYS_LEAN if lean else SYS_FULL) if with_tools else SYS_NO,
-                          _system_min=lambda: "Ты Лира.", note=notes.append)
+                          _system_min=lambda: "Ты Мира.", note=notes.append)
 CORE = ["weather", "set_reminder", "calc", "web_search"]
 specs = [{"name": CORE[i] if i < len(CORE) else f"tool{i}", "description": "Делает что-то полезное " * 8,
           "parameters": {"type": "object", "properties": {}}} for i in range(60)]
@@ -98,7 +98,7 @@ ok(sp3 == [] and s3.startswith(SYS_NO) and "маленькое окно" in s3 a
 
 llm._ctx_cache.clear(); KIND.update(n=900)
 s4, sp4, m4 = fit(P, SYS_FULL, specs, hist)
-ok(s4 == "Ты Лира." and sp4 == [] and len(notes) == 1, "совсем крошечное — самая короткая подсказка; заметка второй раз не повторяется")
+ok(s4 == "Ты Мира." and sp4 == [] and len(notes) == 1, "совсем крошечное — самая короткая подсказка; заметка второй раз не повторяется")
 
 # рецензия 04.11 («Голос без пауз»): личное — справкой в сообщениях (llm.put_profile). Окно 4096, память, душа и содержание
 # разговора длинные: на самой короткой ступени справка тоже уходит (имя — в _system_min), иначе снова «не хватило окна»
@@ -108,7 +108,7 @@ hp = llm.put_profile(hist, BIG)
 llm._ctx_cache.clear(); KIND.update(k="lmstudio", n=4096)
 s6, sp6, m6 = EA.AnswerMixin._fit_window(e, P, SYS_FULL, specs, hp, personal=False)
 need6 = llm.est_tokens(s6) + llm.est_tokens("\n".join(str(m["content"]) for m in m6)) + 1024
-ok(s6 == "Ты Лира." and not llm.take_profile(m6) and need6 <= 4096 and m6[-1]["content"].endswith("Какая погода?"),
+ok(s6 == "Ты Мира." and not llm.take_profile(m6) and need6 <= 4096 and m6[-1]["content"].endswith("Какая погода?"),
    f"окно 4096, длинная личная справка — самая короткая ступень без неё: {need6} токенов из 4096")
 llm._ctx_cache.clear(); KIND.update(n=15000)
 s7, sp7, m7 = EA.AnswerMixin._fit_window(e, P, SYS_FULL, specs, hp, personal=False)

@@ -67,10 +67,10 @@ ok("Заметки" in names and any(c["name"] == "Работа" for n in tree["
 class FakeS:
     def get(self, *k): return {} if k[0] == "tools" else None
 tb = T.Toolbox(FakeS(), None)
-tb.hooks.update(workspace=ws, persona_name=lambda: "Лира")
+tb.hooks.update(workspace=ws, persona_name=lambda: "Мира")
 out = tb.run("save_note", {"title": "Идеи", "text": "фильм"})
 ok("Заметки/Идеи.md" in out, "инструмент save_note")
-ok("Лира" in (r / tb.run("write_diary", {"entry": "Пользователь любит кино"}).split("(")[1].rstrip(").")).read_text(), "инструмент write_diary подписывает персонажа")
+ok("Мира" in (r / tb.run("write_diary", {"entry": "Пользователь любит кино"}).split("(")[1].rstrip(").")).read_text(), "инструмент write_diary подписывает персонажа")
 ok(tb.policy("lab_run") == (True, True) and tb.policy("save_note") == (True, False), "запуск скриптов — с подтверждением")
 # голос
 if shutil.which("espeak-ng"):
@@ -105,7 +105,7 @@ ok(g == {0: "female", 1: "male", 2: "female", 3: "male"}, f"голоса Vosk: �
 order = [("dewiar", "male", 0), ("patrik", "male", 1), ("agent", "male", 2), ("lira", "female", 0), ("eva", "female", 1)]
 m = {pid: vt.pick({"_gender": gen, "_pid": pid, "_slot": sl}) for pid, gen, sl in order}
 ok(all(g[m[p]] == ("male" if p in ("dewiar", "patrik", "agent") else "female") for p in m) and len({m["lira"], m["eva"]}) == 2,
-   f"персонажам — голоса своего пола, Лире и Эве разные ({m})")
+   f"персонажам — голоса своего пола, Мире и Эве разные ({m})")
 ok(vt.pick({"vosk": 2, "_gender": "male"}) == 2, "голос, выбранный вручную, важнее автоматики")
 chunks = list(vt.synth("Проверка", {"_gender": "male", "_pid": "dewiar"}, speed=1.1))
 ok(chunks and chunks[0][0] == 22050 and len(chunks[0][1]) > 1000, "синтез Vosk TTS отдаёт звук")

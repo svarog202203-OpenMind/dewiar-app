@@ -1786,7 +1786,7 @@ nav button.folded { display: none !important; }
 .dins-x { border: 0; background: none; color: var(--dim); font-size: 15px; line-height: 1; padding: 0 4px; cursor: pointer; border-radius: 6px; vertical-align: 1px; }
 .dins-x:hover { color: #e5677d; background: rgba(229,103,125,.1); }
 
-/* «Для отладки: что Лира сейчас учитывает» (links.js ctxvLoad) */
+/* «Для отладки: что Мира сейчас учитывает» (links.js ctxvLoad) */
 .ctxv > summary { cursor: pointer; list-style: none; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
 .ctxv > summary::-webkit-details-marker { display: none; }
 .ctxp { border-top: 1px solid rgba(127,127,127,.15); padding: 6px 0; }
@@ -2649,7 +2649,7 @@ html .qa-art.nt-body[data-cs="theme"] { --mk: var(--accent); }   /* точки �
 .qa-acts { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
 .qa-site { font-size: 13px; margin-left: auto; }
 
-/* ---------- «Неделя с Лирой» (27.10): курс из семи уроков ---------- */
+/* ---------- «Неделя с Мирой» (27.10): курс из семи уроков ---------- */
 .cs-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 .cs-prog { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 14px; margin-bottom: 18px; }
 .cs-prog b { color: var(--ink); }
@@ -2957,7 +2957,7 @@ html:not(.st-light) .vs-pill.ok { color: var(--good); } html:not(.st-light) .vs-
 .tm-rep button { border: 0; background: none; color: var(--muted); font-size: 17px; line-height: 1; padding: 2px 6px; border-radius: 8px; cursor: pointer; }
 .tm-rep button:hover { background: rgba(127,127,140,.14); color: var(--ink); }
 
-/* «Устройства» (0.56): карта — Лира в середине и все ваши устройства вокруг; это устройство; код и QR; список с состоянием */
+/* «Устройства» (0.56): карта — Мира в середине и все ваши устройства вокруг; это устройство; код и QR; список с состоянием */
 #p-devices [hidden] { display: none !important; }
 .dv-hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px; align-items: stretch; margin-bottom: 18px; }
 .dv-map, .dv-me, .dv-card { border-radius: 24px; background: var(--glass); box-shadow: var(--raise-s, none); min-width: 0; }
@@ -3047,7 +3047,7 @@ html:not(.st-light) .vs-pill.ok { color: var(--good); } html:not(.st-light) .vs-
 .dv-foot { margin-top: 16px; max-width: 80ch; }
 @media (max-width: 1040px) { .dv-hero, .dv-pair { grid-template-columns: 1fr; } }
 
-/* «Утро с Лирой» на главной (studio/morning.js): погода крупно слева — небо задаёт цвет панели; справа — что ждёт */
+/* «Утро с Мирой» на главной (studio/morning.js): погода крупно слева — небо задаёт цвет панели; справа — что ждёт */
 .hm-morning { margin: 0;   /* отступы задаёт #hm-body (gap 24) — свои 22 сверху давали дыру под приветствием */
   padding: 18px 20px 16px; border-radius: 26px; background: var(--glass); box-shadow: var(--raise-s, 0 10px 30px -18px rgba(0,0,0,.5)); }
 .hm-morning[hidden] { display: none; }
@@ -3084,7 +3084,7 @@ html:not(.st-light) .vs-pill.ok { color: var(--good); } html:not(.st-light) .vs-
 .mn-foot .mn-mail { margin-left: auto; padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-size: 13px; cursor: pointer; }
 @media (max-width: 760px) { .mn-grid { grid-template-columns: 1fr; } .mn-w { min-height: 130px; } }
 
-/* «Мой месяц с Лирой» (studio/month.js): числа крупно в ряд; ниже — календарь месяца (чем больше дел, тем гуще день)
+/* «Мой месяц с Мирой» (studio/month.js): числа крупно в ряд; ниже — календарь месяца (чем больше дел, тем гуще день)
    и рядом — чем гордиться и куда ушли деньги (одна полоса) */
 .hm-month { --mo-c: var(--accent); }
 .mo-head { display: flex; align-items: flex-start; justify-content: space-between; margin: 0 2px 16px; }
@@ -3156,7 +3156,7 @@ html:not(.st-light) .vs-pill.ok { color: var(--good); } html:not(.st-light) .vs-
 .cr-dform { display: grid; grid-template-columns: minmax(0, 1fr) 130px auto; gap: 8px; }
 @media (max-width: 1100px) { .dl-board { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dl-add { grid-template-columns: 1fr 1fr; } .dl-sum { grid-template-columns: 1fr; } }
 
-/* «Документы» (28.10): Лира читает ваши папки — слева зачем и кнопки, справа пример ответа с файлом-источником */
+/* «Документы» (28.10): Мира читает ваши папки — слева зачем и кнопки, справа пример ответа с файлом-источником */
 .dc-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: center; margin-bottom: 26px; }
 .dc-say h1 { margin-bottom: 4px; }
 .dc-big { font: 700 26px/1.25 "Unbounded", "Manrope", sans-serif; letter-spacing: -.01em; margin: 6px 0 12px; max-width: 22ch; text-wrap: balance; }
@@ -3181,7 +3181,7 @@ html:not(.st-light) .vs-pill.ok { color: var(--good); } html:not(.st-light) .vs-
 .linkbtn { border: 0; background: none; padding: 0; font: inherit; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
 @media (max-width: 900px) { .dc-hero { grid-template-columns: 1fr; } .dc-big { font-size: 22px; } }
 
-/* Режимы Лиры (0.58): «Лира — для меня ▾» на «Главной» и выбор из трёх карточек */
+/* Режимы Миры (0.58): «Мира — для меня ▾» на «Главной» и выбор из трёх карточек */
 .hm-mode { margin-top: 10px; display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600;
   color: var(--ink); padding: 7px 14px 7px 10px; border-radius: 999px; background: var(--soft); }
 .hm-mode:hover { background: var(--soft2); } .hm-mode:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -3412,7 +3412,7 @@ dialog.md-dlg[open] { animation: md-in .32s cubic-bezier(.2,.8,.2,1); }
 @media (max-width: 700px) { .wt-hero { grid-template-columns: 1fr; } .wt-eye { width: 140px; height: 96px; } }
 @media (prefers-reduced-motion: reduce) { .wt-eye svg, .wt-pulse { animation: none; } }
 
-/* «Идеи Лиры» (0.59, studio/ideas.js): тёплая лампочка — единственный яркий акцент; голос — янтарная плашка слева у идеи */
+/* «Идеи Миры» (0.59, studio/ideas.js): тёплая лампочка — единственный яркий акцент; голос — янтарная плашка слева у идеи */
 #p-ideas { --idA: #f2a93b; --idA2: #ffcf6e; }
 #p-ideas [hidden] { display: none !important; }
 .id-hero { display: flex; gap: 22px; align-items: center; max-width: 960px; margin-bottom: 18px; }
@@ -3471,12 +3471,12 @@ dialog.md-dlg[open] { animation: md-in .32s cubic-bezier(.2,.8,.2,1); }
 @media (max-width: 720px) { .id-hero { flex-direction: column; align-items: flex-start; } .id-find { min-width: 0; flex: 1 1 100%; } }
 @media (prefers-reduced-motion: reduce) { .id-vote { transition: none; } .id-it.pop .id-vote { transform: none; } }
 
-/* «Что нового» → «Идеи Лиры» (0.61): строка внизу окна — что дальше решаем вместе */
+/* «Что нового» → «Идеи Миры» (0.61): строка внизу окна — что дальше решаем вместе */
 .nw-ideas { display: flex; align-items: center; gap: 12px; margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: rgba(242,169,59,.12); }
 .nw-ideas > span { font-size: 20px; flex: none; } .nw-ideas p { margin: 0; flex: 1; font-size: 13.5px; line-height: 1.45; }
 .nw-ideas .btn { flex: none; }
 
-/* «Лира спросит потом» (0.61, «Обо мне») — тёплая карточка заботливой памяти */
+/* «Мира спросит потом» (0.61, «Обо мне») — тёплая карточка заботливой памяти */
 .care-box { margin: 6px 0 22px; padding: 18px 20px; border-radius: 22px; background: linear-gradient(135deg, rgba(255,184,107,.14), rgba(233,138,184,.10)); box-shadow: var(--raise-s, none); max-width: 960px; }
 .care-h { display: flex; gap: 16px; align-items: flex-start; } .care-h > div { flex: 1; min-width: 0; } .care-h h2 { margin: 0 0 4px; } .care-h .hint { margin: 0; max-width: 72ch; }
 .care-list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
@@ -4225,7 +4225,7 @@ nav .nh { display: none !important; }
 @media (max-width: 760px) { .ft { grid-template-columns: 1fr; } .ft-r { align-items: flex-start; } }
 .switch[hidden] { display: none; }
 /* ---------- «Попробуйте плагин» на «Главной» (31.10, studio/home.js hmTry): один плагин, его цвет — мягким светом слева,
-   фраза — «репликой», без рамок. Включили — та же карточка зовёт спросить Лиру. ---------- */
+   фраза — «репликой», без рамок. Включили — та же карточка зовёт спросить Миру. ---------- */
 /* 04.11 (владелец: «всё гармонично, кроме „Дайджеста“ — размер и как будто другой дизайн»): ширина — как у «Совета ИИ» и
    остальных блоков, тот же материал и тот же мягкий отсвет слева, заголовок — шрифтом соседних карточек */
 .hm-try { --pc: #7c8cff; position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: start;
@@ -4262,7 +4262,7 @@ nav .nh { display: none !important; }
 .art-w b { font-size: 14.5px; margin-top: 7px; } .art-w small { font-size: 12.5px; color: var(--muted); }
 
 /* Страница плагина (03.11, studio/plugpage.js): пункт меню в группе «Плагины», шапка в цвете плагина (--pc), вкладки,
-   карточки действий «Сделать сейчас» (форма из inputSchema, ответ под ней на всю ширину), «Попросить Лиру»,
+   карточки действий «Сделать сейчас» (форма из inputSchema, ответ под ней на всю ширину), «Попросить Миру»,
    файлы плагина, своя страница плагина во фрейме-песочнице */
 nav .nav-plg .nav-pi { background: color-mix(in srgb, var(--pc) 26%, transparent); }
 .plp { max-width: 1180px; }

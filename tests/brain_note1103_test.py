@@ -1,4 +1,4 @@
-"""№479 (02.11): «в „Мозге“ выбрана моя первая модель, хотя выбирал вторую; в „Персонажах“ всё верно — у Лиры вторая,
+"""№479 (02.11): «в „Мозге“ выбрана моя первая модель, хотя выбирал вторую; в „Персонажах“ всё верно — у Миры вторая,
 у Патрика первая. Какое-то эфемерное общее подключение?» Теперь в «Мозге» сказано: отмеченная — общая, для персонажей без
 своей; и кто думает своей моделью."""
 import os, re, sys
@@ -23,9 +23,9 @@ with sync_playwright() as p:
     note = pg.evaluate("""() => {
       S = Object.assign({}, S || {}, { ui: {}, features: {}, llm: { active: "p1", persona: { lira: "p2" }, profiles: {
         p1: { name: "Первая", kind: "openai", model: "m1", base_url: "http://x" }, p2: { name: "Вторая", kind: "openai", model: "m2", base_url: "http://y" } } } });
-      personas = [{ id: "lira", name: "Лира" }, { id: "patrick", name: "Патрик" }];
+      personas = [{ id: "lira", name: "Мира" }, { id: "patrick", name: "Патрик" }];
       renderProfiles(); const n = document.querySelector("#prof-note"); return n ? n.textContent : ""; }""")
-    ok("общая" in note and "без своей" in note and "Лира — «" in note and "Патрик" not in note, f"в «Мозге» — что отмеченная общая и у кого своя: {note!r}")
+    ok("общая" in note and "без своей" in note and "Мира — «" in note and "Патрик" not in note, f"в «Мозге» — что отмеченная общая и у кого своя: {note!r}")
     b.close()
 print("\nИТОГ:", "всё прошло" if not fails else f"провалов {len(fails)}")
 sys.exit(1 if fails else 0)

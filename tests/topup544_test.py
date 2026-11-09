@@ -47,7 +47,7 @@ g = json.loads((ROOT / "data" / "guide.json").read_text(encoding="utf-8"))
 t = next(x for x in g if x["id"] == "taler")
 ok(any("не пришли за 10–15 минут" in h for h in t["how"]), "руководство: «оплатил — не пришло» — что делать")
 import guide  # noqa: E402
-ok("Талер" in str(guide.hint("пополнил счёт, ничего не пришло")), "Лира на «пополнил — не пришло» находит этот раздел")
+ok("Талер" in str(guide.hint("пополнил счёт, ничего не пришло")), "Мира на «пополнил — не пришло» находит этот раздел")
 php = (ROOT / "server" / "dwrapp" / "cloud.php").read_text(encoding="utf-8")
 ok("'без номера DW-…'" in php and "'pending' => (int)$pend['n']" in php, "сервер: перевод без номера записан для владельца; заявки на проверке — в балансе")
 print("ALL OK" if not fails else f"FAILED: {len(fails)}")

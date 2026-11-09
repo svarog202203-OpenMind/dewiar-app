@@ -62,11 +62,11 @@ try:
         hw.goto((ROOT / "ui/hud.html").as_uri() + f"?token={(tmp / 'cfg/token').read_text().strip()}&port={PORT}&mode=card"); hw.wait_for_timeout(2500)
         T = hw.evaluate("""() => { const d = document.getElementById('team-dot');
             return { g: d.dataset.g, svg: !!d.querySelector('svg circle'), bg: d.style.backgroundImage, who: current && current.name, glow: getComputedStyle(d).boxShadow }; }""")
-        ok(T["who"] == "Лира" and T["g"] == "female" and T["svg"] and not T["bg"] and T["glow"] in ("none", ""),
+        ok(T["who"] == "Мира" and T["g"] == "female" and T["svg"] and not T["bg"] and T["glow"] in ("none", ""),
            f"у кнопки персонажа — контурный силуэт героини (не цветной кружок, не крошечное фото): {T}")
         hw.click("#b-team"); hw.wait_for_timeout(400)
         M = hw.evaluate("""() => [...document.querySelectorAll('#team button')].map(b => [b.querySelector('b').textContent, b.querySelector('i').dataset.g])""")
-        ok(["Лира", "female"] in M and ["Патрик", "male"] in M, f"в списке — силуэты по полу: {M}")
+        ok(["Мира", "female"] in M and ["Патрик", "male"] in M, f"в списке — силуэты по полу: {M}")
         hw.evaluate("() => paintAv(document.getElementById('team-dot'), { name: 'Нова' })")
         ok(hw.evaluate("() => document.getElementById('team-dot').dataset.g") == "none", "пол не указан — просто силуэт")
         hw.evaluate("() => paintAv(document.getElementById('team-dot'), current)")

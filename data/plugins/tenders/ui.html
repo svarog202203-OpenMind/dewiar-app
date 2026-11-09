@@ -3,7 +3,7 @@
      органично встроить красиво»; по образцу его TenderWatch: лента с фильтрами, карточка тендера, воронка, запросы).
      Студия показывает страницу во фрейме-песочнице; связь — только window.dewiar: run — действия ЭТОГО плагина
      (tenders_board / tenders_set / tenders_scan / tenders_mark), settings()/saveSettings() — запросы, плюс- и минус-слова,
-     площадки (сервер плагина перезапускается с ними сам), openUrl — страница тендера на площадке, ask — «разбери» Лире.
+     площадки (сервер плагина перезапускается с ними сам), openUrl — страница тендера на площадке, ask — «разбери» Мире.
      Всё, что пришло с площадок, выводится только через esc(). -->
 <html lang="ru">
 <head>
@@ -226,7 +226,7 @@
         <div class="side">${due(t)}<span class="mk ${esc(t.mark)}" title="${esc(ACT[t.mark])}"></span></div></div>`;
     });
     $("#rows").innerHTML = h || (st.b.items.length ? `<div class="empty"><b>Ничего не нашлось</b>Ослабьте фильтры — например, снимите «Только открытые».</div>`
-      : `<div class="empty"><b>Тендеров пока нет</b>${st.b.queries.length ? "Нажмите «Найти новые тендеры» — Лира пройдёт по площадкам." : "Сначала впишите, что искать, во вкладке «Мои запросы»."}</div>`);
+      : `<div class="empty"><b>Тендеров пока нет</b>${st.b.queries.length ? "Нажмите «Найти новые тендеры» — Мира пройдёт по площадкам." : "Сначала впишите, что искать, во вкладке «Мои запросы»."}</div>`);
     $$("#rows .trow").forEach(r => { r.onclick = () => open(r.dataset.id); r.onkeydown = (e) => { if (e.key === "Enter") open(r.dataset.id); }; });
   }
   function renderEmptyDetail() { $("#detail").innerHTML = `<div class="empty" style="background:none"><b>Выберите тендер</b>Слева — лента: свежие сверху, балл — насколько тендер про ваши запросы.</div>`; }
@@ -243,7 +243,7 @@
       <h2>${esc(t.title)}</h2>
       <div class="acts"><div class="seg" role="radiogroup" aria-label="Отметка">${Object.entries(ACT).map(([k, l]) => `<button data-mark="${k}" class="${t.mark === k ? "on" : ""}" role="radio" aria-checked="${t.mark === k}">${l}</button>`).join("")}</div>
         <button class="star ${t.star ? "on" : ""}" id="d-star" title="В избранное" aria-label="В избранное">${t.star ? "★" : "☆"}</button></div>
-      <div class="acts">${t.url ? `<button class="btn primary" id="d-url">Открыть на площадке</button>` : ""}<button class="btn" id="d-ask" title="Лира откроет страницу и расскажет: что нужно, сроки, обеспечение, подходит ли вам">Разобрать с Лирой</button><button class="btn ghost" id="d-del">Убрать из учёта</button></div>
+      <div class="acts">${t.url ? `<button class="btn primary" id="d-url">Открыть на площадке</button>` : ""}<button class="btn" id="d-ask" title="Мира откроет страницу и расскажет: что нужно, сроки, обеспечение, подходит ли вам">Разобрать с Мирой</button><button class="btn ghost" id="d-del">Убрать из учёта</button></div>
       <dl class="facts"><div class="wide"><dt>Что закупают</dt><dd>${esc(t.title)}</dd></div>
         <div class="wide"><dt>Заказчик</dt><dd>${esc(t.organization || "—")}</dd></div>
         <div><dt>Срок подачи</dt><dd>${due(t, true)}</dd></div><div><dt>Сумма</dt><dd class="money">${esc(t.price ? money(t.price_value, t.price) : "—")}</dd></div>

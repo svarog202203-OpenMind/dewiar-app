@@ -2,7 +2,7 @@ import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from kit import KIT_CSS, KIT2_CSS
 TITLE = "Урок 22 · Страница плагина"
-IDEA = "Главная вещь урока — у плагина своя страница: бросили сорок резюме — кандидаты разобраны и сравнены; кнопки, настройки и «спросить Лиру» — там же."
+IDEA = "Главная вещь урока — у плагина своя страница: бросили сорок резюме — кандидаты разобраны и сравнены; кнопки, настройки и «спросить Миру» — там же."
 H1 = "Страница плагина"
 TAG = "Свой раздел у каждого плагина — кнопки, настройки, результаты"
 NEXT = "Скоро — новые уроки"
@@ -88,7 +88,7 @@ HTML = """
         <div class="tabs"><span id="tb1" class="on">Резюме и подбор</span><span id="tb2">Сделать сейчас</span><span>Настройки</span><span>Файлы</span></div>
         <div class="pane" id="pn1"><div class="fun">""" + "".join(f'<div><h6>{h}<b>{k}</b></h6>' + "".join(f"<p>{x}</p>" for x in xs) + "</div>" for h, xs, k in FUN) + """</div></div>
         <div class="pane" id="pn2"><div class="acts">
-          <div class="ac"><b>Новая вакансия</b><small>Под неё Лира отбирает и оценивает</small><div class="f" id="f1"></div><div class="f" id="f2"></div><span class="go" id="go1">Сохранить вакансию</span></div>
+          <div class="ac"><b>Новая вакансия</b><small>Под неё Мира отбирает и оценивает</small><div class="f" id="f1"></div><div class="f" id="f2"></div><span class="go" id="go1">Сохранить вакансию</span></div>
           <div class="ac"><b>Кандидаты</b><small>Кто в базе — по этапу или по словам</small><div class="f">этап: интересен</div><div class="f">бухгалтер</div><span class="go" id="go2">Показать</span></div></div>
           <div class="tbl" id="tbl"><div><span>Имя</span><span>Должность</span><span>Стаж</span><span>Этап</span></div>
             <div><span>Ирина Ковалёва</span><span>гл. бухгалтер</span><span>7 лет</span><span>собеседование</span></div>
@@ -102,7 +102,7 @@ HTML = """
     <div class="card" id="set"><h3>Настройки</h3><label>ПАПКА С РЕЗЮМЕ</label><div class="in">📁 ~/Документы/Резюме</div>
       <label>О КОМПАНИИ — ДЛЯ ПИСЕМ КАНДИДАТАМ</label><div class="in">ООО «Север», Минск, производство</div>
       <div class="jb">🗓 Новые резюме из папки — по будням в 10:00<span class="tgl" id="tg"><i></i></span></div></div>
-    <div class="toast" id="ring"><small>ЛИРА · 10:00</small><div class="tm">+3 резюме</div><p>Новые на бухгалтера: Мороз, Савич, Бондарь. У Мороза уточните стаж в 1С.</p></div>
+    <div class="toast" id="ring"><small>МИРА · 10:00</small><div class="tm">+3 резюме</div><p>Новые на бухгалтера: Мороз, Савич, Бондарь. У Мороза уточните стаж в 1С.</p></div>
     <div id="pages">
       <div class="pp"><div class="ph"><i>🧑‍💼</i><b>Рекрутер</b></div><div class="pv"><p>Ирина Ковалёва<em>87</em></p><p>Сергей Петров<em>74</em></p><p>Анна Лис<em>68</em></p><p>Турнир лучших<em>→</em></p></div><small>Кандидаты, этапы, сравнение</small></div>
       <div class="pp"><div class="ph"><i style="background:rgba(74,139,232,.18)">📄</i><b>Тендеры</b></div><div class="pv"><p>Поставка бумаги<em>12 дн.</em></p><p>Ремонт кровли<em>5 дн.</em></p><p>Мебель для школы<em>9 дн.</em></p><p>Мои запросы<em>3</em></p></div><small>Лента с фильтрами и сроками</small></div>

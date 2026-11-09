@@ -1,6 +1,6 @@
-"""«Морской бой» голосом (0.63; план «Идей Лиры»: «„Б пять!“ — Лира ставит выстрел сама и отвечает голосом: „мимо“,
+"""«Морской бой» голосом (0.63; план «Идей Миры»: «„Б пять!“ — Мира ставит выстрел сама и отвечает голосом: „мимо“,
 „ранен“, „убит“»). Игра во фрейме у хозяина (телефон — app.js, компьютер — pad.js): {arcade: 'heard'} — ход, итог хода и
-выстрел Лиры — одной фразой {arcade: 'say'}; кнопка микрофона — {arcade: 'listen'}. Касаниями — молча, как раньше.
+выстрел Миры — одной фразой {arcade: 'say'}; кнопка микрофона — {arcade: 'listen'}. Касаниями — молча, как раньше.
 Компьютер: пока игра открыта (game_mark), «бэ пять» — не вопрос модели, а ход (событие game); game_say говорит итог."""
 import os, re, sys, shutil, tempfile, time
 from pathlib import Path
@@ -35,12 +35,12 @@ class Eng:
 E = Eng()
 ok(not E._game_voice("бэ пять"), "игра не открыта — «бэ пять» идёт как обычно")
 E._game_on = ("sea", time.monotonic())
-moves = ["бэ пять", "Б5", "Д 7", "стреляю в ка десять", "е три", "Лира, а один", "сдаюсь", "ещё партию", "играем", "сколько у тебя кораблей"]
+moves = ["бэ пять", "Б5", "Д 7", "стреляю в ка десять", "е три", "Мира, а один", "сдаюсь", "ещё партию", "играем", "сколько у тебя кораблей"]
 got = [m for m in moves if E._game_voice(m)]
 ok(got == moves and E.ev[0] == ("game", {"game": "sea", "text": "бэ пять"}), f"игра открыта — ход и слова игры уходят в игру: {[m for m in moves if m not in got]}")
 E.ev.clear()
 talk = ["какая погода завтра", "расскажи анекдот", "поставь будильник на семь", "включи музыку", "а что ты умеешь делать в этой программе вообще"]
-ok(not any(E._game_voice(m) for m in talk) and not E.ev, "обычные просьбы в игре — по-прежнему Лире")
+ok(not any(E._game_voice(m) for m in talk) and not E.ev, "обычные просьбы в игре — по-прежнему Мире")
 E._game_on = ("snake", time.monotonic())
 ok(not E._game_voice("бэ пять"), "другая игра — голосом не ходим")
 ea = (ROOT / "core/engine_answer.py").read_text(encoding="utf-8"); ec = (ROOT / "core/engine_commands.py").read_text(encoding="utf-8")
@@ -73,17 +73,17 @@ try:
         says = lambda: [m["text"] for m in pg.evaluate("msgs") if m.get("arcade") == "say"]   # noqa: E731
         # «играем» голосом с заставки — партия начинается
         pg.evaluate("hear('играем')"); pg.wait_for_timeout(500)
-        ok(gf.evaluate("__sea().mode") == "play" and any("Ваш выстрел" in t for t in says()), f"«играем» — партия началась и Лира зовёт стрелять: {says()}")
-        # мимо: клетка без корабля -> «… — мимо.» и выстрел Лиры одной фразой
+        ok(gf.evaluate("__sea().mode") == "play" and any("Ваш выстрел" in t for t in says()), f"«играем» — партия началась и Мира зовёт стрелять: {says()}")
+        # мимо: клетка без корабля -> «… — мимо.» и выстрел Миры одной фразой
         free = gf.evaluate("""() => { const s = __sea(); for (let y = 0; y < 10; y++) for (let x = 0; x < 10; x++) {
             let near = false; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((s.ai.b[y + dy] || [])[x + dx]) near = true;
             if (!near) return [x, y]; } }""")
         LET = ["а", "бэ", "вэ", "гэ", "дэ", "е", "жэ", "зэ", "и", "ка"]
         n0 = len(says())
         pg.evaluate(f"hear('{LET[free[0]]} {free[1] + 1}')"); pg.wait_for_timeout(250)
-        ok(gf.evaluate(f"__sea().ai.shot[{free[1]}][{free[0]}]") == 1 and gf.evaluate("__sea().turn") == "ai", "«дэ семь» — выстрел в эту клетку, мимо — ход Лиры")
+        ok(gf.evaluate(f"__sea().ai.shot[{free[1]}][{free[0]}]") == 1 and gf.evaluate("__sea().turn") == "ai", "«дэ семь» — выстрел в эту клетку, мимо — ход Миры")
         pg.evaluate("hear('бэ два')"); pg.wait_for_timeout(200)
-        ok(any("Подождите" in t for t in says()[n0:]), "пока Лира целится — «подождите»")
+        ok(any("Подождите" in t for t in says()[n0:]), "пока Мира целится — «подождите»")
         for _ in range(60):
             if gf.evaluate("__sea().turn") == "me" or gf.evaluate("__sea().end"):
                 break
@@ -91,7 +91,7 @@ try:
         pg.wait_for_timeout(200)
         last = [t for t in says()[n0:] if "Подождите" not in t]
         ok(last and "мимо." in last[0] and "Стреляю:" in last[0] and ("Ваш ход" in last[0] or "победила" in last[0]),
-           f"одна фраза: мой выстрел — мимо, выстрел Лиры и «ваш ход»: {last}")
+           f"одна фраза: мой выстрел — мимо, выстрел Миры и «ваш ход»: {last}")
         # уже стреляли и непонятное
         n1 = len(says())
         pg.evaluate(f"hear('{LET[free[0]]} {free[1] + 1}')"); pg.wait_for_timeout(200)
@@ -112,7 +112,7 @@ try:
         if os.environ.get("DEWIAR_SHOTS"):
             pg.screenshot(path=str(Path(os.environ["DEWIAR_SHOTS"]) / "sea-voice.png"))
         pg.evaluate("hear('сдаюсь')"); pg.wait_for_timeout(1200)
-        ok(gf.evaluate("__sea().mode") == "over" and gf.evaluate("__sea().reveal"), "«сдаюсь» — партия окончена, корабли Лиры видны")
+        ok(gf.evaluate("__sea().mode") == "over" and gf.evaluate("__sea().reveal"), "«сдаюсь» — партия окончена, корабли Миры видны")
         # касаниями — молча (голос не включали)
         pg.goto(host.as_uri()); pg.wait_for_timeout(900); gf = pg.frames[1]
         pg.frame_locator("#g").locator("#aGo").click(); pg.wait_for_timeout(300)

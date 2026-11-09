@@ -34,7 +34,7 @@ with sync_playwright() as p:
           o.onChunk(s); return { status: 200, body: "" };
         };
         const tools = [{ name: "get_time", description: "Который час", parameters: { type: "object", properties: {} } }];
-        const msgs = [{ role: "system", content: "Ты Лира." }, { role: "user", content: "Который час?" }];
+        const msgs = [{ role: "system", content: "Ты Мира." }, { role: "user", content: "Который час?" }];
         const r1 = await llmStream(msgs, tools, null);
         msgs.push({ role: "assistant", content: r1.text || "", tool_calls: r1.calls.map(c => ({ id: c.id, type: "function", function: { name: c.name, arguments: c.args } })) });
         msgs.push({ role: "tool", tool_call_id: "x", name: "get_time", content: "14:41" });
@@ -49,7 +49,7 @@ with sync_playwright() as p:
           if (body.tools) { o.onChunk('data: {"error":{"message":"upstream returned HTTP 400"}}' + String.fromCharCode(10, 10)); return { status: 200, body: "" }; }
           o.onChunk(textSse); return { status: 200, body: "" };
         };
-        const r = await llmStream([{ role: "system", content: "Ты Лира." }, { role: "user", content: "Привет" }],
+        const r = await llmStream([{ role: "system", content: "Ты Мира." }, { role: "user", content: "Привет" }],
                                   [{ name: "get_time", description: "Который час", parameters: { type: "object", properties: {} } }], null);
         return { text: r.text, n: seen.length, second_tools: !!seen[1].tools, prompt: seen[1].messages[0].content.includes("# Инструменты") };
     }""", sse("Привет! Всё хорошо."))
@@ -71,7 +71,7 @@ roles = [m["role"] for m in H]
 ok(roles == ["user", "assistant", "user"] and H[0]["content"].startswith("[До этого пользователь говорил не с тобой, а с коллегой по имени Патрик")
    and "Пользователь: Привет" in H[0]["content"] and "Патрик: Хорошо!" in H[0]["content"] and H[-1]["content"] == "Отлично",
    f"история: роли чередуются, начинается с пользователя, переданный разговор коллеги — справкой (отзыв 13.10): {H}")
-ok(H2 == [{"role": "user", "content": "Помоги с поздравлением маме"}], f"разговор с Патриком без передачи слова — не в окне Лиры: {H2}")
+ok(H2 == [{"role": "user", "content": "Помоги с поздравлением маме"}], f"разговор с Патриком без передачи слова — не в окне Миры: {H2}")
 
 seen = R["seen"]
 # с 0.39.1 первый повтор — без chat_template_kwargs (облако Ollama за шлюзом отклоняет это поле), функции ещё полем

@@ -9,7 +9,7 @@ Suggests: ffmpeg, espeak-ng, pulseaudio-utils
 Conflicts: cortex-assistant, patrik-assistant
 Replaces: cortex-assistant, patrik-assistant
 Maintainer: Dewiar Project <dewiar@localhost>
-Description: Dewiar — голосовой ИИ-ассистент с персонажами (Девиар, Патрик, Агент, Джарвис, Лира, Эва)
+Description: Dewiar — голосовой ИИ-ассистент с персонажами (Девиар, Патрик, Агент, Джарвис, Мира, Эва)
  Слушает имя персонажа, распознаёт речь (GigaAM), отвечает голосом через
  любую языковую модель: свой vLLM, Ollama, llama.cpp, LM Studio, OpenRouter,
  OpenAI или Anthropic Claude. Эхоподавление, перебивание голосом, живой

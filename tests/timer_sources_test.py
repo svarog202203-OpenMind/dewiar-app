@@ -223,7 +223,7 @@ try:
         ok(c.answer(m).get("text") == "Таймер отменён." and not pg.evaluate("document.getElementById('tmr').classList.contains('on')"), "«отмени таймер» — отсчёт исчез")
         # 16.10: «сколько времени» — модель ответила «14:17» в 15:57 (повторила своё прошлое время из разговора); теперь — по часам
         from datetime import datetime as _dt
-        m = len(c.ev); c.call("say", {"text": "Лира, сколько времени?"}); a1 = c.answer(m).get("text", "")
+        m = len(c.ev); c.call("say", {"text": "Мира, сколько времени?"}); a1 = c.answer(m).get("text", "")
         m = len(c.ev); c.call("say", {"text": "Какое сегодня число?"}); a2 = c.answer(m).get("text", "")
         ok(a1 in (f"Сейчас {_dt.now():%H:%M}.", f"Сейчас {(_dt.now() - __import__('datetime').timedelta(minutes=1)):%H:%M}.")
            and a2.startswith("Сегодня ") and str(_dt.now().day) in a2, f"«сколько времени?» и «какое число?» — по часам, без модели: {a1!r} {a2!r}")

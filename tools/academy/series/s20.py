@@ -37,7 +37,7 @@ HTML = """
   <div class="layer" id="L-left">
     """ + mess(["🎂 Открытка маме", "🖼 Картинка к посту", "⭐ Значок кружка", "📣 Афиша концерта", "🎄 Сторис к Новому году", "☕ Логотип кофейни"], "Художника под рукой нет") + """
     <div class="say" id="q1">«Нарисуй открытку с днём рождения для мамы»</div>
-    <div class="win" id="w1"><div class="bar"><i></i><i></i><i></i><span>Открытка маме — нарисовала Лира</span></div><div class="pic" id="art">""" + CARD + """</div>
+    <div class="win" id="w1"><div class="bar"><i></i><i></i><i></i><span>Открытка маме — нарисовала Мира</span></div><div class="pic" id="art">""" + CARD + """</div>
       <div class="btns"><span class="p">Сохранить PNG</span><span>PNG ×2</span><span>Галерея</span></div></div>
     <div class="say" id="q2">«Добавь шарики и конфетти»</div>
     <div class="say" id="q3">«Анимацию: снег над ночным городом»</div>

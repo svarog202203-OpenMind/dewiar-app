@@ -33,8 +33,8 @@ with sync_playwright() as p:
     pg.evaluate("() => { showCard(''); scanResult('https://example.org/page', 'qr'); saveS(); }")
     pg.wait_for_timeout(300)
     ok("example.org" in pg.inner_text("#bot") and pg.evaluate("!!document.querySelector('#sc-open')"), "результат сканирования не затирается")
-    # карточка первого запуска — по-прежнему уходит, и Лира говорит, что готова
-    pg.evaluate("""() => { showBot('Привет! Я Лира. Чтобы мы могли поговорить, меня нужно один раз подключить.');
+    # карточка первого запуска — по-прежнему уходит, и Мира говорит, что готова
+    pg.evaluate("""() => { showBot('Привет! Я Мира. Чтобы мы могли поговорить, меня нужно один раз подключить.');
       showCard(`<div class="start" data-first="1"><button class="btn p w" onclick="openBrain('join')">Подключить бесплатно</button></div>`); saveS(); }""")
     pg.wait_for_timeout(300)
     ok(pg.inner_text("#card").strip() == "" and "Готово, всё подключено" in pg.inner_text("#bot"), "подключились с первого запуска — карточка ушла, «Готово»")

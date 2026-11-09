@@ -1,12 +1,12 @@
 """Страница плагина в студии (владелец 03.11: «плагин включён — появляются команды для запуска, а должен быть целый раздел
 под плагин, где его можно настраивать и взаимодействовать. Каждый плагин — своя страничка: свой интерфейс, свои функции,
-настройки. А то Лира что-то начинает делать — и на этом всё, не работает НИЧЕГО»):
+настройки. А то Мира что-то начинает делать — и на этом всё, не работает НИЧЕГО»):
 — у каждого действия встроенных плагинов человеческое название и подписи полей (plugin.json ui), сырых art_draw / query нет;
 — ядро: plugin_run вызывает действие плагина напрямую, без модели, и отдаёт ответ данными; чужое действие — нельзя;
   ошибка — словами; файлы — только из папок плагина; plugin_values перезапускает сервер плагина с новыми настройками;
 — студия: в меню группа «Плагины» с пунктом на каждый установленный (появляется без перезапуска), страница с шапкой и
   состоянием, «Сделать сейчас» — форма из inputSchema, «Выполнить» показывает результат, ошибка — словами;
-  «Попросить Лиру» и «Сказать Лире» — фраза в «Чат»; «Настройки» сохраняются сразу; «Файлы»;
+  «Попросить Миру» и «Сказать Мире» — фраза в «Чат»; «Настройки» сохраняются сразу; «Файлы»;
 — своя страница «Рекрутёра» (ui.html) во фрейме-песочнице: через мост вызывает свои действия (кандидаты, карточка,
   сопоставление с вакансией, этап), а чужое действие и чужой файл — нельзя.
 SHOTS=<папка> — сохранить снимки страниц."""
@@ -90,7 +90,7 @@ for pid in ("recruiter", "tenders", "artist"):
 ok(not raw, f"у каждого действия и поля — человеческая подпись (plugin.json ui): {raw}")
 for pid, p in P.items.items():
     ok(p["builtin"] and (p["ui"]["asks"] or p["mcp"]) and all("{" not in a["say"] or a["fields"] for a in p["ui"]["asks"]),
-       f"«{p['name']}»: на странице есть что сделать — действия или «Попросить Лиру»")
+       f"«{p['name']}»: на странице есть что сделать — действия или «Попросить Миру»")
 ok(P.items["recruiter"]["page"] and not P.items["kitchen"]["page"], "своя страница (ui.html) — у «Рекрутёра»")
 ok("recruit_board" not in json.dumps(mgr.specs()), "действие только для страницы (recruit_board) помощнице не показывается")
 
@@ -336,16 +336,16 @@ with sync_playwright() as pw:
     ok(st.evaluate("!!document.querySelector('[data-tool=\"tenders_list\"] input[type=checkbox][data-a=\"only_new\"]') && !!document.querySelector('[data-tool=\"tenders_list\"] input[type=number][data-a=\"limit\"]')"),
        "boolean — переключатель, integer — число")
     ok("Отметить тендеры" not in body, "действие только для помощницы (отметить по id) на странице не показано")
-    ok("Разобрать тендер" in body and "Есть новые тендеры?" in body, "«Попросить Лиру» и «Сказать Лире» — на месте")
+    ok("Разобрать тендер" in body and "Есть новые тендеры?" in body, "«Попросить Миру» и «Сказать Мире» — на месте")
     st.click('[data-tool="tenders_list"] [data-run]'); st.wait_for_timeout(1500)
     out = st.inner_text('[data-tool="tenders_list"] .plp-out')
     ok("Всего" in out and "0" in out, f"«Показать» — результат: {out[:100]!r}")
     ok(any(c[0] == "plugin_run" and c[1]["tool"] == "tenders_list" and c[1]["args"].get("only_new") is False for c in st.evaluate("calls")),
        "«Выполнить» — plugin_run напрямую, переключатель уходит явно")
     st.click('[data-say="Есть новые тендеры?"]'); st.wait_for_timeout(200)
-    ok(st.evaluate("asked").count("Есть новые тендеры?") == 1, "фраза «Сказать Лире» — в «Чат»")
+    ok(st.evaluate("asked").count("Есть новые тендеры?") == 1, "фраза «Сказать Мире» — в «Чат»")
     st.fill('.plp-ask [data-q="какой"]', "первый"); st.click(".plp-ask [data-askgo]"); st.wait_for_timeout(200)
-    ok("Разбери тендер первый — стоит ли участвовать?" in st.evaluate("asked"), "«Попросить Лиру» — фраза из формы в «Чат»")
+    ok("Разбери тендер первый — стоит ли участвовать?" in st.evaluate("asked"), "«Попросить Миру» — фраза из формы в «Чат»")
     # своя страница «Тендеров»: найти (сохранённые страницы площадок), лента с фильтрами, карточка, отметки, запросы
     st.evaluate("() => { window.opened = []; window.openExt = (u) => opened.push(u); }")
     st.click('#plp .plp-tabs [data-tab="page"]'); st.wait_for_timeout(2500)
@@ -443,7 +443,7 @@ with sync_playwright() as pw:
     fr.locator('#detail [data-stage="собеседование"]').click(); st.wait_for_timeout(1500)
     ok(fr.locator('#detail .stages .on').inner_text() == "собеседование", "этап — через мост в данные плагина")
     fr.locator("#d-qs").click(); st.wait_for_timeout(300)
-    ok(any("Вопросы к собеседованию с кандидатом Петрова" in a for a in st.evaluate("asked")), "«Вопросы к собеседованию» — Лире в «Чат» по нажатию")
+    ok(any("Вопросы к собеседованию с кандидатом Петрова" in a for a in st.evaluate("asked")), "«Вопросы к собеседованию» — Мире в «Чат» по нажатию")
     shot("plugin-page-recruiter-ui.png")
     # подбор под вакансию: турнир без модели
     fr.locator('.tabs [data-tab="pick"]').click(); st.wait_for_timeout(500)
@@ -454,14 +454,14 @@ with sync_playwright() as pw:
     pod = fr.locator(".pod b").all_inner_texts()
     ok(len(pod) == 3 and pod[0] in ("Иванов Пётр Сергеевич", "Козлова Мария Игоревна") and "Рейтинг" in res and "Турнир лучших" in res and "Финал" in res,
        f"«Подобрать лучших»: тройка, рейтинг, турнир попарно — без модели: {pod} {res[:600]!r}")
-    ok(not any(c[0] == "say" for c in st.evaluate("calls")), "подбор — без Лиры")
+    ok(not any(c[0] == "say" for c in st.evaluate("calls")), "подбор — без Миры")
     shot("plugin-page-recruiter-pick.png")
     fr.locator("#top2").click(); st.wait_for_timeout(2000)
     cres = fr.locator("#cres").inner_text()
     ok("Рекомендован" in cres and "Совпадение с требованиями" in cres and "Стаж" in cres and "Честность анкеты" in cres, f"сравнение двоих: параметры и кто сильнее: {cres[:200]}")
     shot("plugin-page-recruiter-compare.png")
     fr.locator("#cask").click(); st.wait_for_timeout(300)
-    ok(any(a.startswith("Сравни кандидатов") for a in st.evaluate("asked")), "«Попросить Лиру сравнить словами» — в «Чат»")
+    ok(any(a.startswith("Сравни кандидатов") for a in st.evaluate("asked")), "«Попросить Миру сравнить словами» — в «Чат»")
     # мост: чужое действие, чужой файл, хранилища, сеть — нельзя
     probe = """(async () => { const out = {};
         try { await dewiar.run('tenders_scan', {}); out.foreign = 'прошло'; } catch (e) { out.foreign = e.message; }
@@ -477,7 +477,7 @@ with sync_playwright() as pw:
     frame.evaluate("setTimeout(() => dewiar.ask('без нажатия').then(() => { document.title = 'ушло'; }, (e) => { document.title = e.message; }), 5600)")
     st.wait_for_timeout(6300)
     dlg = st.locator(".dwq").last
-    ok(dlg.is_visible() and "хочет спросить Лиру" in dlg.inner_text() and "без нажатия" not in st.evaluate("asked"),
+    ok(dlg.is_visible() and "хочет спросить Миру" in dlg.inner_text() and "без нажатия" not in st.evaluate("asked"),
        f"фраза в чат без нажатия — сначала вопрос человеку: {dlg.inner_text()[:120] if dlg.count() else ''!r}")
     dlg.locator("button", has_text="Отмена").click(); st.wait_for_timeout(400)
     got["ask"] = frame.evaluate("document.title")
@@ -490,16 +490,16 @@ with sync_playwright() as pw:
     ok(not [c for c in st.evaluate("calls") if c[0] == "plugin_run" and c[1]["tool"] == "tenders_scan" and c[1]["id"] == "recruiter"], "чужое действие до ядра даже не дошло")
     frame.evaluate("location.href = 'about:blank#x'"); st.wait_for_timeout(500)
     ok(st.evaluate("PLP.frameLoads") >= 2, "фрейм сменил страницу — мост выключен")
-    # «Художник» — вкладка «Рисунки»; «Кухня» — без своего кода: «Попросить Лиру»
+    # «Художник» — вкладка «Рисунки»; «Кухня» — без своего кода: «Попросить Миру»
     st.click('#nav-plugins [data-plg="artist"]'); st.wait_for_timeout(1200)
     ok(st.inner_text("#plp .plp-tabs").startswith("Рисунки") and "Рисунков пока нет" in st.inner_text("#plp-body"), "«Художник»: страница ведёт в его «Рисунки»")
     st.click('#plp .plp-tabs [data-tab="do"]'); st.wait_for_timeout(300)
     body = st.inner_text("#plp-body")
-    ok("Галерея" in body and "Нарисовать" in body and "art_draw" not in body and "Svg" not in body, "«Художник»: код SVG — дело Лиры, человеку — «Нарисовать» и «Галерея»")
+    ok("Галерея" in body and "Нарисовать" in body and "art_draw" not in body and "Svg" not in body, "«Художник»: код SVG — дело Миры, человеку — «Нарисовать» и «Галерея»")
     st.click('#nav-plugins [data-plg="kitchen"]'); st.wait_for_timeout(1000)
-    ok("Работает через разговор" in st.inner_text("#plp-head") and "Что приготовить" in st.inner_text("#plp-body"), "«Кухня» — без своего кода: понятное состояние и формы для Лиры")
+    ok("Работает через разговор" in st.inner_text("#plp-head") and "Что приготовить" in st.inner_text("#plp-body"), "«Кухня» — без своего кода: понятное состояние и формы для Миры")
     st.fill('.plp-ask [data-q="продукты"]', "курица, рис"); st.press('.plp-ask [data-q="продукты"]', "Enter"); st.wait_for_timeout(200)
-    ok("Что приготовить из курица, рис?" in st.evaluate("asked"), "Enter в форме — фраза Лире")
+    ok("Что приготовить из курица, рис?" in st.evaluate("asked"), "Enter в форме — фраза Мире")
     shot("plugin-page-kitchen.png")
     if SHOTS:                                         # тёмная тема: та же страница Рекрутёра
         sk = st.evaluate("() => document.documentElement.dataset.skin || ''")

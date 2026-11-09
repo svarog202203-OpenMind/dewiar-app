@@ -1,5 +1,5 @@
 """Идея №56 «Готовые персонажи на телефоне» (03.11): на компьютере — Фемида, Доктор, Джарвис, Эва… (core/personas.py
-TEMPLATES и GALLERY), на телефоне были только Лира, Патрик и «свой». Теперь personas.js (android/tools/personas_json.py)
+TEMPLATES и GALLERY), на телефоне были только Мира, Патрик и «свой». Теперь personas.js (android/tools/personas_json.py)
 несёт window.DEWIAR_GALLERY, а лист «Кто отвечает» — раздел «Готовые персонажи»: «Выбрать» — персонаж в команде и сразу
 отвечает (имя вверху, характер и роль — в подсказке модели), «Убрать» — уходит; выбор переживает перезапуск.
 Инструментов компьютера (lab_run, search_documents) в подсказке телефона нет; друга ребёнка (Уго) в разделе нет."""
@@ -24,7 +24,7 @@ gal = json.loads(line[len("window.DEWIAR_GALLERY = "):].rstrip(";"))
 ids = [g["id"] for g in gal]
 want = [k for k in list(P.TEMPLATES) + list(P.GALLERY) if not (P.TEMPLATES.get(k) or P.GALLERY.get(k)).get("kids")]
 ok(ids == want and "femida" in ids and "doctor" in ids and "jarvis" in ids, f"готовые — те же, что на компьютере: {ids}")
-ok("ugo" not in ids and not set(ids) & set(P.BUILTIN), "без друга ребёнка и без встроенных (Лира, Патрик)")
+ok("ugo" not in ids and not set(ids) & set(P.BUILTIN), "без друга ребёнка и без встроенных (Мира, Патрик)")
 ok(all(g["name"] and g["character"] and g["color"] and g["role"] for g in gal), "у каждого — имя, характер, роль, цвет")
 ok(not any(re.search(r"lab_run|lab_write|search_documents", g["focus"]) for g in gal), "в подсказке телефона нет инструментов компьютера")
 ok(all(g["focus"] for g in gal if g["id"] != "dewiar"), "специализация — словами в подсказке (focus)")
@@ -45,7 +45,7 @@ with sync_playwright() as p:
     pg.add_init_script("window.toasts = [];")
     pg.goto((www / "index.html").as_uri()); pg.wait_for_timeout(1000)
     before = pg.evaluate("PERSONAS.map(p => p.id)")
-    ok("femida" not in before and pg.evaluate("persona().id") == "lira", f"по умолчанию — Лира, готовых в команде нет: {before}")
+    ok("femida" not in before and pg.evaluate("persona().id") == "lira", f"по умолчанию — Мира, готовых в команде нет: {before}")
     pg.click("#who"); pg.wait_for_timeout(400)
     ok(pg.locator("#p-gal").count() == 1 and "Готовые персонажи" in pg.inner_text("#p-gal summary"), "в листе «Кто отвечает» есть раздел «Готовые персонажи»")
     ok(pg.locator("#p-gal .pg").count() == len(gal), f"в разделе все готовые: {pg.locator('#p-gal .pg').count()}")
@@ -73,7 +73,7 @@ with sync_playwright() as p:
     pg.locator("#p-gal .pg[data-g='femida'] .pgoff").click(); pg.wait_for_timeout(300)
     ok(not pg.evaluate("PERSONAS.some(p => p.id === 'femida')") and pg.evaluate("persona().id") == "doctor", "«Убрать» — Фемида ушла из команды, Доктор отвечает")
     pg.evaluate("galRemove('doctor')"); pg.wait_for_timeout(100)
-    ok(pg.evaluate("persona().id") == "lira", "убрали того, кто отвечал, — снова Лира")
+    ok(pg.evaluate("persona().id") == "lira", "убрали того, кто отвечал, — снова Мира")
     b.close()
 ok(not errs, f"без ошибок страницы: {errs[:2]}")
 shutil.rmtree(tmp, ignore_errors=True)

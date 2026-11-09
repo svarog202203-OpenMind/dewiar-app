@@ -1,8 +1,8 @@
 TITLE = "Урок 11 · Дела по расписанию"
-IDEA = "Главная вещь урока — день по часам: Лира сама делает дело в срок, и в Telegram приходит только результат, строками со смайликами."
+IDEA = "Главная вещь урока — день по часам: Мира сама делает дело в срок, и в Telegram приходит только результат, строками со смайликами."
 H1 = "Дела по расписанию"
 TAG = "Курс, почта, новости — приходят сами"
-NEXT = "Следующий урок — «Утро с Лирой»"
+NEXT = "Следующий урок — «Утро с Мирой»"
 ICON = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>'
 SCENES = ["title", "problem", "ask", "hourly", "quiet", "where", "how", "end"]
 CSS = """
@@ -44,7 +44,7 @@ CSS = """
 """
 HOURS = list(range(9, 19))
 HTML = """
-  <div class="layer" id="L-phone"><div id="phone"><div class="scr"><header><img src="../../../../data/avatars/lira.webp" alt=""><div><b>Лира</b><small>бот в Telegram</small></div></header>
+  <div class="layer" id="L-phone"><div id="phone"><div class="scr"><header><img src="../../../../data/avatars/lira.webp" alt=""><div><b>Мира</b><small>бот в Telegram</small></div></header>
     <div id="chat">
       <div class="msg" id="c1">💵 Доллар — 92,40 ₽ (+0,35)<br>💶 Евро — 99,10 ₽ (−0,12)<br>📈 За неделю доллар +1,2%<small>пн, 9:00</small></div>
       <div class="msg" id="c2">💵 Доллар — 92,55 ₽ (+0,15)<br>💶 Евро — 99,30 ₽ (+0,20)<small>вт, 9:00</small></div>

@@ -36,7 +36,7 @@ function dlRender() {
       + (c.items.length ? c.items.map(dlCard).join("") : `<p class="dl-empty">${{ lead: "Новые заявки — голосом: «Ромашка хочет 200 коробок»", offer: "Отправили КП — здесь", invoice: "Счёт выставлен — ждём оплату", paid: "Оплаченное за месяц" }[c.stage]}</p>`)
       + `</div>`).join("")}</div>`
     + (lost.length ? `<p class="dl-lost">Отказы за 30 дней: ${lost.map(d => `${escH(d.client)} — «${escH(d.title)}»`).join("; ")}</p>` : "")
-    + (!b.cols.some(c => c.items.length) ? `<p class="hint dl-hint">Скажите Лире: «Ромашке выставили счёт на 1200 за коробки, оплатить до пятницы» — сделка появится в «Счёт». «Кто нам должен?» — ответит.</p>` : "");
+    + (!b.cols.some(c => c.items.length) ? `<p class="hint dl-hint">Скажите Мире: «Ромашке выставили счёт на 1200 за коробки, оплатить до пятницы» — сделка появится в «Счёт». «Кто нам должен?» — ответит.</p>` : "");
   dlBind();
 }
 function dlCard(d) {

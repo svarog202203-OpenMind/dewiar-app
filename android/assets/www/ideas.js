@@ -1,5 +1,5 @@
-/* «Идеи Лиры» на телефоне (0.59; владелец 28.10: «видеть идеи красиво, за что проголосовали другие, есть ли уже моя, если нет —
-   добавить, и повлиять на рейтинг голосом; сделанные — со страницами и поиском»). Лист #sh-ideas из «Всё» и «Настройки» → «Идеи Лиры»:
+/* «Идеи Миры» на телефоне (0.59; владелец 28.10: «видеть идеи красиво, за что проголосовали другие, есть ли уже моя, если нет —
+   добавить, и повлиять на рейтинг голосом; сделанные — со страницами и поиском»). Лист #sh-ideas из «Всё» и «Настройки» → «Идеи Миры»:
    «Опишите идею» (похожие — сразу, поддержать голосом; нет — «Предложить»), вкладки «Будем делать» / «Сделано» / «Мои»,
    поиск, «Ещё» (страницы). Сайт: cloud.php ?p=/ideas, /ideas/similar, /ideas/vote, /ideas/new; голос — с устройства
    (X-Dewiar-Dev — devId(), сайт хранит отпечаток). Новое в плане с прошлого раза — «новое» (pref idea_seen). */
@@ -27,9 +27,9 @@ function ideaItem(x) {
 function ideasHtml() {
   const d = IDV.d || { counts: {} }, c = d.counts || {};
   const tab = (k, t) => `<button role="tab" data-itab="${k}" class="${IDV.tab === k ? "on" : ""}" aria-selected="${IDV.tab === k}"><span>${t}</span>${c[k] ? `<b>${c[k]}</b>` : ""}</button>`;
-  const empty = IDV.q ? `По «${esc(IDV.q)}» ничего — предложите это сверху.` : IDV.tab === "mine" ? "Вы ещё не предлагали идей — напишите сверху, что Лире уметь."
+  const empty = IDV.q ? `По «${esc(IDV.q)}» ничего — предложите это сверху.` : IDV.tab === "mine" ? "Вы ещё не предлагали идей — напишите сверху, что Мире уметь."
     : IDV.tab === "done" ? "Здесь появятся сделанные идеи — с версией." : "Пока пусто — станьте первым.";
-  return `<p class="hint" style="margin-top:0">Что Лире уметь дальше — решаем вместе. Поддержите голосом нужное: чем больше голосов, тем раньше возьмёмся.</p>
+  return `<p class="hint" style="margin-top:0">Что Мире уметь дальше — решаем вместе. Поддержите голосом нужное: чем больше голосов, тем раньше возьмёмся.</p>
     <div class="idnew"><div class="idq">${IDEA_SVG}<input id="idq" maxlength="120" placeholder="Опишите идею — поищу похожие" value="${esc(IDV.draft || "")}"></div>
       <div id="idsim"></div><div id="idsend" ${((IDV.draft || "").length >= 4) ? "" : "hidden"}><textarea id="idbody" rows="2" maxlength="2000" placeholder="Подробнее (необязательно)"></textarea>
       <button class="btn p w" id="idgo">Предложить идею</button></div><div class="res" id="idres"></div></div>
@@ -105,9 +105,9 @@ async function ideaSuggest(title, text) {
     if (sim.length) { let x = sim[0];
       if (x.status === "done") return `Это уже сделано в версии ${x.ver || "новее"}: «${x.title}». Скажи об этом и предложи обновиться.`;
       if (!x.voted) x = Object.assign({}, x, await ideaCall("/ideas/vote", {}, { id: x.id, on: true }));
-      return `Похожая идея уже есть: «${x.title}» — голос за неё отдан (голосов: ${x.votes}). Скажи коротко: такую уже предлагали, проголосовала; все идеи — «Всё» → «Идеи Лиры».`; }
+      return `Похожая идея уже есть: «${x.title}» — голос за неё отдан (голосов: ${x.votes}). Скажи коротко: такую уже предлагали, проголосовала; все идеи — «Всё» → «Идеи Миры».`; }
     const d = await ideaCall("/ideas/new", {}, { title, text: String(text || "").slice(0, 2000), who: S.who || S.user_name || "", app: D.web ? "web" : "phone" });
-    return `Идея «${d.item.title}» отправлена разработчику — на рассмотрении. Скажи коротко, что предложила; посмотреть — «Всё» → «Идеи Лиры».`;
+    return `Идея «${d.item.title}» отправлена разработчику — на рассмотрении. Скажи коротко, что предложила; посмотреть — «Всё» → «Идеи Миры».`;
   } catch (e) { return "Ошибка: идея не отправилась — " + (e.message || e) + ". Скажи об этом коротко."; }
 }
 function openIdeas() { openSheet("#sh-ideas"); IDV.d = null; ideasRender(); ideasLoad(); }

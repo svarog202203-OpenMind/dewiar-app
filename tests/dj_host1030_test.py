@@ -152,7 +152,7 @@ e.dj_said.clear()
 for _ in range(4):
     e._mine_ended(e.radio.station)
 ok(not e.dj_said, "и правда молчит")
-ok(e._mine_cmd("Лира, веди эфир") and e.s.get("music", "dj_talk") is True and "Веду эфир" in e.said[-1] and "2 песни" in e.said[-1],
+ok(e._mine_cmd("Мира, веди эфир") and e.s.get("music", "dj_talk") is True and "Веду эфир" in e.said[-1] and "2 песни" in e.said[-1],
    f"«веди эфир» — снова говорит: {e.said[-1]}")
 e.radio.station = None
 ok(not e._mine_cmd("хватит болтать"), "«хватит болтать» без музыки — это не про ведущего, дальше — разговор")

@@ -1,6 +1,6 @@
 """«Вопрос — ответ» в студии (27.10, владелец: «нужно сделать, удобно, красиво, плиткой, с поиском»): плитки разделов
 руководства (data/guide.json) со счётчиками; плитка — статьи раздела; поиск своими словами — первая статья справа;
-«Попробуйте сказать» — фраза уходит Лире; «Открыть раздел» — в раздел студии; «Спросить Лиру» — вопрос в «Чат».
+«Попробуйте сказать» — фраза уходит Мире; «Открыть раздел» — в раздел студии; «Спросить Миру» — вопрос в «Чат».
 Настоящее ядро (команда guide), без модели."""
 import json, os, socket, subprocess, sys, tempfile, time
 from pathlib import Path
@@ -82,14 +82,14 @@ try:
             pg.click("#qa-art .qa-try >> nth=0"); time.sleep(1.5)
             dry = (tmp / "dry.jsonl").read_text(encoding="utf-8") if (tmp / "dry.jsonl").exists() else ""
             log = (tmp / "core.log").read_text(encoding="utf-8", errors="replace")
-            ok("Уго" in log or "Уго" in dry, "«Попробуйте сказать» ▶ — фраза ушла Лире")
+            ok("Уго" in log or "Уго" in dry, "«Попробуйте сказать» ▶ — фраза ушла Мире")
             pg.click("#qa-go"); time.sleep(0.6)
             ok(pg.evaluate("document.querySelector('nav button.cur').dataset.p") == "kids", "«Открыть раздел» — студия → «Дети»")
             pg.click('nav button[data-p="qa"]'); time.sleep(0.4)
             pg.fill("#qa-q", "квантовая хромодинамика"); time.sleep(1.0)
-            ok("Ничего не нашлось" in pg.inner_text("#qa-left") and "Спросить Лиру" in pg.inner_text("#qa-left"), "не нашлось — честно и подсказка спросить Лиру")
+            ok("Ничего не нашлось" in pg.inner_text("#qa-left") and "Спросить Миру" in pg.inner_text("#qa-left"), "не нашлось — честно и подсказка спросить Миру")
             pg.click("#qa-ask"); time.sleep(1.0)
-            ok(pg.evaluate("document.querySelector('nav button.cur').dataset.p") == "chat", "«Спросить Лиру» — вопрос в «Чат»")
+            ok(pg.evaluate("document.querySelector('nav button.cur').dataset.p") == "chat", "«Спросить Миру» — вопрос в «Чат»")
             pg.close()
         ok(not errs, f"без ошибок на странице: {errs[:2]}")
         b.close()

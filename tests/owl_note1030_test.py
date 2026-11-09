@@ -1,4 +1,4 @@
-"""«Научите меня имени «Совенок, Совёнок»» каждый день (30.10, владелец: «Лира постоянно пишет про Совёнка, большинству это
+"""«Научите меня имени «Совенок, Совёнок»» каждый день (30.10, владелец: «Мира постоянно пишет про Совёнка, большинству это
 не нужно — я и вчера его видел, и сегодня»). Совёнок Уго — друг ребёнка: на имя откликается только в детском режиме,
 вне его не попадает в список имён и не просит учить его имя. Совет «научите имени» — один раз на тот же набор имён."""
 import os, sys, types
@@ -17,11 +17,11 @@ def ok(c, m):
 import personas as P  # noqa: E402
 from engine_audio import AudioMixin  # noqa: E402
 
-PS = [{"id": "lira", "name": "Лира", "wake": ["лира"]}, {"id": "patrik", "name": "Патрик", "wake": ["патрик"]},
+PS = [{"id": "lira", "name": "Мира", "wake": ["мира"]}, {"id": "patrik", "name": "Патрик", "wake": ["патрик"]},
       dict(P.GALLERY["ugo"], id="ugo"), {"id": "zevs", "name": "Зевс", "wake": ["зевс"]}]
 fake = types.SimpleNamespace(all=lambda: PS)
 wm = P.Personas.wake_map(fake)
-ok("лира" in wm and "совенок" not in wm and "уго" not in wm, f"вне детского режима Совёнка в списке имён нет: {sorted(wm)}")
+ok("мира" in wm and "совенок" not in wm and "уго" not in wm, f"вне детского режима Совёнка в списке имён нет: {sorted(wm)}")
 ok(P.Personas.wake_map(fake, kids=True).get("совенок") == "ugo" and P.Personas.wake_map(fake, only="ugo").get("уго") == "ugo",
    "в детском режиме — откликается")
 

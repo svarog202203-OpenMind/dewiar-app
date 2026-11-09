@@ -31,7 +31,7 @@ NEW_RX = re.compile(r"^(?:давай(?:те)?\s+)?(?:начн(?:ем|ём|и)|н
 
 
 def is_new_conversation(text):
-    """«Начнём новый разговор», «забудь разговор», «Лира, новая тема»."""
+    """«Начнём новый разговор», «забудь разговор», «Мира, новая тема»."""
     t = " ".join(re.sub(r"[^\w\s-]", " ", (text or "").lower().replace("ё", "е")).split())
     t = re.sub(r"\s+пожалуйста$", "", t)
     return bool(NEW_RX.match(t) or NEW_RX.match(re.sub(r"^\S+\s+", "", t)))

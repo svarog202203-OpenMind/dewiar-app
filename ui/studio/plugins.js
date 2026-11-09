@@ -54,7 +54,7 @@ function plgDrawer(id) {
       : `<button class="btn primary" id="pld-in">${p.arrived ? "Включить" : "Установить"}</button>`}<span class="res" id="pld-res"></span></div>
     ${!p.installed && p.arrived ? `<p class="hint pld-arr">Пришёл с «${plgEsc(p.arrived.from)}» синхронизацией. ${p.arrived.code
       ? "В нём своя программа — она запустится на этом компьютере. Включайте, если делали плагин вы." : ""}</p>` : ""}
-    ${p.phrases.length ? `<h2>Попробуйте сказать</h2><div class="pld-ph">${p.phrases.map(t => `<button class="chip" data-t="${plgEsc(t)}" title="${p.installed ? "Спросить Лиру" : "Скопировать"}">«${plgEsc(t)}»</button>`).join("")}</div>` : ""}
+    ${p.phrases.length ? `<h2>Попробуйте сказать</h2><div class="pld-ph">${p.phrases.map(t => `<button class="chip" data-t="${plgEsc(t)}" title="${p.installed ? "Спросить Миру" : "Скопировать"}">«${plgEsc(t)}»</button>`).join("")}</div>` : ""}
     ${p.settings.length ? `<h2>Настройки</h2><div class="row one pld-set">${p.settings.map(s => plgField(p, s)).join("")}</div>
       ${p.installed ? `<div class="actions" style="margin-top:6px"><button class="btn" id="pld-save">Сохранить настройки</button></div>` : `<p class="hint">Заполнится при установке — поменять можно в любой момент.</p>`}` : ""}
     ${p.jobs.length ? `<h2>Дела по расписанию</h2><p class="hint" style="margin:-4px 0 6px">Помощница делает их сама и сообщает итог. Каждое — по желанию.</p>
@@ -76,7 +76,7 @@ function plgDrawer(id) {
   if ($("#pld-in")) $("#pld-in").onclick = () => { $("#pld-in").disabled = true; run("plugin_install", { id, values: plgValues() }, `«${p.name}» ${p.arrived ? "включён" : "установлен"}`); };
   if ($("#pld-rm")) $("#pld-rm").onclick = async () => { if (!await ask(`Удалить плагин «${p.name}»? Его навыки и подключения уберутся, дела по расписанию — тоже.`)) return; run("plugin_remove", { id }, `«${p.name}» удалён`); };
   if ($("#pld-save")) $("#pld-save").onclick = () => run("plugin_values", { id, values: plgValues() }, "Настройки сохранены");
-  // плагин Лиры синхронизируется между компьютерами (core/plugin_sync.py) — и удаляется со всех
+  // плагин Миры синхронизируется между компьютерами (core/plugin_sync.py) — и удаляется со всех
   if ($("#pld-del")) $("#pld-del").onclick = async () => { if (!await ask(p.made ? `Удалить плагин «${p.name}»? Он удалится и с других ваших компьютеров, где включена синхронизация.` : `Удалить файлы плагина «${p.name}» с этого компьютера?`)) return; plgOpen = ""; plgClose(); run("plugin_delete", { id }, "Плагин удалён"); };
   $$("#pld [data-pick]").forEach(b => b.onclick = async (ev) => {
     ev.preventDefault(); const a = window.api && window.api();
@@ -87,7 +87,7 @@ function plgDrawer(id) {
   });
   $$("#pld [data-link]").forEach(b => b.onclick = () => core.call("ws_open", { path: p.links[+b.dataset.link].path }).catch(e => res(e.message, false)));
   $$("#pld [data-job]").forEach(c => c.onchange = () => run("plugin_job", { id, job: c.dataset.job, on: c.checked }, c.checked ? "Дело включено — помощница сделает его сама" : "Дело выключено"));
-  // установлен — фраза сразу уходит Лире в чат (видно, как работает); нет — копируется
+  // установлен — фраза сразу уходит Мире в чат (видно, как работает); нет — копируется
   $$("#pld .pld-ph .chip").forEach(b => b.onclick = () => { if (p.installed && typeof qaAsk === "function") { plgClose(); qaAsk(b.dataset.t); return; }
     try { navigator.clipboard.writeText(b.dataset.t); } catch (e) { } toast("Скопировано — скажите это вслух или вставьте в чат"); });
 }

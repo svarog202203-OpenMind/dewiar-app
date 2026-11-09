@@ -1,6 +1,6 @@
 """Телефон: «Вопрос — ответ» и курсы (28.10, план владельца: «на телефоне — вопрос-ответ и курсы», как в студии).
 «Ещё» → «Вопрос — ответ и курсы»: лист с двумя вкладками. Вопрос — ответ: плитки разделов руководства, статьи раздела,
-статья с «Попробуйте сказать» (нажатие — фраза уходит Лире), поиск. Курсы: урок дня, шаги засчитываются сами (сказал
+статья с «Попробуйте сказать» (нажатие — фраза уходит Мире), поиск. Курсы: урок дня, шаги засчитываются сами (сказал
 похожее, открыл лист), следующий урок — завтра или «Следующий урок сейчас», другие курсы, карточка «урок дня» раз в
 день, «открой курсы» голосом."""
 import json, os, shutil, subprocess, sys, tempfile
@@ -55,7 +55,7 @@ with sync_playwright() as p:
     if r[1]:
         pg.click(".ln-try"); pg.wait_for_timeout(500)
         ok(pg.evaluate("_asked")[-1:] == [art["say"][0]] and not pg.evaluate("document.querySelector('#sh-learn').classList.contains('on')"),
-           "«Попробуйте сказать» — фраза уходит Лире, лист закрывается")
+           "«Попробуйте сказать» — фраза уходит Мире, лист закрывается")
     # статья компьютера — пометка
     pc = next((s for s in GUIDE if "phone" not in (s.get("where") or [])), None)
     if pc:
@@ -68,13 +68,13 @@ with sync_playwright() as p:
     r = pg.evaluate("() => [document.querySelectorAll('.ln-row').length, document.querySelector('.ln-cnt').textContent, document.activeElement && document.activeElement.id]")
     ok(r[0] >= 1 and r[1].startswith("Нашлось") and r[2] == "ln-q", f"поиск на лету, поле остаётся в фокусе: {r}")
     pg.fill("#ln-q", "квантовая хромодинамика"); pg.wait_for_timeout(600)
-    ok(pg.evaluate("() => !document.querySelector('.ln-row') && !!document.querySelector('#ln-ask')"), "ничего не нашлось — «Спросить Лиру»")
+    ok(pg.evaluate("() => !document.querySelector('.ln-row') && !!document.querySelector('#ln-ask')"), "ничего не нашлось — «Спросить Миру»")
     # курсы
     pg.click("#ln-tabs button[data-t='course']"); pg.wait_for_timeout(300)
     r = pg.evaluate("() => [document.querySelector('.ln-ht b').textContent, document.querySelectorAll('.ln-d').length, document.querySelectorAll('.ln-d.today').length, document.querySelectorAll('.ln-step').length, document.querySelectorAll('.ln-oc').length]")
-    ok(r == ["Неделя с Лирой", 7, 1, 3, 1], f"курсы: «Неделя с Лирой», семь дней, урок 1 сегодня, три шага, другой курс ниже: {r}")
+    ok(r == ["Неделя с Мирой", 7, 1, 3, 1], f"курсы: «Неделя с Мирой», семь дней, урок 1 сегодня, три шага, другой курс ниже: {r}")
     if shots: pg.screenshot(path=str(Path(shots) / "phone-course.png"))
-    pg.evaluate("() => courseHeard('Лира, что ты умеешь?')"); pg.wait_for_timeout(1100)
+    pg.evaluate("() => courseHeard('Мира, что ты умеешь?')"); pg.wait_for_timeout(1100)
     ok(pg.evaluate("() => [S.course.c.week.steps[1], document.querySelectorAll('.ln-steps li.ok').length]") == [[0], 1], "сказал «что ты умеешь» — первый шаг засчитан и отмечен")
     pg.evaluate("() => { courseHeard('Напомни через 10 минут проверить чайник'); courseHeard('Какие у меня дела?'); }"); pg.wait_for_timeout(1100)
     r = pg.evaluate("() => [S.course.c.week.done[1] === lnToday(), document.querySelector('.ln-lesson').classList.contains('wait'), !!document.querySelector('#ln-ahead'), document.querySelectorAll('.ln-d.done').length]")
@@ -85,18 +85,18 @@ with sync_playwright() as p:
     ok(pg.evaluate("() => [document.querySelector('.ln-lh b').textContent, document.querySelectorAll('.ln-step').length]") == ["Мой день", 3], "«Следующий урок сейчас» — урок 2 открыт")
     pg.evaluate("() => { closeSheets(); openSheet('#sh-day'); }"); pg.wait_for_timeout(1100)
     ok(pg.evaluate("() => S.course.c.week.steps[2]") == [2], "открыл «Мой день» — шаг «Нажмите календарик» засчитан сам")
-    # нажатие шага: фраза — Лире; «Нажмите…» — открыть лист
+    # нажатие шага: фраза — Мире; «Нажмите…» — открыть лист
     pg.evaluate("() => openLearn('course')"); pg.wait_for_timeout(400)
     pg.click(".ln-step[data-i='0']"); pg.wait_for_timeout(500)
-    ok(pg.evaluate("_asked")[-1] == "Запланируй на завтра в 10 забрать посылку", "нажал шаг — фраза ушла Лире")
+    ok(pg.evaluate("_asked")[-1] == "Запланируй на завтра в 10 забрать посылку", "нажал шаг — фраза ушла Мире")
     # другие курсы
     pg.evaluate("() => openLearn('course')"); pg.wait_for_timeout(400)
     pg.click(".ln-oc[data-c='close']"); pg.wait_for_timeout(300)
     r = pg.evaluate("() => [S.course.course, document.querySelector('.ln-ht b').textContent, document.querySelectorAll('.ln-d').length, document.querySelector('.ln-oc').dataset.c]")
-    ok(r == ["close", "Лира и близкие", 3, "week"], f"другой курс — свой ход, «Неделя» осталась ниже: {r}")
+    ok(r == ["close", "Мира и близкие", 3, "week"], f"другой курс — свой ход, «Неделя» осталась ниже: {r}")
     pg.evaluate("() => { S.course.course = 'week'; saveS(); closeSheets(); }")
     # голосом
-    r = pg.evaluate("async () => [(await quick('Лира, открой курсы')).say, (await quick('вопрос — ответ')).say]")
+    r = pg.evaluate("async () => [(await quick('Мира, открой курсы')).say, (await quick('вопрос — ответ')).say]")
     ok("«Мой день»" in r[0] and "Вопрос — ответ" in r[1], f"«открой курсы», «вопрос — ответ» — без модели: {r}")
     pg.wait_for_timeout(600)
     ok(pg.evaluate("() => document.querySelector('#sh-learn').classList.contains('on')"), "и лист открылся")

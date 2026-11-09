@@ -15,7 +15,7 @@ async function loadArt() {
   g.innerHTML = items.length ? items.map((w, i) => `<button class="art-w" type="button" data-i="${i}" title="Открыть в браузере">
       <span class="art-pv">${w.preview ? `<img src="${w.preview}" alt="" loading="lazy">` : `<i aria-hidden="true">${w.kind === "animation" ? "▶" : "🎨"}</i>`}</span>
       <b>${artEsc(w.title)}</b><small>${w.kind === "animation" ? "анимация" : "рисунок"} · ${artEsc(artWhen(w.at))}</small></button>`).join("")
-    : `<p class="hint">Пока пусто. Скажите Лире: «Нарисуй открытку с днём рождения для мамы» — работа появится здесь.</p>`;
+    : `<p class="hint">Пока пусто. Скажите Мире: «Нарисуй открытку с днём рождения для мамы» — работа появится здесь.</p>`;
   $$("#art-grid .art-w").forEach(b => b.onclick = () => core.call("ws_open", { path: items[+b.dataset.i].page }).catch(e => toast(e.message)));
 }
 if ($("#art-folder")) {

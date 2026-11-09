@@ -81,7 +81,7 @@ for (const fx of ["bars", "pulse", "wave"]) for (const tone of ["mono", "color"]
     pg = b.new_page(viewport={"width": 1100, "height": 760}); pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.add_init_script(FAKE)
     pg.goto((ROOT / "ui/settings.html").as_uri() + "?port=1"); pg.wait_for_timeout(1000)
-    pg.evaluate("""(img) => { S = { ui: { skin: 'calm', voice_fx: 'bars' } }; personas = [{ id: 'lira', name: 'Лира', color: '#B78CFF', style: 'strings', avatar_url: img, live: 'lira' }];
+    pg.evaluate("""(img) => { S = { ui: { skin: 'calm', voice_fx: 'bars' } }; personas = [{ id: 'lira', name: 'Мира', color: '#B78CFF', style: 'strings', avatar_url: img, live: 'lira' }];
       window.saved = []; window.save = (patch) => { saved.push(patch); Object.assign(S.ui, patch.ui || {}); return Promise.resolve(); };
       $('nav button[data-p="look"]').click(); }""", IMG)
     pg.wait_for_timeout(600)

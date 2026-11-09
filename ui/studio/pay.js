@@ -35,11 +35,11 @@ async function pyRender() {
   const box = $("#py-body"); if (!box || !PY.ov) return;
   if (!PY.ov.bills.length) {
     box.innerHTML = `<div class="py-empty"><div class="py-empty-ic">🧾</div><h3>Здесь будут ваши обязательные платежи</h3>
-      <p>Газ, свет, вода, интернет, кредит — у каждого реквизиты, срок и история оплат с показаниями. Лира напомнит накануне срока,
+      <p>Газ, свет, вода, интернет, кредит — у каждого реквизиты, срок и история оплат с показаниями. Мира напомнит накануне срока,
       а через год покажет, сколько ушло на каждый.</p>
       <div class="py-empty-row"><button class="btn primary" id="py-first">Добавить первый платёж</button>
       <button class="btn" id="py-imp2">Перенести из органайзера</button></div>
-      <p class="hint">Голосом: «Лира, добавь платёж: газ, до 25-го» — и потом «оплатил газ 47,84, показания 28135».</p></div>`;
+      <p class="hint">Голосом: «Мира, добавь платёж: газ, до 25-го» — и потом «оплатил газ 47,84, показания 28135».</p></div>`;
     $("#py-first").onclick = () => pyBillForm(null); $("#py-imp2").onclick = pyImport;
     return;
   }
@@ -400,17 +400,17 @@ function pyImport() {
     <p class="hint">Вставьте всё, что вели раньше: разделы по платежам, строки «25.01.26 - 27214 (477 куб = 101.87)», реквизиты, телефоны.
       Я разложу это по платежам и месяцам — вы проверите и перенесёте. Ничего не сохранится, пока не нажмёте «Перенести».</p>
     <textarea id="pi-text" rows="10" placeholder="Вставьте текст сюда (Ctrl+V)"></textarea>
-    <div class="py-mact"><button class="btn" id="pi-no">Отмена</button><button class="btn" id="pi-ai" title="Для неровных записей — разберёт модель (дольше)">Разобрать с Лирой</button><button class="btn primary" id="pi-go">Разобрать</button></div>
+    <div class="py-mact"><button class="btn" id="pi-no">Отмена</button><button class="btn" id="pi-ai" title="Для неровных записей — разберёт модель (дольше)">Разобрать с Мирой</button><button class="btn primary" id="pi-go">Разобрать</button></div>
     <div id="pi-prev"></div>`);
   o.querySelector(".py-mbox").classList.add("wide");
   o.querySelector("#pi-text").focus();
   o.querySelector("#pi-no").onclick = close;
   const run = async (ai) => {
     const t = o.querySelector("#pi-text").value.trim(); if (!t) return toast("Сначала вставьте текст");
-    const pv = o.querySelector("#pi-prev"); pv.innerHTML = `<p class="hint">${ai ? "Лира читает записи…" : "Разбираю…"}</p>`;
+    const pv = o.querySelector("#pi-prev"); pv.innerHTML = `<p class="hint">${ai ? "Мира читает записи…" : "Разбираю…"}</p>`;
     let r; try { r = await core.call(ai ? "pay_import_ai" : "pay_import_parse", { text: t }); } catch (e) { pv.innerHTML = `<p class="hint">${escH(e.message)}</p>`; return; }
     const items = r.items || [];
-    if (!items.length) { pv.innerHTML = '<p class="hint">Не нашла ни одной строки с датой — попробуйте «Разобрать с Лирой».</p>'; return; }
+    if (!items.length) { pv.innerHTML = '<p class="hint">Не нашла ни одной строки с датой — попробуйте «Разобрать с Мирой».</p>'; return; }
     pv.innerHTML = `<h3>Что получилось — проверьте названия</h3><div class="pi-list">${items.map((it, i) => `<div class="pi-it" data-i="${i}">
         <label class="chk"><input type="checkbox" class="pi-on" checked></label><input class="pi-name" value="${escH(it.name)}" maxlength="40">
         <select class="pi-kind">${Object.entries(PY.ov.kinds).map(([k, v]) => `<option value="${k}" ${it.kind === k ? "selected" : ""}>${v.title}</option>`).join("")}</select>

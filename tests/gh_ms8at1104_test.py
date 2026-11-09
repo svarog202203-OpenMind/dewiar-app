@@ -122,10 +122,10 @@ try:
         pg.click("#e-brain [data-b='c']"); time.sleep(0.2)
         ok(held(pg, "settings_save") == 1 and on() == "" and pg.evaluate("document.querySelector(\"#e-brain [data-b='c']\").classList.contains('wait')"),
            "№30: пока ядро не ответило — выбор «сохраняется», а не «выбран»")
-        pg.click("#e-x"); time.sleep(0.4); edit("Лира")
+        pg.click("#e-x"); time.sleep(0.4); edit("Мира")
         release(pg, "settings_save"); time.sleep(0.8)
         ok(pg.evaluate("ed && ed.id") == "lira" and on() == "" and disk_persona() == "c",
-           f"№30: поздний ответ — Патрику; у открытой Лиры всё как было ({pg.evaluate('ed && ed.id')}, {on()!r}, {disk_persona()!r})")
+           f"№30: поздний ответ — Патрику; у открытой Миры всё как было ({pg.evaluate('ed && ed.id')}, {on()!r}, {disk_persona()!r})")
         pg.click("#e-x"); time.sleep(0.3)
         pg.evaluate("MODE.settings_save = 'hold'"); edit("Патрик")
         pg.click("#e-brain [data-b='c']"); time.sleep(0.1)

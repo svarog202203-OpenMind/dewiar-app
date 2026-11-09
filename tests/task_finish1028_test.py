@@ -93,7 +93,7 @@ class Host:
     def __init__(self):
         self.workspace = Workspace(None); self.toolbox = T.Toolbox(FakeS(), None); self.toolbox.hooks["workspace"] = self.workspace
         self.said, self.pushes = [], []
-    def persona_name(self): return "Лира"
+    def persona_name(self): return "Мира"
     def memory(self): return ""
     def llm_profile(self): return {"name": "mock", "kind": "openai", "base_url": f"http://127.0.0.1:{srv.server_port}/v1", "model": "m"}
     def max_steps(self): return 30

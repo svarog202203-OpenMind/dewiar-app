@@ -57,7 +57,7 @@ class M(BaseHTTPRequestHandler):
         self.wfile.write(b'data: {"choices":[{"delta":{},"finish_reason":"stop"}]}\n\ndata: [DONE]\n\n')
 
 
-# голосом: «Собери совет: …» — сразу короткий ответ (молчать минуту-две нельзя), итог Лира скажет сама, коротко
+# голосом: «Собери совет: …» — сразу короткий ответ (молчать минуту-две нельзя), итог Мира скажет сама, коротко
 sys.path.insert(0, str(ROOT / "core"))
 import council as CN  # noqa: E402
 import tools as TL  # noqa: E402
@@ -65,10 +65,10 @@ ok(CN.spoken_summary("**Сошлись**\nПробовать.\n\n**Разошл�
    == "Совет закончил. Советуют начать с малого. Первый шаг — посчитать бюджет.", "итог вслух — «Совет» и «Первый шаг», без всего разбора")
 calls = []
 fake = type("E", (), {"council": type("C", (), {"start": lambda self, q, p, announce=False: calls.append(announce) or
-                                                  {"sid": "x", "members": [{"name": "Лира"}, {"name": "Патрик"}]}})(),
+                                                  {"sid": "x", "members": [{"name": "Мира"}, {"name": "Патрик"}]}})(),
                       "emit": lambda self, *a, **k: calls.append(k.get("open"))})()
 t0 = time.monotonic(); r = TL.t_council({"question": "Учить Python?"}, {"engine": fake})
-ok(time.monotonic() - t0 < 1 and calls == [True, True] and "Лира, Патрик" in r and "одной фразой" in r,
+ok(time.monotonic() - t0 < 1 and calls == [True, True] and "Мира, Патрик" in r and "одной фразой" in r,
    f"инструмент не ждёт итога: совет собран, студия открыта, итог — потом вслух: {calls} {r[:80]!r}")
 
 srv = ThreadingHTTPServer(("127.0.0.1", 0), M); threading.Thread(target=srv.serve_forever, daemon=True).start()
@@ -101,7 +101,7 @@ try:
         pg.click('nav button[data-p="council"]'); time.sleep(1.5)
         ms = pg.evaluate("() => [...document.querySelectorAll('#co-ms .co-m')].map(b => [b.dataset.id, b.classList.contains('on'), b.querySelector('small').textContent])")
         on = [m[0] for m in ms if m[1]]
-        ok(on[:2] == ["lira", "patrik"] and 2 <= len(on) <= 3, f"по умолчанию за столом: ведущая Лира и Патрик со своим мозгом (и ещё один, если есть): {on}")
+        ok(on[:2] == ["lira", "patrik"] and 2 <= len(on) <= 3, f"по умолчанию за столом: ведущая Мира и Патрик со своим мозгом (и ещё один, если есть): {on}")
         N = len(on)
         pat = next(m for m in ms if m[0] == "patrik")
         ok("claude-mock" in pat[2] and "свой мозг" in pat[2] and "gpt-mock" in next(m for m in ms if m[0] == "lira")[2], f"у каждого видна модель: {pat}")
@@ -124,8 +124,8 @@ try:
         pg.wait_for_selector("#co-feed .co-end", timeout=60000)
         r1 = [x for x in SEEN if x[0] == "r1"]; r2 = [x for x in SEEN if x[0] == "r2"]; sm = [x for x in SEEN if x[0] == "sum"]
         ok(len(r1) == N and len(r2) == N and len(sm) == 1, f"три круга: мнения, спор, итог: {len(r1)}, {len(r2)}, {len(sm)}")
-        ok(("r1", "Патрик", "claude-mock") in r1 and ("r1", "Лира", "gpt-mock") in r1, f"Патрик думает своей моделью, Лира — общей: {r1}")
-        ok(sm and sm[0][1] == "Лира", "итог подводит ведущая — Лира")
+        ok(("r1", "Патрик", "claude-mock") in r1 and ("r1", "Мира", "gpt-mock") in r1, f"Патрик думает своей моделью, Мира — общей: {r1}")
+        ok(sm and sm[0][1] == "Мира", "итог подводит ведущая — Мира")
         cards = pg.evaluate("() => [...document.querySelectorAll('#co-feed .co-msg')].map(c => [c.dataset.k, c.querySelector('.co-tx').innerText.trim()])")
         ok(len(cards) == 2 * N + 1 and all(t for _, t in cards), f"в ленте {2 * N + 1} карточек с текстом: {[k for k, _ in cards]}")
         sum_html = pg.inner_html("#co-feed .co-msg.sum .co-tx")

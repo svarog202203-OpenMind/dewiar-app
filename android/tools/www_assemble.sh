@@ -27,7 +27,7 @@ python3 "$HERE/tools/personas_json.py" "$ROOT" > "$W/personas.js"
 python3 -c 'import json,sys; print("window.RADIO_LIST = " + json.dumps(json.load(open(sys.argv[1], encoding="utf-8")), ensure_ascii=False) + ";")' \
     "$ROOT/data/radio.json" > "$W/radio.js"         # свой список радиостанций (тот же, что у компьютера)
 python3 -c 'import json,sys; print("window.DEWIAR_GUIDE = " + json.dumps(json.load(open(sys.argv[1], encoding="utf-8")), ensure_ascii=False) + ";")' \
-    "$ROOT/data/guide.json" > "$W/guide.js"         # руководство — Лира отвечает «как…» по нему (app_help), как на компьютере
+    "$ROOT/data/guide.json" > "$W/guide.js"         # руководство — Мира отвечает «как…» по нему (app_help), как на компьютере
 python3 -c 'import json,sys; print("window.DEWIAR_TRICKS = " + json.dumps(json.load(open(sys.argv[1], encoding="utf-8")), ensure_ascii=False) + ";")' \
     "$ROOT/data/tricks.json" > "$W/tricks.js"       # «Что я умею» — те же фразы, что в студии
 python3 -c 'import json,sys; print("window.DEWIAR_NEWS = " + json.dumps(json.load(open(sys.argv[1], encoding="utf-8")), ensure_ascii=False) + ";")' \

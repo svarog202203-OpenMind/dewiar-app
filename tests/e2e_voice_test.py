@@ -30,12 +30,12 @@ env = dict(os.environ, DEWIAR_CONFIG_DIR=str(tmp / "cfg"), DEWIAR_STATE_DIR=str(
            DEWIAR_PORT=str(PORT), DEWIAR_ASSUME_AEC="0" if os.environ.get("SCENARIO") == "half_stop" else "1")
 # Что «распознает» сервер для каждой фразы сценария (по порядку). Сценарий:
 #   фоновая фраза без имени → «Девиар, …» (имени нет в словаре Vosk — ловит точная модель) →
-#   «Патрик, расскажи историю» → посреди рассказа «Лира, привет» → «как дела» без имени →
+#   «Патрик, расскажи историю» → посреди рассказа «Мира, привет» → «как дела» без имени →
 #   снова история Патрика → посреди неё «Девиар, привет» (перебивание фирменным именем).
-SCRIPT = ["Игра была отличной.", "Девиар, сколько будет два плюс два?", "Патрик, расскажи историю.", "Лира, привет!",
+SCRIPT = ["Игра была отличной.", "Девиар, сколько будет два плюс два?", "Патрик, расскажи историю.", "Мира, привет!",
           "Как дела?", "Патрик, расскажи историю.", "Девиар, привет!"]
 if os.environ.get("SCENARIO") == "classic":
-    SCRIPT = ["Патрик, сколько будет два плюс два?", "Патрик, расскажи историю.", "Лира, привет!", "Как дела?"]
+    SCRIPT = ["Патрик, сколько будет два плюс два?", "Патрик, расскажи историю.", "Мира, привет!", "Как дела?"]
 if os.environ.get("SCENARIO") == "long_barge":
     # перебивание речью случается раньше проверки имени, поэтому распознаётся одна целая фраза
     SCRIPT = ["Патрик, расскажи историю.", "Девиар, подожди, расскажи лучше про космос и звёзды."]
@@ -44,7 +44,7 @@ if os.environ.get("SCENARIO") == "smart_barge":
 if os.environ.get("SCENARIO") == "half_stop":      # без эхоподавления: «хватит» поверх рассказа всё равно слышно
     SCRIPT = ["Патрик, расскажи историю.", "Патрик, расскажи историю.", "Подожди, лучше расскажи про космос."]
 # Разговор общий: ответы других персонажей приходят модели в истории. Заглушка повторяет только последнюю реплику —
-# иначе ответ Лиры растягивается на всю историю и «как дела» попадает на её речь.
+# иначе ответ Миры растягивается на всю историю и «как дела» попадает на её речь.
 mock = subprocess.Popen([sys.executable, str(TESTS / "mock_llm.py"), str(LLM_PORT)] + SCRIPT, env=dict(os.environ, MOCK_ECHO_LAST="1"))
 core = subprocess.Popen([PY, str(ROOT / "core/main.py"), "--wav", WAV, "--null-audio"], env=env,
                         stdout=open(tmp / "core.log", "w"), stderr=subprocess.STDOUT)
@@ -92,8 +92,8 @@ checks = {
     "think вырезан": all("надо ответить" not in a for a in answers),
     "звучал голос (speaking)": any(e["type"] == "state" and e["state"] == "speaking" for e in events),
     "перебивание сработало": any(e["type"] == "interrupted" for e in events),
-    "переключились на Лиру": any(e["type"] == "persona" and e["persona"] == "lira" for e in events),
-    "Лира ответила": any(a.startswith("Я Лира") for a in answers),
+    "переключились на Миру": any(e["type"] == "persona" and e["persona"] == "lira" for e in events),
+    "Мира ответила": any(a.startswith("Я Мира") for a in answers),
     "продолжение без имени": any("как дела" in a.lower() for a in answers),
     "Девиар перебил Патрика": sum(e["type"] == "interrupted" for e in events) >= 2 and answers[-1].startswith("Я Девиар") and "привет" in answers[-1],
 }

@@ -128,7 +128,7 @@ e = E.Engine.__new__(E.Engine)
 answered, emits = [], []
 wt = SimpleNamespace(id="106bc925", title="Анализ кода и БД проекта")
 e.tasks = SimpleNamespace(waiting=lambda: wt, answer=lambda tid, text: answered.append((tid, text)))
-e.aliases = {"lira": ["лира"], "patrick": ["патрик"]}
+e.aliases = {"lira": ["мира"], "patrick": ["патрик"]}
 e.task_answer_until = 0.0
 e.emit = lambda kind, **k: emits.append((kind, k))
 e._g = lambda x: x

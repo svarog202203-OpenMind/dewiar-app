@@ -3,7 +3,7 @@
 — только выпуски новее того, что человек видел, и только пункты для этой платформы; новая установка — без листа;
 — студия: окно один раз, «Понятно» — больше не показывать; «О программе» → «Что нового» — снова (настоящее ядро);
 — помощница при встрече говорит о новом одной фразой (presence.plan news);
-— телефон: лист после обновления, «Попробовать: «…»» — Лира слышит фразу; «Ещё» → «Что нового»; сборка кладёт whatsnew.js."""
+— телефон: лист после обновления, «Попробовать: «…»» — Мира слышит фразу; «Ещё» → «Что нового»; сборка кладёт whatsnew.js."""
 import json, os, shutil, socket, subprocess, sys, tempfile, time
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -117,7 +117,7 @@ with sync_playwright() as pw:
     if not pg.evaluate("document.querySelectorAll('.nwtry').length"):      # в последних выпусках нет фразы «попробовать» — покажем выпуск, где она есть
         pg.evaluate("() => newsShow(newsList('', '0.6.19'))"); pg.wait_for_timeout(300)
     pg.click(".nwtry"); pg.wait_for_timeout(300)
-    ok(pg.evaluate("_asked.length") == 1 and not pg.evaluate("document.getElementById('sh-news').classList.contains('on')"), f"«Попробовать» — Лира слышит фразу: {pg.evaluate('_asked')}")
+    ok(pg.evaluate("_asked.length") == 1 and not pg.evaluate("document.getElementById('sh-news').classList.contains('on')"), f"«Попробовать» — Мира слышит фразу: {pg.evaluate('_asked')}")
     ok(pg.evaluate("newsCheck()") is False, "второй раз — не показывает")
     pg.evaluate("() => openSettings('about')"); pg.wait_for_timeout(400)
     pg.click("#news-open"); pg.wait_for_timeout(500)

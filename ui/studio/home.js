@@ -13,7 +13,7 @@ const HM_APPS = [
   { id: "calendar", name: "Календарь", sub: "события и дни", g: 3, d: `<rect class="sf" x="7" y="10" width="34" height="31" rx="7"/><rect class="ln" x="7" y="10" width="34" height="31" rx="7"/><path class="ln" d="M7 19h34M16 6v8M32 6v8"/><text class="tx" x="24" y="35.5" text-anchor="middle">${new Date().getDate()}</text><path class="th" d="M12 24h3M33 24h3"/>` },
   { id: "reminders", name: "Дела", sub: "и напоминания", g: 4, d: '<path class="sf" d="M13 32V22a11 11 0 0 1 22 0v10l3 4H10z"/><path class="ln" d="M13 32V22a11 11 0 0 1 22 0v10l3 4H10z"/><path class="ln" d="M20 40a4.2 4.2 0 0 0 8 0M24 8v3"/><path class="th" d="M6 18a17 17 0 0 1 5-8M42 18a17 17 0 0 0-5-8M3.5 21a21 21 0 0 1 3-10M44.5 21a21 21 0 0 0-3-10"/><circle class="bg" cx="36" cy="33.5" r="6.5"/><circle class="ln" cx="36" cy="33.5" r="6.5"/><path class="ln" d="M33.2 33.6l2 2 3.6-3.8"/>' },
   { id: "notes", name: "Заметки", sub: "поиск, фото, файлы", g: 5, d: '<rect class="sf" x="11" y="7" width="27" height="35" rx="4"/><rect class="ln" x="11" y="7" width="27" height="35" rx="4"/><path class="ln" d="M8 12h6M8 19h6M8 26h6M8 33h6"/><path class="th" d="M19 15h13M19 20h13M19 25h9"/><path class="bg" d="M27.5 37.5l13-13 3 3-13 13-4 1z"/><path class="ln" d="M27.5 37.5l13-13 3 3-13 13-4 1z"/><path class="th" d="M38 27l3 3"/>' },
-  { id: "ideas", name: "Идеи Лиры", sub: "что делать дальше", g: 4, d: '<path class="sf" d="M24 6a12 12 0 0 0-7.2 21.6c1.4 1 2.2 2.6 2.2 4.4V33h10v-1c0-1.8.8-3.4 2.2-4.4A12 12 0 0 0 24 6z"/><path class="ln" d="M24 6a12 12 0 0 0-7.2 21.6c1.4 1 2.2 2.6 2.2 4.4V33h10v-1c0-1.8.8-3.4 2.2-4.4A12 12 0 0 0 24 6z"/><path class="ln" d="M19 38h10M20.5 42.5h7"/><path class="th" d="M20.5 20.5 24 24l3.5-3.5M24 24v9"/><circle class="dt" cx="38" cy="10" r="1.6"/><circle class="dt" cx="9" cy="13" r="1.3"/>' },
+  { id: "ideas", name: "Идеи Миры", sub: "что делать дальше", g: 4, d: '<path class="sf" d="M24 6a12 12 0 0 0-7.2 21.6c1.4 1 2.2 2.6 2.2 4.4V33h10v-1c0-1.8.8-3.4 2.2-4.4A12 12 0 0 0 24 6z"/><path class="ln" d="M24 6a12 12 0 0 0-7.2 21.6c1.4 1 2.2 2.6 2.2 4.4V33h10v-1c0-1.8.8-3.4 2.2-4.4A12 12 0 0 0 24 6z"/><path class="ln" d="M19 38h10M20.5 42.5h7"/><path class="th" d="M20.5 20.5 24 24l3.5-3.5M24 24v9"/><circle class="dt" cx="38" cy="10" r="1.6"/><circle class="dt" cx="9" cy="13" r="1.3"/>' },
   { id: "council", name: "Совет ИИ", sub: "спорят и советуют", g: 8, d: '<circle class="sf" cx="24" cy="30" r="12"/><circle class="ln" cx="24" cy="30" r="12"/><circle class="bg" cx="24" cy="11" r="5.5"/><circle class="ln" cx="24" cy="11" r="5.5"/><circle class="bg" cx="9" cy="21" r="5"/><circle class="ln" cx="9" cy="21" r="5"/><circle class="bg" cx="39" cy="21" r="5"/><circle class="ln" cx="39" cy="21" r="5"/><path class="th" d="M18 28.5h12M18 33h8"/>' },
   { id: "watch", name: "Дозор", sub: "скажу, когда готово", g: 3, d: '<path class="sf" d="M3 24S11 11 24 11s21 13 21 13-8 13-21 13S3 24 3 24z"/><path class="ln" d="M3 24S11 11 24 11s21 13 21 13-8 13-21 13S3 24 3 24z"/><circle class="bg" cx="24" cy="24" r="7.5"/><circle class="ln" cx="24" cy="24" r="7.5"/><circle class="dt" cx="24" cy="24" r="3.2"/><path class="th" d="M24 3.5v4M12 6.5l2.2 3.4M36 6.5l-2.2 3.4"/>' },
   { id: "docs", name: "Документы", sub: "ответы по вашим папкам", g: 9, d: '<rect class="th" x="15" y="5" width="24" height="30" rx="4"/><rect class="bg" x="8" y="10" width="24" height="31" rx="4"/><rect class="sf" x="8" y="10" width="24" height="31" rx="4"/><rect class="ln" x="8" y="10" width="24" height="31" rx="4"/><path class="th" d="M14 18h12M14 23h12M14 28h7"/><circle class="bg" cx="33" cy="33" r="7.5"/><circle class="ln" cx="33" cy="33" r="7.5"/><path class="ln" d="M38.5 38.5 43 43"/><circle class="dt" cx="33" cy="33" r="2"/>' },
@@ -22,17 +22,17 @@ const HM_APPS = [
   { id: "vault", name: "Сейф", sub: "пароли и коды", g: 4, d: '<rect class="sf" x="9" y="20" width="30" height="22" rx="7"/><rect class="ln" x="9" y="20" width="30" height="22" rx="7"/><path class="ln" d="M16 20v-5.5a8 8 0 0 1 16 0V20"/><circle class="bg" cx="24" cy="30" r="3.4"/><circle class="ln" cx="24" cy="30" r="3.4"/><path class="ln" d="M24 33.4v3.6"/><path class="th" d="M14 26h3M31 26h3"/>' },
   { id: "music", name: "Музыка", sub: "своя папка и радио", g: 8, d: '<circle class="sf" cx="15" cy="35" r="7"/><circle class="ln" cx="15" cy="35" r="7"/><circle class="sf2" cx="34" cy="31" r="7"/><circle class="ln" cx="34" cy="31" r="7"/><path class="ln" d="M22 35V12l19-5v24"/><path class="ln" d="M22 18l19-5"/><path class="th" d="M6 14a7 7 0 0 1 4-5M4 18a11 11 0 0 1 3-11"/><circle class="dt" cx="15" cy="35" r="1.8"/><circle class="dt" cx="34" cy="31" r="1.8"/>' },
   // «Режимы» вместо «Дети» (28.10, владелец: «удобнее, чтобы режимы удобно переключались… иконка с совой на главной не нужна?»):
-  // нажали — «Для кого эта Лира?» (studio/modes.js); подпись — какой режим сейчас
-  { id: "modes", name: "Режимы", sub: "для кого Лира", g: 2, d: '<rect class="sf" x="3" y="12" width="42" height="24" rx="12"/><rect class="ln" x="3" y="12" width="42" height="24" rx="12"/><circle class="dt" cx="27" cy="24" r="2.4"/><circle class="dt" cx="37" cy="24" r="2.4"/><circle class="bg" cx="15" cy="24" r="8.5"/><circle class="ln" cx="15" cy="24" r="8.5"/><circle class="sf2" cx="15" cy="24" r="4.2"/><path class="th" d="M11 6.5l2 2.6M19 6.5l-2 2.6M15 4.5v3.4"/>' },
-  { id: "qa", name: "Вопрос — ответ", sub: "всё о Лире", g: 1, d: '<circle class="sf" cx="22" cy="22" r="15"/><circle class="ln" cx="22" cy="22" r="15"/><path class="ln" d="M17.5 18a4.6 4.6 0 0 1 9 1.4c0 3-4.5 3.4-4.5 6.4"/><circle class="dt" cx="22" cy="30.5" r="1.9"/><circle class="bg" cx="36" cy="36" r="7"/><circle class="ln" cx="35" cy="35" r="5.2"/><path class="ln" d="M39 39l4.5 4.5"/>' },
+  // нажали — «Для кого эта Мира?» (studio/modes.js); подпись — какой режим сейчас
+  { id: "modes", name: "Режимы", sub: "для кого Мира", g: 2, d: '<rect class="sf" x="3" y="12" width="42" height="24" rx="12"/><rect class="ln" x="3" y="12" width="42" height="24" rx="12"/><circle class="dt" cx="27" cy="24" r="2.4"/><circle class="dt" cx="37" cy="24" r="2.4"/><circle class="bg" cx="15" cy="24" r="8.5"/><circle class="ln" cx="15" cy="24" r="8.5"/><circle class="sf2" cx="15" cy="24" r="4.2"/><path class="th" d="M11 6.5l2 2.6M19 6.5l-2 2.6M15 4.5v3.4"/>' },
+  { id: "qa", name: "Вопрос — ответ", sub: "всё о Мире", g: 1, d: '<circle class="sf" cx="22" cy="22" r="15"/><circle class="ln" cx="22" cy="22" r="15"/><path class="ln" d="M17.5 18a4.6 4.6 0 0 1 9 1.4c0 3-4.5 3.4-4.5 6.4"/><circle class="dt" cx="22" cy="30.5" r="1.9"/><circle class="bg" cx="36" cy="36" r="7"/><circle class="ln" cx="35" cy="35" r="5.2"/><path class="ln" d="M39 39l4.5 4.5"/>' },
   { id: "tasks", name: "Задачи", sub: "большая работа", g: 6, d: '<rect class="sf" x="9" y="9" width="30" height="33" rx="5"/><rect class="ln" x="9" y="9" width="30" height="33" rx="5"/><path class="bg" d="M18 6.5h12a2 2 0 0 1 2 2V12H16V8.5a2 2 0 0 1 2-2z"/><path class="ln" d="M18 6.5h12a2 2 0 0 1 2 2V12H16V8.5a2 2 0 0 1 2-2z"/><path class="ln" d="M14.5 20l2 2 3.6-3.8M14.5 29l2 2 3.6-3.8"/><path class="th" d="M24 20.5h9M24 29.5h9"/><path class="ln" d="M15 37h18" opacity=".35"/><path class="ln" d="M15 37h11"/>' },
-  { id: "sites", name: "Сайты", sub: "делает Лира", g: 3, d: '<rect class="sf" x="5" y="7" width="38" height="34" rx="6"/><rect class="ln" x="5" y="7" width="38" height="34" rx="6"/><path class="ln" d="M5 15h38"/><circle class="dt" cx="10.5" cy="11" r="1.4"/><circle class="dt" cx="15" cy="11" r="1.4"/><rect class="bg" x="10" y="20" width="14" height="15" rx="2.5"/><rect class="ln" x="10" y="20" width="14" height="15" rx="2.5"/><path class="th" d="M29 21h9M29 26h9M29 31h6"/><path class="ln" d="M36.5 34.5l3 3"/><path class="dt" d="M41 3.5l1.1 2.6 2.6 1.1-2.6 1.1L41 10.9l-1.1-2.6-2.6-1.1 2.6-1.1z"/>' },
+  { id: "sites", name: "Сайты", sub: "делает Мира", g: 3, d: '<rect class="sf" x="5" y="7" width="38" height="34" rx="6"/><rect class="ln" x="5" y="7" width="38" height="34" rx="6"/><path class="ln" d="M5 15h38"/><circle class="dt" cx="10.5" cy="11" r="1.4"/><circle class="dt" cx="15" cy="11" r="1.4"/><rect class="bg" x="10" y="20" width="14" height="15" rx="2.5"/><rect class="ln" x="10" y="20" width="14" height="15" rx="2.5"/><path class="th" d="M29 21h9M29 26h9M29 31h6"/><path class="ln" d="M36.5 34.5l3 3"/><path class="dt" d="M41 3.5l1.1 2.6 2.6 1.1-2.6 1.1L41 10.9l-1.1-2.6-2.6-1.1 2.6-1.1z"/>' },
   { id: "clients", name: "Клиенты", sub: "договорённости", g: 6, d: '<circle class="bg" cx="19" cy="17" r="7"/><circle class="ln" cx="19" cy="17" r="7"/><path class="ln" d="M7 40a12 12 0 0 1 24 0"/><path class="th" d="M30 10.5a6.5 6.5 0 0 1 0 13M34 28a11 11 0 0 1 7 12"/>' },
   { id: "pbot", name: "Бот в Telegram", sub: "отвечает людям", g: 1, d: '<path class="sf" d="M42 7 5 21.5l11 4.2L35 13 20.5 28.5 31 40z"/><path class="ln" d="M42 7 5 21.5l11 4.2M42 7l-11 33-10.5-11.5M42 7 16 25.7V36l4.5-7.5"/><circle class="bg" cx="12" cy="38" r="6"/><circle class="dt" cx="12" cy="38" r="2.4"/><path class="th" d="M4 31a9 9 0 0 1 4-4M20 31a9 9 0 0 0-4-4"/>' },
   { id: "team", name: "Поручения", sub: "сотрудникам", g: 6, d: '<rect class="sf" x="6" y="15" width="36" height="26" rx="6"/><rect class="ln" x="6" y="15" width="36" height="26" rx="6"/><path class="ln" d="M18 15v-3.5A3.5 3.5 0 0 1 21.5 8h5A3.5 3.5 0 0 1 30 11.5V15"/><path class="th" d="M6 25h36"/><circle class="bg" cx="24" cy="31" r="6.5"/><path class="ln" d="M20.8 31l2.2 2.2 4.4-4.6"/>' },
   { id: "play", name: "Досуг", sub: "игры на пару минут", g: 7, d: '<path class="sf" d="M15 15h18a10 10 0 0 1 9.6 12.8l-2.2 7.5a5 5 0 0 1-8.6 1.9L28 33h-8l-3.8 4.2a5 5 0 0 1-8.6-1.9l-2.2-7.5A10 10 0 0 1 15 15z"/><path class="ln" d="M15 15h18a10 10 0 0 1 9.6 12.8l-2.2 7.5a5 5 0 0 1-8.6 1.9L28 33h-8l-3.8 4.2a5 5 0 0 1-8.6-1.9l-2.2-7.5A10 10 0 0 1 15 15z"/><path class="ln" d="M15.5 21v7M12 24.5h7"/><circle class="dt" cx="31" cy="22.5" r="2"/><circle class="dt" cx="35" cy="26.5" r="2"/><path class="th" d="M24 6v4M18 8l2 3M30 8l-2 3"/>' },
   { id: "prompter", name: "Суфлёр", sub: "подсказки на встречах", g: 8, d: '<rect class="sf" x="5" y="8" width="38" height="24" rx="5"/><rect class="ln" x="5" y="8" width="38" height="24" rx="5"/><path class="th" d="M11 15h17M11 20h22M11 25h12"/><path class="ln" d="M35 13.5v4M33 15.5h4"/><path class="ln" d="M24 32v8M16 41h16"/><path class="th" d="M38 40a5 5 0 0 0 4-4.5"/>' },
-  { id: "memory", name: "Память", sub: "что Лира знает", g: 1, d: '<circle class="sf" cx="24" cy="24" r="17"/><circle class="ln" cx="24" cy="24" r="17"/><ellipse class="th" cx="24" cy="24" rx="17" ry="7"/><ellipse class="th" cx="24" cy="24" rx="7" ry="17"/><path class="ln" d="M14 18l9 5 9-9M23 23l2 11 9-5M14 18l-1 12 12 4"/><circle class="dt" cx="14" cy="18" r="2.2"/><circle class="dt" cx="23" cy="23" r="2.6"/><circle class="dt" cx="32" cy="14" r="2"/><circle class="dt" cx="25" cy="34" r="2"/><circle class="dt" cx="34" cy="29" r="1.6"/><circle class="dt" cx="13" cy="30" r="1.6"/>' },
+  { id: "memory", name: "Память", sub: "что Мира знает", g: 1, d: '<circle class="sf" cx="24" cy="24" r="17"/><circle class="ln" cx="24" cy="24" r="17"/><ellipse class="th" cx="24" cy="24" rx="17" ry="7"/><ellipse class="th" cx="24" cy="24" rx="7" ry="17"/><path class="ln" d="M14 18l9 5 9-9M23 23l2 11 9-5M14 18l-1 12 12 4"/><circle class="dt" cx="14" cy="18" r="2.2"/><circle class="dt" cx="23" cy="23" r="2.6"/><circle class="dt" cx="32" cy="14" r="2"/><circle class="dt" cx="25" cy="34" r="2"/><circle class="dt" cx="34" cy="29" r="1.6"/><circle class="dt" cx="13" cy="30" r="1.6"/>' },
   { id: "ref", name: "Рефералы", sub: "приглашённые", g: 2, d: '<circle class="sf" cx="24" cy="24" r="8"/><circle class="ln" cx="24" cy="21.5" r="3.2"/><path class="ln" d="M18.5 30a5.5 5.5 0 0 1 11 0"/><path class="th" d="M17 18L11 12M31 18l6-6M17 31l-6 5M31 31l6 5"/><circle class="ln" cx="9" cy="10" r="3"/><circle class="ln" cx="39" cy="10" r="3"/><circle class="ln" cx="9" cy="38" r="3"/><circle class="ln" cx="39" cy="38" r="3"/><path class="dt" d="M39 18.5l.8 1.7 1.8.3-1.3 1.3.3 1.8-1.6-.9-1.6.9.3-1.8-1.3-1.3 1.8-.3z"/>' }];
 // по умолчанию видно всё (у тех, кто ещё не настраивал, ничего не пропадает); скрытое с главной — скрыто и в меню слева
 // (24.10, владелец: «если с главной отключаю „Рефералы“ — то и слева должно исчезать… иначе не решили нахлобученность»)
@@ -43,7 +43,7 @@ const HM_OLD = ["chat", "close", "calendar", "reminders", "notes", "tasks", "pla
 const HM_NAV = { council: ["council"], pbot: ["pbot"], ideas: ["ideas"], chat: ["chat"], docs: ["docs"], watch: ["watch"], close: ["close"], calendar: ["calendar"], reminders: ["reminders"], notes: ["notes"], tasks: ["tasks"],
   prompter: ["prompter"], memory: ["memory"], ref: ["ref"], pay: ["pay"], vault: ["vault"], family: ["family"], music: ["music"], modes: ["kids", "senior"], qa: ["qa"], team: ["team"], clients: ["clients"], sites: ["sites"] };
 /* Два разных переключателя (24.10, владелец: «включить или нет вообще — или показать или скрыть, это разное»):
-   — здесь, на «Главной», — только ПОКАЗАТЬ / СКРЫТЬ: значок и раздел в меню; сама функция работает (Лира помнит,
+   — здесь, на «Главной», — только ПОКАЗАТЬ / СКРЫТЬ: значок и раздел в меню; сама функция работает (Мира помнит,
      письма близких приходят, напоминания звенят);
    — «Возможности» — ВКЛЮЧИТЬ / ВЫКЛЮЧИТЬ совсем (игры, суфлёр…): выключенное пропадает отовсюду само. */
 const HM_FEAT = { play: "games", prompter: "prompter", family: "family", team: "team", clients: "clients", sites: "sites" };
@@ -132,7 +132,7 @@ function hmApps() {
   const known = (Array.isArray(u.home_known) && u.home_known.length ? u.home_known : HM_OLD).map(id => id === "kids" ? "modes" : id);
   return a.map(id => id === "kids" ? "modes" : id).filter(id => all.some(x => x.id === id)).concat(all.map(x => x.id).filter(id => !known.includes(id) && !a.includes(id)));
 }
-// personas — «let» из core.js, на window её нет: раньше здесь всегда выходила «Лира», даже у Патрика (отчёт 256).
+// personas — «let» из core.js, на window её нет: раньше здесь всегда выходила «Мира», даже у Патрика (отчёт 256).
 const hmWho = (id) => {
   const all = (typeof personas !== "undefined" && Array.isArray(personas)) ? personas : [];
   const p = all.find(x => x.id === id) || (!id && all.find(x => x.id === (typeof active !== "undefined" ? active : ""))) || null;
@@ -147,8 +147,8 @@ function hmDate() { const d = new Date(); const s = d.toLocaleDateString("ru-RU"
 async function loadHome() {
   hmRender();
   if (window.snLoad) snLoad();                          // «Слепок знаний» справа от приветствия (studio/snapshot.js)
-  if (typeof moLoad === "function") moLoad();           // «Мой месяц с Лирой» (studio/month.js): первые 7 дней месяца — о прошлом
-  if (typeof mnLoad === "function") mnLoad();           // «Утро с Лирой» (studio/morning.js): погода и почта — не ждём их
+  if (typeof moLoad === "function") moLoad();           // «Мой месяц с Мирой» (studio/month.js): первые 7 дней месяца — о прошлом
+  if (typeof mnLoad === "function") mnLoad();           // «Утро с Мирой» (studio/morning.js): погода и почта — не ждём их
   hmMailLoad();                                         // «Почта»: последние письма — не ждём их
   const now = new Date(), get = (c, a) => core.call(c, a).catch(() => null);
   // скрытое в «Что показывать» (show.js) не грузится и не напоминает о себе карточкой «Сегодня» (03.11)
@@ -181,7 +181,7 @@ function hmToday() {
     .sort((a, b) => (a.now.s === "overdue" ? 0 : 1) - (b.now.s === "overdue" ? 0 : 1));
   if (pyb.length) { const b = pyb[0], late = b.now.s !== "soon";
     out.push({ cls: late ? "pay late" : "pay", lab: late ? "Не оплачено" : "Скоро срок оплаты", b: `${b.icon || "🧾"} ${b.name}`, s: (late ? "срок был " : "до ") + new Date(b.now.due + "T12:00").toLocaleDateString("ru-RU", { day: "numeric", month: "long" }) + (pyb.length > 1 ? ` · и ещё ${pyb.length - 1}` : ""), go: "pay" }); }
-  const cs = HM.data.cs, L = cs && cs.lesson;          // курс «Неделя с Лирой»: урок дня ещё не пройден
+  const cs = HM.data.cs, L = cs && cs.lesson;          // курс «Неделя с Мирой»: урок дня ещё не пройден
   if (L && L.open && cs.offer !== false && !L.steps.every(s => s.done))
     out.push({ cls: "course", lab: `Урок дня · ${L.day} из ${cs.total}`, b: `🎓 ${L.title}`, s: `5 минут: ${(L.steps.find(s => !s.done) || L.steps[0]).say}`, go: "course" });
   const nl = hmLesson();                                // новый видеоурок — одной карточкой, пока не посмотрели (3 дня, потом молча)
@@ -256,7 +256,7 @@ function hmRender() {
 }
 /* «Почта» на главной (30.10, владелец: «добавил почту — и не могу понять, как увидеть последние письма… может, показывать
    здесь последние письма красиво, если почта подключена»). Пять последних писем: от кого, тема, начало текста, когда;
-   новые — жирно с точкой. Нажали — письмо целиком (mail_read), «Ответить с Лирой» — в «Чат». Почты нет — карточки нет
+   новые — жирно с точкой. Нажали — письмо целиком (mail_read), «Ответить с Мирой» — в «Чат». Почты нет — карточки нет
    (позвать подключить — дело «Утра»). Письма — раз в 5 минут, не мешая остальной «Главной». */
 const HMM_TTL = 5 * 60e3;
 async function hmMailLoad(force) {
@@ -345,9 +345,9 @@ function hmLesson() {
 }
 function hmOpen(id) {
   const a = window.pywebview && window.pywebview.api;
-  if (id === "play") { if (a && a.play_open) a.play_open(""); else toast("Игры открываются у виджета: «Лира, давай поиграем»"); return; }
+  if (id === "play") { if (a && a.play_open) a.play_open(""); else toast("Игры открываются у виджета: «Мира, давай поиграем»"); return; }
   if (id === "pad") { if (a && a.pad_toggle) a.pad_toggle("notes"); return; }
-  if (id === "modes") { if (window.mdOpen) mdOpen(false); return; }          // «Режимы» — выбор «Для кого эта Лира?»
+  if (id === "modes") { if (window.mdOpen) mdOpen(false); return; }          // «Режимы» — выбор «Для кого эта Мира?»
   if (id.startsWith("plg:") && window.plpOpen && ((HM.plg || []).some(p => p.id === id.slice(4) && p.installed !== false))) return plpOpen(id.slice(4));   // установлен — его страница
   if (id.startsWith("plg:")) { plgOpen = id.slice(4); hmGo("skills"); if (PLG.length) plgDrawer(plgOpen); return; }   // карточка плагина — в «Плагинах»
   hmGo(id);
@@ -361,7 +361,7 @@ function hmSave(list) {
    посмотреть, как работает; в будущем — видео к каждому»). Один ещё не включённый плагин за раз, каждый день — другой
    (стрелка — следующий): значок, что умеет, фраза. «Включить» — сразу, без похода в «Плагины»; плагину нужны настройки
    (поле required: «Что искать» у «Тендеров») — открывается его панель. Включили — карточка говорит, что сказать, и
-   «Спросить Лиру» задаёт эту фразу в чате: результат виден сразу. Ролик — свой (поле video плагина: урок Академии или
+   «Спросить Миру» задаёт эту фразу в чате: результат виден сразу. Ролик — свой (поле video плагина: урок Академии или
    адрес), иначе общий урок «Плагины». Скрыть — на две недели (S.ui.try_hide_until). */
 const TRY_LESSON = "15-plugins";
 function hmTryList() {
@@ -381,10 +381,10 @@ function hmTry() {
   box.classList.toggle("done", !!done);
   box.innerHTML = `<i class="ht-ic" aria-hidden="true">${hmEsc(p.icon || "🧩")}</i>
     <div class="ht-t"><small>${done ? "Плагин включён" : "Попробуйте плагин"} · ${hmEsc(p.category || "")}</small>
-      <b>${hmEsc(p.name)}</b><span>${hmEsc(done ? "Скажите Лире — или нажмите, и она ответит в чате:" : p.tagline || "")}</span>
+      <b>${hmEsc(p.name)}</b><span>${hmEsc(done ? "Скажите Мире — или нажмите, и она ответит в чате:" : p.tagline || "")}</span>
       ${say ? `<q>${hmEsc(say)}</q>` : ""}
       <div class="ht-acts">${done
-        ? `<button class="btn primary small" type="button" id="ht-ask">Спросить Лиру</button><button class="btn ghost small" type="button" id="ht-more">Настройки плагина</button>`
+        ? `<button class="btn primary small" type="button" id="ht-ask">Спросить Миру</button><button class="btn ghost small" type="button" id="ht-more">Настройки плагина</button>`
         : `<button class="btn primary small" type="button" id="ht-on">${(p.settings || []).some(x => x.required && !String((p.values || {})[x.key] ?? "").trim()) ? "Настроить и включить" : "Включить"}</button>`
           + (vid ? `<button class="btn ghost small" type="button" id="ht-vid">▶ ${vid}</button>` : "")
           + `<button class="btn ghost small" type="button" id="ht-more">Подробнее</button>`}</div></div>

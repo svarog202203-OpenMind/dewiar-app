@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <link rel="stylesheet" href="../../../../ui/assets/fonts.css">
 <style>
-/* Урок 9 · Ваши документы. Светлый неоморфизм серии. Главная вещь урока — стена файлов справа: Лира прочитала папку, и на вопрос загорается ровно тот файл, из которого ответ. */
+/* Урок 9 · Ваши документы. Светлый неоморфизм серии. Главная вещь урока — стена файлов справа: Мира прочитала папку, и на вопрос загорается ровно тот файл, из которого ответ. */
 :root { --bg: #dbe5f1; --nd: #b8c5d6; --nl: #f7fbff; --ink: #24324a; --mut: rgba(36,50,74,.66); --accent: #4560ea;
   --brand: linear-gradient(135deg, #6a8dff 0%, #4f6cf0 100%); --lira: #5aa9e6; --patrik: #e59a1f; --ok: #2fb383; --tg: #2AABEE;
   --raise: 14px 14px 32px var(--nd), -14px -14px 32px var(--nl); --raise-s: 6px 6px 14px var(--nd), -6px -6px 14px var(--nl);
@@ -80,7 +80,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
 </style></head>
 <body><div id="film">
   <div id="bg"></div><div class="blob" id="b1"></div><div class="blob" id="b2"></div>
-  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Лиры</b><span>Урок 9 · Ваши документы</span></div></div>
+  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Миры</b><span>Урок 9 · Ваши документы</span></div></div>
   <div class="layer" id="L-title"><div id="plane"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 13h8"/></svg></div>
     <div id="t-title"><h1>Ваши документы</h1><p>Спросите — найду в ваших папках и покажу файл</p></div></div>
 
@@ -94,12 +94,12 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
     <div id="nope"><span>✓ файлы остаются на месте</span><span class="no">весь архив в облако</span></div>
     <div id="phone"><div class="scr"><div class="me" id="pm">Что в договоре с Ромашкой про сроки?</div><div class="wait" id="pw">💻 спрашиваю компьютер…</div><div class="li" id="pa">14 рабочих дней после оплаты — п. 4.2 договора 2026 года.</div></div></div>
     <div id="link"><i id="li"></i>через интернет, зашифровано</div><div id="pcx"><i>💻</i><b>Ваш компьютер</b><small>ищет в ваших папках</small></div>
-    <div id="studio"><h3>Документы</h3><p>Лира читает ваши папки и отвечает по ним</p><span class="go">Добавить папку…</span><div class="ok">2 папки, 418 файлов — Лира готова отвечать</div></div>
+    <div id="studio"><h3>Документы</h3><p>Мира читает ваши папки и отвечает по ним</p><span class="go">Добавить папку…</span><div class="ok">2 папки, 418 файлов — Мира готова отвечать</div></div>
   </div>
 
   <div class="layer" id="L-end"><div id="end"><h1>dewiar.pro</h1><p>Бесплатно · Windows, Linux, Android и браузер</p><span class="next">Следующий урок — «Почта голосом»</span></div></div>
 
-  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Лира</b></div>
+  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Мира</b></div>
   <div class="seat" id="s-patrik" style="--c:var(--patrik)"><div class="orb"><canvas id="e-patrik" width="600" height="600"></canvas></div><b>Патрик</b></div>
   <div id="sub"></div>
 </div>
@@ -158,7 +158,7 @@ window.render = function (T, f) {
   scene($("#folder"), T, s("add").start + 0.2, s("ask").start);
   const rd = clamp((T - s("add").start - 0.8) / 3.0);
   $("#fp").style.width = (rd * 100) + "%"; $("#fn").textContent = rd < 1 ? `Читаю… ${Math.round(418 * rd)} из 418` : "418 файлов прочитано";
-  $("#fr").textContent = rd >= 1 ? "Лира готова отвечать" : "";
+  $("#fr").textContent = rd >= 1 ? "Мира готова отвечать" : "";
   fl.forEach((c, i) => { const r = clamp((rd * 20 - i)); c.style.filter = s("add").start < T && T < s("ask").start ? `saturate(${0.3 + 0.7 * r})` : ""; });
   scene($("#q"), T, s("ask").start + 0.2, s("private").start, 20);
   scene($("#ans"), T, at("s4b") - 0.4, s("private").start);

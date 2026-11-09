@@ -1,4 +1,4 @@
-/* Студия Dewiar, «Неделя с Лирой» (27.10, по макету «Dewiar — обучение и «Команда»»): семь уроков по пять минут.
+/* Студия Dewiar, «Неделя с Мирой» (27.10, по макету «Dewiar — обучение и «Команда»»): семь уроков по пять минут.
    Ядро (core/course.py): course_get, course_seen {section} (зовёт core.js при каждом переходе), course_ahead,
    course_offer {on}, course_skip, course_restart {day}; событие «course» — шаг засчитан, урок пройден. */
 let CS = null;
@@ -49,16 +49,16 @@ function csRender() {
       + (L.open ? "" : `<p class="cs-wait">Сегодняшний урок пройден — этот откроется завтра. Не терпится? <button class="btn small" id="cs-ahead">Следующий урок сейчас</button></p>`)
       + `<ol class="cs-steps">${L.steps.map((s, i) => `<li class="${s.done ? "done" : i === L.steps.findIndex(x => !x.done) ? "now" : ""}"><span class="n">${s.done ? '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : i + 1}</span>`
         + `<div><b>${escH(s.say)}</b><small>${escH(s.why)}</small></div><em>${s.done ? "Сделано" : i === L.steps.findIndex(x => !x.done) ? "Ждём" : "Потом"}</em>`
-        + (!s.done && (s.open || s.did) ? `<button class="btn small" data-open="${escH(s.open || s.did.split("_")[0])}">Открыть</button>` : !s.done && L.open ? `<button class="cs-play" data-say="${i}" title="Отправить Лире" aria-label="Отправить Лире"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>` : "")
+        + (!s.done && (s.open || s.did) ? `<button class="btn small" data-open="${escH(s.open || s.did.split("_")[0])}">Открыть</button>` : !s.done && L.open ? `<button class="cs-play" data-say="${i}" title="Отправить Мире" aria-label="Отправить Мире"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>` : "")
         + `</li>`).join("")}</ol>`
-      + `<div class="cs-acts">${all ? `<b class="cs-ok">Урок пройден — молодец!</b>` : `<button class="btn primary" id="cs-mic">Сказать Лире</button>`}`
+      + `<div class="cs-acts">${all ? `<b class="cs-ok">Урок пройден — молодец!</b>` : `<button class="btn primary" id="cs-mic">Сказать Мире</button>`}`
       + `<span class="cs-tom">${L.tomorrow ? `Завтра: «${escH(L.tomorrow)}»` : "Это последний урок"}</span></div>`;
     if ($("#cs-ahead")) $("#cs-ahead").onclick = () => csCall("course_ahead", {}, "Открыт следующий урок");
     $$("#cs-lesson [data-open]").forEach(b => b.onclick = () => { const n = $(`nav button[data-p="${b.dataset.open}"]`); if (n) n.click(); });
     $$("#cs-lesson [data-say]").forEach(b => b.onclick = async () => {
       const s = L.steps[+b.dataset.say], phrase = s.say.replace(/^«|»$/g, "");
       b.disabled = true;
-      try { await core.call("say", { text: phrase }); toast("Отправил Лире — смотрите виджет", 2500); } catch (e) { toast(e.message); }
+      try { await core.call("say", { text: phrase }); toast("Отправил Мире — смотрите виджет", 2500); } catch (e) { toast(e.message); }
       setTimeout(() => { b.disabled = false; }, 1500);
     });
     if ($("#cs-mic")) $("#cs-mic").onclick = () => core.call("ptt").then(() => toast("Слушаю — скажите фразу урока", 2500)).catch(e => toast(e.message));

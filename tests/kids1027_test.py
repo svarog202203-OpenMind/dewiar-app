@@ -170,7 +170,7 @@ with sync_playwright() as p:
     hud.goto((ROOT / "ui/hud.html").as_uri() + f"?token={tok}&port={PORT}&mode=card"); time.sleep(2.5)
     ok(hud.evaluate("document.body.classList.contains('kids')") and "Ещё" in hud.inner_text("#kids-t") and hud.locator("#kids .kb button").count() == 3,
        f"виджет: детский вид — «{hud.inner_text('#kids-t')}», три кнопки")
-    # 0.66 (владелец: «чуть красивее детскую страничку; нужно ли там переключение на Лиру?»): картинки, взрослые кнопки спрятаны
+    # 0.66 (владелец: «чуть красивее детскую страничку; нужно ли там переключение на Миру?»): картинки, взрослые кнопки спрятаны
     hud.wait_for_timeout(500)
     ok(hud.evaluate("[...document.querySelectorAll('#kids .kb img')].every(i => i.naturalWidth > 0)") and hud.locator("#kids-t img").count() == 1,
        "плитки и «осталось» — с объёмными картинками")
@@ -183,7 +183,7 @@ with sync_playwright() as p:
     # выключаем из студии (открыта PIN) — персонаж прежний
     pg.click("#kd-off"); time.sleep(1.5)
     st = json.loads((cfg / "settings.json").read_text())
-    ok(st["kids"]["on"] is False and st["persona"] == "lira", f"выключили (после PIN) — снова Лира: {st['persona']}")
+    ok(st["kids"]["on"] is False and st["persona"] == "lira", f"выключили (после PIN) — снова Мира: {st['persona']}")
     time.sleep(0.5)
     try:
         hud.wait_for_function("!document.body.classList.contains('kids')", timeout=8000)

@@ -1,9 +1,9 @@
-"""«Утро с Лирой» (0.57; согласовано с владельцем 28.10: одна утренняя сводка — погода, день, дела, сотрудники, клиенты,
+"""«Утро с Мирой» (0.57; согласовано с владельцем 28.10: одна утренняя сводка — погода, день, дела, сотрудники, клиенты,
 которые ждут, важная почта; на компьютере и на телефоне).
 Ядро: morning.gather — погода числами (Open-Meteo через tools.t_weather), встречи и дела, «Поручения» (просрочено, ждут
 проверки, написали за ночь), «Клиенты» (шаг просрочен, сегодня), почта (от людей — по именам, рассылки — числом), задачи;
 выключенный раздел — молчит; сломалась почта — раздела нет. _brief_context — всё это для модели, утро уходит своему
-телефону; поручение сводки — «погода уже здесь». Студия: карточка «Утро с Лирой» на главной — погода, строки, город,
+телефону; поручение сводки — «погода уже здесь». Студия: карточка «Утро с Мирой» на главной — погода, строки, город,
 «Расскажи утро», «Каждое утро в 8:00», «Скрыть до завтра». Телефон: утро с компьютера → сводка дня с погодой, клиентами,
 почтой и сотрудниками."""
 import json, os, shutil, subprocess, sys, tempfile, time, types
@@ -144,7 +144,7 @@ ok(E.shared and E.shared[0]["morning"]["dev"] == "Рабочий" and E.shared[0
 E._brief_context(); time.sleep(0.2)
 ok(len(E.shared) == 1, "своему телефону — не чаще раза в полчаса")
 jp = EM.MusicMixin._job_prompt(types.SimpleNamespace(_brief_context=lambda: "X"), {"brief": True})
-ok("[Утро с Лирой]" in jp and "только если она есть в данных" in jp and "не выдумывай" in jp and "рассылки не перечисляй" in jp,
+ok("[Утро с Мирой]" in jp and "только если она есть в данных" in jp and "не выдумывай" in jp and "рассылки не перечисляй" in jp,
    "поручение сводки: погода только из данных (нет — пропустить, экзамен ПК 0.81.1), сотрудники, клиенты, письма")
 import presence  # noqa: E402
 pp = presence.prompt({"kind": "day", "facts": [], "gone": "9 ч"}, "ctx")
@@ -167,7 +167,7 @@ with sync_playwright() as p:
     pg.wait_for_timeout(900)
     r = pg.evaluate("""() => [document.querySelector('#hm-morning').hidden, document.querySelector('#hm-morning h2').textContent, document.querySelector('.mn-t').textContent,
       document.querySelector('.mn-w').className, [...document.querySelectorAll('.mn-rows b')].map(x => x.textContent), [...document.querySelectorAll('.mn-rows button')].map(x => x.dataset.mgo)]""")
-    ok(r[0] is False and r[1] == "Утро с Лирой" and r[2] == "-3°" and "sky-snow" in r[3], f"на главной — «Утро с Лирой», −3°, снежное небо: {r[:4]}")
+    ok(r[0] is False and r[1] == "Утро с Мирой" and r[2] == "-3°" and "sky-snow" in r[3], f"на главной — «Утро с Мирой», −3°, снежное небо: {r[:4]}")
     ok(r[4][0].startswith("1 встреча, 1 дело") and r[4][1] == "Сотрудники: 1 просрочено · 1 ждёт проверки · 1 сообщение" and r[4][2] == "Клиенты ждут: 1"
        and r[4][3] == "Почта: 3 новых" and r[5][:4] == ["calendar", "team", "clients", "mail"], f"строки ведут в разделы (почта — к письмам, №467): {r[4]}")
     if SHOTS: pg.screenshot(path=str(Path(SHOTS) / "studio-morning.png"), clip={"x": 240, "y": 0, "width": 1160, "height": 560})
@@ -181,7 +181,7 @@ with sync_playwright() as p:
     ok(["morning_set", {"city": "Гродно"}] in pg.evaluate("_calls"), "сменить город — morning_set")
     pg.click("#mn-hide"); pg.wait_for_timeout(300)
     ok(pg.evaluate("document.querySelector('#hm-morning').hidden"), "«Скрыть до завтра»")
-    ok(pg.evaluate("[mnWith('Лира'), mnWith('Патрик'), mnWith('Эва'), mnWith('Гастон')]") == ["Лирой", "Патриком", "Эвой", "Гастоном"], "«Утро с Патриком», «с Эвой»")
+    ok(pg.evaluate("[mnWith('Мира'), mnWith('Патрик'), mnWith('Эва'), mnWith('Гастон')]") == ["Мирой", "Патриком", "Эвой", "Гастоном"], "«Утро с Патриком», «с Эвой»")
     pg.evaluate("() => { _d = Object.assign({}, _d, { city: '', weather: null, settings: {} }); mnLoad(); }"); pg.wait_for_timeout(300)
     ok(pg.locator("#mn-city").count() == 1 and "Скажите, где вы" in pg.inner_text("#hm-morning"), "нет города — поле «Город»")
     pg.evaluate("() => { Date.prototype.getHours = function () { return 15; }; mnLoad(); }"); pg.wait_for_timeout(200)

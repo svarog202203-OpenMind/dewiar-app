@@ -42,7 +42,7 @@ public class CaptureWidget extends AppWidgetProvider {
     }
 
     /** Светлая тема приложения? (app.js applyLook пишет её в pref look_body: «neusky light neu») — значок светлый
-     *  (24.10, владелец: «Лира оформлена красиво в белом — можно ли так же красиво эту кнопку?»). */
+     *  (24.10, владелец: «Мира оформлена красиво в белом — можно ли так же красиво эту кнопку?»). */
     static boolean light(Context c) {
         try {
             return (" " + c.getSharedPreferences("dewiar", Context.MODE_PRIVATE).getString("look_body", "") + " ").contains(" light ");

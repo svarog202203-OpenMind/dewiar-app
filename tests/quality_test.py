@@ -151,7 +151,7 @@ class Host:
         self.said, self.pushes = [], []
         run0 = self.toolbox.run
         self.toolbox.run = lambda name, args: ("1. Погода в Минске: +12, облачно — pogoda.by" if name == "web_search" else run0(name, args))
-    def persona_name(self): return "Лира"
+    def persona_name(self): return "Мира"
     def memory(self): return ""
     def llm_profile(self): return {"name": "mock", "kind": "openai", "base_url": f"http://127.0.0.1:{srv.server_port}/v1", "model": "m"}
     def max_steps(self): return 30

@@ -1,4 +1,4 @@
-"""«Посты» бота персонажа (0.69; запрос бизнеса 29.10: «чтобы Лира писала в группы Telegram» — честно, от имени канала,
+"""«Посты» бота персонажа (0.69; запрос бизнеса 29.10: «чтобы Мира писала в группы Telegram» — честно, от имени канала,
 без выдуманных собеседников). Бота назначили администратором канала (my_chat_member) — канал в списке; @канал вписали —
 проверка, что бот админ с правом публиковать. Пост сейчас — уходит сразу, ссылка на пост; ко времени — уходит на часах;
 с одобрением — ждёт «Опубликовать». Опрос — sendPoll. Рубрика «по будням в 10:00» — в срок персонаж пишет пост и он ждёт
@@ -58,7 +58,7 @@ def call(method, timeout=20, files=None, **p):
 
 bot._call = call
 bot.connected = lambda: True
-bot.persona = lambda: {"id": "lira", "name": "Лира", "character": "тёплая и толковая"}
+bot.persona = lambda: {"id": "lira", "name": "Мира", "character": "тёплая и толковая"}
 now = [datetime(2026, 10, 30, 9, 0)]                              # пятница
 P = Posts(host, bot, path=tmp / "posts.json", now=lambda: now[0])
 P.greet_delay = 0.05
@@ -141,7 +141,7 @@ bot._handle({"update_id": 6, "message": {"message_id": 2, "chat": grp, "from": {
                                          "new_chat_members": [{"id": 2, "first_name": "Иван"}, {"id": 3, "first_name": "Спам", "is_bot": True}]}})
 time.sleep(0.3)
 sent = [p for m, p in calls if m == "sendMessage" and p["chat_id"] == -700]
-ok(len(sent) == 1 and sent[0]["text"].startswith("Анна и Иван, добро пожаловать") and "Лира" in sent[0]["text"], f"новички — одно приветствие на всех, без ботов: {sent}")
+ok(len(sent) == 1 and sent[0]["text"].startswith("Анна и Иван, добро пожаловать") and "Мира" in sent[0]["text"], f"новички — одно приветствие на всех, без ботов: {sent}")
 
 # что пишет персонаж
 ok("не выдумывай собеседников, отзывы, цифры" in pbot_posts.WRITE, "персонажу: без выдуманных собеседников, отзывов и цифр")

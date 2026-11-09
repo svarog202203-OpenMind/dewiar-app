@@ -183,14 +183,14 @@ $$("nav button[data-p]").forEach(b => b.onclick = () => {
   if (b.dataset.p === "council" && window.loadCouncil) loadCouncil();       // «Совет ИИ» (studio/council.js)
   if (b.dataset.p === "pbot" && window.loadPbot) loadPbot();                // «Бот персонажа» (studio/pbot.js)
   if (b.dataset.p === "qa" && window.loadQA) loadQA();
-  if (b.dataset.p === "course" && window.loadCourse) loadCourse();       // «Неделя с Лирой» — курс (studio/course.js)                   // «Вопрос — ответ» — руководство (studio/qa.js)
+  if (b.dataset.p === "course" && window.loadCourse) loadCourse();       // «Неделя с Мирой» — курс (studio/course.js)                   // «Вопрос — ответ» — руководство (studio/qa.js)
   if (!S) return;                                    // данные подгрузятся после связи с ядром
   if (b.dataset.p === "sound") loadDevices();
   if (b.dataset.p === "about") core.call("status").then(renderStatus).catch(() => {});
   if (b.dataset.p === "skills") { loadPlugins(); core.call("skills").then(renderSkills).catch(() => {}); core.call("mcp_status").then(renderMcp).catch(() => {});
     if (S.skills && S.skills.catalog_url) { $("#cat-url").value = S.skills.catalog_url; openCatalog(); } }
   if (b.dataset.p === "me") loadMe();
-  if (b.dataset.p === "docs") loadDocs();             // «Документы» — папки, по которым Лира ищет (studio/links.js)
+  if (b.dataset.p === "docs") loadDocs();             // «Документы» — папки, по которым Мира ищет (studio/links.js)
   if (b.dataset.p === "tricks") loadTricks();       // «Что я умею» — data/tricks.json через ядро
   if (b.dataset.p === "memory") { loadNotes(); loadMemory(!!mNet); setTimeout(mPanes, 0); }   // обновление раз в 30 с — memory.js (secPoll)
   if (b.dataset.p === "voice") core.call("voices_warm").catch(() => {});

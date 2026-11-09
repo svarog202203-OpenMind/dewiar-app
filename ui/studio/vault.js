@@ -38,7 +38,7 @@ function vlRender() {
   const q = vlNorm($("#vl-q").value.trim()), list = vlHits(q), box = $("#vl-list");
   if (!VL.items.length) {
     box.innerHTML = `<div class="vl-empty"><div class="vl-lock" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="10" y="21" width="28" height="21" rx="6"/><path d="M16 21v-5a8 8 0 0 1 16 0v5"/><circle cx="24" cy="31" r="2.6"/><path d="M24 33.6v3"/></svg></div>
-      <b>В сейфе пока пусто</b><span>Нажмите «Добавить» — или скажите Лире: «запомни пароль от вайфая: …». Пароль будет здесь, вслух его никто не услышит.</span>
+      <b>В сейфе пока пусто</b><span>Нажмите «Добавить» — или скажите Мире: «запомни пароль от вайфая: …». Пароль будет здесь, вслух его никто не услышит.</span>
       <span>Пароли есть в закрытом слепке? <a href="#" id="vl-empty-back">Восстановить из слепка</a></span></div>`;
     $("#vl-empty-back").onclick = (e) => { e.preventDefault(); vlRestore(); };
     return;

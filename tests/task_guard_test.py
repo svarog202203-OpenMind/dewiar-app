@@ -76,7 +76,7 @@ class Host:
         self.workspace = Workspace(None); self.s = FakeS(); self.toolbox = T.Toolbox(self.s, None); self.toolbox.hooks["workspace"] = self.workspace
         self.toolbox.run = lambda name, args: "Готово: выполнено."          # настоящие команды в проверке не запускаем
         self.said, self.asked, self.stopping, self.answer = [], [], threading.Event(), False
-    def persona_name(self): return "Лира"
+    def persona_name(self): return "Мира"
     def memory(self): return ""
     def llm_profile(self): return {"name": "mock", "kind": "openai", "base_url": f"http://127.0.0.1:{srv.server_port}/v1", "model": "m"}
     def max_steps(self): return 80

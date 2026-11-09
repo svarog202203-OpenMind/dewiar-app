@@ -773,7 +773,7 @@
     }
   }
 
-  function strings(g, e) {                         // Лира: поющие струны
+  function strings(g, e) {                         // Мира: поющие струны
     const { ctx, r, c, t, lv, k } = g;
     ctx.strokeStyle = rgba(c, 0.55 * k); ctx.lineWidth = 1.2;
     ctx.beginPath(); ctx.arc(0, 0, r * 0.9, 0, TAU); ctx.stroke();
@@ -897,7 +897,7 @@
     let want = A.mTarget;
     if (e.lipsync) {
       // мультфильмы ИИ Академии (opts.lipsync): форма рта — по громкости этого кадра, без задержки (владелец 29.10: «рот
-      // у Лиры иногда не попадает»): тихо — закрыт, негромко — приоткрыт (2), громко — открыт (1/3 попеременно)
+      // у Миры иногда не попадает»): тихо — закрыт, негромко — приоткрыт (2), громко — открыт (1/3 попеременно)
       const lv = speaking ? e.target : 0, cls = lv < 0.05 ? 0 : lv < 0.2 ? 2 : 1;
       if (cls !== A.lsCls || now > A.nextMouth) { A.lsCls = cls; want = cls === 1 ? (A.mTarget === 1 ? 3 : 1) : cls; A.nextMouth = now + 110; }
     } else if (voiced) { if (now > A.nextMouth) { want = Math.random() < 0.12 ? 0 : 1 + Math.floor(Math.random() * 3); A.nextMouth = now + 90 + Math.random() * 60; } }
@@ -913,7 +913,7 @@
 
     const neu = e.tone === "neu";
     ctx.save(); ctx.beginPath(); ctx.arc(0, 0, R, 0, TAU); ctx.clip();
-    const G = L.geo, [cx0, cy0, cs] = G.crop;             // портрет целиком: видно причёску (хвостики Лиры), лицо не огромное
+    const G = L.geo, [cx0, cy0, cs] = G.crop;             // портрет целиком: видно причёску (хвостики Миры), лицо не огромное
     // к зрителю — лёгкий сдвиг без увеличения: портрет целиком, кадр крупнее исходного (отзыв 14.10: «лицо стало крупнее,
     // еле вмещается в круге»); за краем кадра — тёмная подложка, при сдвиге в 3 % её не видно
     const gk = e.lookGain, z = 1, ox = e._lx * R * 0.03 * gk, oy = e._ly * R * 0.025 * gk;

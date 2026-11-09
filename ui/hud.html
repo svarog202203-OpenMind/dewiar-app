@@ -236,14 +236,14 @@
                 display: grid; place-items: center; }
   #tmr button:hover { background: rgba(255,255,255,.18); }
   #tmr button svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; fill: none; }
-  /* Дуга таймера вокруг облика (27.10, «кружок вокруг Лиры смотрится не очень»): тонкое кольцо-дорожка по всему кругу,
+  /* Дуга таймера вокруг облика (27.10, «кружок вокруг Миры смотрится не очень»): тонкое кольцо-дорожка по всему кругу,
      по нему — остаток времени градиентом (бирюзовый → сиреневый, последние 10 с — янтарный → коралловый) с мягким
      свечением и светлой бусиной на кончике; та же палитра, что у кружка в строке таймера. */
   /* Детский режим (kids.py): над кнопками — сколько осталось сегодня, три большие кнопки — сказка, загадка, «почему?» */
   /* 0.66 (владелец 28.10: «Совёнок Уго нравится — может, чуть красивее детскую страничку; и нужно ли там переключение на
-     Лиру?»): плитки — мягкие градиенты с объёмными картинками (Fluent, те же, что смайлы), «осталось» — спокойной
+     Миру?»): плитки — мягкие градиенты с объёмными картинками (Fluent, те же, что смайлы), «осталось» — спокойной
      плашкой, а «на сегодня всё» — сиреневой «до завтра», не красной. Взрослые кнопки (персонажи, календарь, заметки,
-     переписка, студия, жалоба, идеи, блокнот) в детском режиме спрятаны: переключать на Лиру ребёнку не нужно — ядро
+     переписка, студия, жалоба, идеи, блокнот) в детском режиме спрятаны: переключать на Миру ребёнку не нужно — ядро
      и так не даст (switch_persona), выход — в студии по PIN. */
   /* первый вопрос (0.74): тихие строки-кнопки под портретом, пока новичок ничего не спросил */
   #fq { display: none; flex-direction: column; gap: 7px; }
@@ -452,7 +452,7 @@
   #corner.pinned { opacity: 1; }
   #corner-l.lo { opacity: 1; }
   #b-lo[hidden], #b-watch[hidden], #b-tm[hidden] { display: none; }
-  /* «Текстовый режим» (30.10, владелец: «Лира перестала говорить» — режим включился незаметно): метка видна всегда */
+  /* «Текстовый режим» (30.10, владелец: «Мира перестала говорить» — режим включился незаметно): метка видна всегда */
   #corner-l.tm { opacity: 1; }
   #corner-l #b-tm { width: auto; padding: 0 8px 0 6px; gap: 5px; display: inline-flex; align-items: center; border-radius: 99px; color: #ffcf7a;
     background: rgba(255,190,90,.14); font: 600 11px Manrope, sans-serif; }
@@ -460,7 +460,7 @@
   /* 30.10, владелец: «в 0.72 плашка „голос выключен“ висит, даже когда голос включён» — правило выше (два id) сильнее
      [hidden] из общей строки, и метка не пряталась. Скрытая — скрыта, при любой теме. */
   #corner-l #b-tm[hidden], body.light #corner-l #b-tm[hidden] { display: none; }
-  /* «Отдых» (№540, 04.11: «поработать без неё»): пока Лира отдыхает — метка «отдыхаю до 15:40» видна всегда, нажатие — вернуть */
+  /* «Отдых» (№540, 04.11: «поработать без неё»): пока Мира отдыхает — метка «отдыхаю до 15:40» видна всегда, нажатие — вернуть */
   #corner-l.rst { opacity: 1; }
   #corner-l #b-rst { width: auto; padding: 0 8px 0 6px; gap: 5px; display: inline-flex; align-items: center; border-radius: 99px; color: #a9d8ff;
     background: rgba(110,180,255,.16); font: 600 11px Manrope, sans-serif; }
@@ -472,7 +472,7 @@
   /* щит, дозор, стоп-кран, обновление — видны всегда; остальное в углу (жук, лампочка и «обновления», когда нового нет) —
      только под курсором (30.10, владелец: «жук и лампочка пропадают, а обновление остаётся») */
   #card:not(:hover) #corner-l:is(.tm, .lo, .watch, .upd):not(:focus-within) :is(#b-bug, #b-idea, #b-upd:not(.has):not(.busy)) { opacity: 0; pointer-events: none; }
-  /* «Дозор» (0.58): пока Лира присматривает — глаз виден всегда, с числом дозоров и тихим «дыханием» */
+  /* «Дозор» (0.58): пока Мира присматривает — глаз виден всегда, с числом дозоров и тихим «дыханием» */
   #corner-l.watch { opacity: 1; }
   #corner-l #b-watch { position: relative; color: #8fb4ff; animation: wt-breath 3.2s ease-in-out infinite; }
   #corner-l #b-watch i { position: absolute; top: -2px; right: -3px; min-width: 13px; height: 13px; border-radius: 99px; font: 700 9px/13px Manrope, sans-serif;
@@ -616,23 +616,23 @@
        панели отдано заметкам (отзыв 11.10) -->
   <div id="corner-l">
     <!-- стоп-кран «Ничего не уходит в интернет» включён (студия → «Безопасность», 0.38.98): значок виден всегда -->
-    <button class="btn" id="b-watch" hidden title="Лира в дозоре"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg><i></i></button>
-    <button class="btn" id="b-rst" hidden title="Лира отдыхает: не слушает и не говорит, напоминания ждут. Нажмите — вернуть сейчас"><svg viewBox="0 0 24 24"><path d="M4.5 9.5h12v4.5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16.5 11h1.2a2.3 2.3 0 0 1 0 4.6h-1.6M8 3.5c-.6.9.6 1.6 0 2.5M11.5 3.5c-.6.9.6 1.6 0 2.5"/></svg><span id="b-rst-t">отдыхаю</span></button>
+    <button class="btn" id="b-watch" hidden title="Мира в дозоре"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg><i></i></button>
+    <button class="btn" id="b-rst" hidden title="Мира отдыхает: не слушает и не говорит, напоминания ждут. Нажмите — вернуть сейчас"><svg viewBox="0 0 24 24"><path d="M4.5 9.5h12v4.5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16.5 11h1.2a2.3 2.3 0 0 1 0 4.6h-1.6M8 3.5c-.6.9.6 1.6 0 2.5M11.5 3.5c-.6.9.6 1.6 0 2.5"/></svg><span id="b-rst-t">отдыхаю</span></button>
     <button class="btn" id="b-tm" hidden title="Текстовый режим: голос и микрофон выключены. Нажмите — включить голос"><svg viewBox="0 0 24 24"><rect x="3" y="6.5" width="18" height="11" rx="2.5"/><path d="M7 10.5h1M10.5 10.5h1M14 10.5h1M17 10.5h0M7.5 14h9"/></svg><span>голос выключен</span></button>
     <button class="btn" id="b-lo" hidden title="Ничего не уходит в интернет: стоп-кран включён. Выключить — студия → «Безопасность»"><svg viewBox="0 0 24 24"><path d="M12 3.2 5 6v5.6c0 4.2 2.9 7.7 7 9.2 4.1-1.5 7-5 7-9.2V6z"/><path d="m9 12 2.2 2.2L15.3 10"/></svg></button>
     <button class="btn" id="b-bug" title="Сообщить о проблеме — сниму экран и открою форму жалобы"><svg viewBox="0 0 24 24"><rect x="6.5" y="7" width="11" height="14.5" rx="5.5"/><path d="M8.8 7.6a3.2 3.2 0 0 1 6.4 0M12 11.5v10M6.5 12.5H2.5M21.5 12.5h-4M6.8 17.5 3 19.8M17.2 17.5l3.8 2.3M7.5 9.2 4 6.5M16.5 9.2 20 6.5"/></svg></button>
     <!-- обновление одним нажатием (24.10, владелец: «возле жучка не хватает значка обновления») -->
     <button class="btn" id="b-upd" title="Обновления — проверить и обновить одним нажатием" aria-label="Обновления"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></button>
-    <!-- «Идеи Лиры» (0.59, владелец 28.10: «возле жучка — прислать идею и проголосовать») -->
-    <button class="btn" id="b-idea" title="Идеи Лиры — предложить свою и поддержать чужие"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2V16h5v-.1c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg></button>
+    <!-- «Идеи Миры» (0.59, владелец 28.10: «возле жучка — прислать идею и проголосовать») -->
+    <button class="btn" id="b-idea" title="Идеи Миры — предложить свою и поддержать чужие"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2V16h5v-.1c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg></button>
   </div>
   <div id="corner">
     <!-- блокнот у виджета (20.10): вкладки, ссылки, картинки, таблицы, задачи — выезжает рядом, синхронизируется (ui/pad.html) -->
     <!-- «Досуг» (24.10): милые игры в том же листе, что блокнот (ui/pad.html, assets/arcade); выключается в «Возможностях» -->
-    <button class="btn" id="b-play" hidden title="Досуг — милые игры на пару минут. Или скажите: «Лира, давай поиграем»"><svg viewBox="0 0 24 24"><path d="M7.5 7.5h9a4.5 4.5 0 0 1 4.3 5.8l-1.1 3.7a2.3 2.3 0 0 1-3.9.9L14 15.5h-4l-1.8 2.4a2.3 2.3 0 0 1-3.9-.9l-1.1-3.7a4.5 4.5 0 0 1 4.3-5.8z"/><path d="M8 10.5v3M6.5 12h3"/><path d="M15.5 11h.01M17.5 13h.01"/></svg></button>
+    <button class="btn" id="b-play" hidden title="Досуг — милые игры на пару минут. Или скажите: «Мира, давай поиграем»"><svg viewBox="0 0 24 24"><path d="M7.5 7.5h9a4.5 4.5 0 0 1 4.3 5.8l-1.1 3.7a2.3 2.3 0 0 1-3.9.9L14 15.5h-4l-1.8 2.4a2.3 2.3 0 0 1-3.9-.9l-1.1-3.7a4.5 4.5 0 0 1 4.3-5.8z"/><path d="M8 10.5v3M6.5 12h3"/><path d="M15.5 11h.01M17.5 13h.01"/></svg></button>
     <button class="btn" id="b-pad" title="Блокнот — вкладки под рукой: ссылки, задачи, таблицы, картинки. Синхронизируется между устройствами"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="16" rx="2.5"/><path d="M8.5 3v4M12 3v4M15.5 3v4"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4"/></svg></button>
-    <!-- «Отдых» (№540): час без Лиры одним нажатием — не слушает и не говорит, напоминания подождут -->
-    <button class="btn" id="b-rest" title="Отдых на час: не слушаю и не говорю, напоминания подождут. Или скажите: «Лира, отдохни час»" aria-label="Отдых на час"><svg viewBox="0 0 24 24"><path d="M4.5 9.5h12v4.5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16.5 11h1.2a2.3 2.3 0 0 1 0 4.6h-1.6M8 3.5c-.6.9.6 1.6 0 2.5M11.5 3.5c-.6.9.6 1.6 0 2.5"/></svg></button>
+    <!-- «Отдых» (№540): час без Миры одним нажатием — не слушает и не говорит, напоминания подождут -->
+    <button class="btn" id="b-rest" title="Отдых на час: не слушаю и не говорю, напоминания подождут. Или скажите: «Мира, отдохни час»" aria-label="Отдых на час"><svg viewBox="0 0 24 24"><path d="M4.5 9.5h12v4.5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16.5 11h1.2a2.3 2.3 0 0 1 0 4.6h-1.6M8 3.5c-.6.9.6 1.6 0 2.5M11.5 3.5c-.6.9.6 1.6 0 2.5"/></svg></button>
     <button class="btn" id="b-tray" title="Спрятать — появлюсь сам, когда позовёте по имени или придёт напоминание"><svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
   </div>
   <div id="bar">
@@ -665,7 +665,7 @@ const entity = new DewiarEntity($("cv"), { style: "nexus", color: "#8A9BFF", pla
 const VOICE_FX = ["bars", "pulse", "wave"];
 function applyLook(ui) {                      // тема карточки и облика (assets/skins.*) + чем голос отзывается вокруг портрета
   ui = ui || {};
-  const top = ui.on_top !== false;             // идея №48: «окошко Лиры поверх всех окон» — выключатель в «Оформлении»
+  const top = ui.on_top !== false;             // идея №48: «окошко Миры поверх всех окон» — выключатель в «Оформлении»
   // №438: при загрузке окно уже создано как выбрано — зовём только при смене (вызов сразу после старта вешал окно)
   if (window.__onTop !== top) { const first = window.__onTop === undefined; window.__onTop = top;
     if (!first) try { const a = api(); if (a && a.set_on_top) a.set_on_top(top); } catch (e) { } }
@@ -822,7 +822,7 @@ core.on("first_ask", e => { if (e.phrases && e.phrases.length) { fqList = e.phra
 core.on("state", e => fqSync(e && e.state));          // этот обработчик — раньше того, что меняет state
 core.on("kids", setKids);
 core.on("council", e => { if (e && e.open) { const a = api(); if (a && a.open_settings) a.open_settings("council"); } });   // «собери совет» голосом — обсуждение в студии
-core.on("plugin_made", e => { if (e && e.open && /^[\w-]+$/.test(e.id || "")) { const a = api(); if (a && a.open_settings) a.open_settings("plg:" + e.id); } });   // Лира сделала плагин голосом — его страница в студии
+core.on("plugin_made", e => { if (e && e.open && /^[\w-]+$/.test(e.id || "")) { const a = api(); if (a && a.open_settings) a.open_settings("plg:" + e.id); } });   // Мира сделала плагин голосом — его страница в студии
 document.querySelectorAll("#kids [data-say]").forEach(b => b.onclick = (ev) => { ev.stopPropagation(); core.call("say", { text: b.dataset.say }).catch(showErr); });
 const WAIT = {};   // метка для showCap: ответ готовится — вместо текста мигающие точки
 document.getElementById("rem-undo").onclick = async () => {
@@ -1428,23 +1428,23 @@ $("clb-x").onclick = (e) => { e.stopPropagation(); CLB.hid = +($("clb-n").textCo
 $("b-cal").onclick = () => studioToggle("calendar");
 function setTextMode(on) { const b = $("b-tm"); if (!b) return; b.hidden = !on; $("corner-l").classList.toggle("tm", !!on); }
 function setLocal(on) { $("b-lo").hidden = !on; $("corner-l").classList.toggle("lo", !!on); }
-/* «Дозор»: глаз у виджета, пока Лира присматривает (core/engine_watch.py — событие «watch», в hello — watch) */
+/* «Дозор»: глаз у виджета, пока Мира присматривает (core/engine_watch.py — событие «watch», в hello — watch) */
 function setWatch(w) {
   const act = ((w && w.items) || []).filter(x => x.status === "active"), b = $("b-watch");
   b.hidden = !act.length; $("corner-l").classList.toggle("watch", act.length > 0);
   b.querySelector("i").textContent = act.length > 1 ? String(act.length) : "";
-  b.title = act.length ? "Лира в дозоре: " + act.map(x => x.title).join("; ") + ". Нажмите — открыть «Дозор»" : "";
+  b.title = act.length ? "Мира в дозоре: " + act.map(x => x.title).join("; ") + ". Нажмите — открыть «Дозор»" : "";
 }
 core.on("watch", setWatch);
 core.on("hello", d => setWatch(d.watch));
 $("b-watch").onclick = () => studioToggle("watch");
 $("b-tm").onclick = () => core.call("text_mode", { on: false }).then(() => setTextMode(false)).catch(() => {});
-/* «Отдых» (№540): кнопка в углу — час без Лиры; метка слева «отдыхаю до 15:40» — вернуть; трей зовёт restToggle() */
+/* «Отдых» (№540): кнопка в углу — час без Миры; метка слева «отдыхаю до 15:40» — вернуть; трей зовёт restToggle() */
 function setRest(r) {
   REST = Object.assign({ on: false }, r || {});
   const b = $("b-rst"); b.hidden = !REST.on; $("corner-l").classList.toggle("rst", !!REST.on); document.body.classList.toggle("rest", !!REST.on);
   $("b-rst-t").textContent = REST.on ? "отдыхаю до " + REST.until_text + (REST.held ? ` · ждут: ${REST.held}` : "") : "";
-  $("b-rest").title = REST.on ? "Вернуть Лиру сейчас" : "Отдых на час: не слушаю и не говорю, напоминания подождут. Или скажите: «Лира, отдохни час»";
+  $("b-rest").title = REST.on ? "Вернуть Миру сейчас" : "Отдых на час: не слушаю и не говорю, напоминания подождут. Или скажите: «Мира, отдохни час»";
   const a = api(); if (a && a.rest_note) a.rest_note(!!REST.on, REST.until_text || "").catch?.(() => {});
   setState(state);
 }
@@ -1704,7 +1704,7 @@ core.on("window", e => { const a = api(); if (!a || mode !== "card") return;
   if (e.do === "tray" && a.to_tray) { a.to_tray(); core.call("settings_save", { patch: { ui: { hud_tray: true } } }).catch(() => {}); }
   else if (e.do === "show" && a.from_tray) a.from_tray();
   else if (e.do === "quit" && a.quit_all) a.quit_all();
-  else if (e.do === "play" && a.play_open) a.play_open(e.game || "");                    // «Лира, давай поиграем» — «Досуг» в листе у виджета
+  else if (e.do === "play" && a.play_open) a.play_open(e.game || "");                    // «Мира, давай поиграем» — «Досуг» в листе у виджета
   else if (e.do === "snip" && a.snip_open) a.snip_open("voice"); });                     // «вырежи кусок экрана» — окно выделения (ui/snip.html)
 /* текст, распознанный с вырезанного куска экрана, — в буфер обмена и тогда, когда блокнот не открыт (pad.js копирует сам) */
 core.on("snip", e => { const a = api(); if (mode === "card" && e.state === "text" && e.text && a && a.clip_text) a.clip_text(String(e.text)); });

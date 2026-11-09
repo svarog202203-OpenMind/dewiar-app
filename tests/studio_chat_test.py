@@ -1,4 +1,4 @@
-"""Студия → «Чат» (просьба 14.10: «на компьютере не понятно, где наша с Лирой переписка — на телефоне есть; вместо значка
+"""Студия → «Чат» (просьба 14.10: «на компьютере не понятно, где наша с Мирой переписка — на телефоне есть; вместо значка
 памяти — чат, и чтобы можно было писать»). Настоящее ядро и модель-заглушка:
 — вопрос, заданный как угодно (здесь — командой say, как из виджета), и ответ попадают в ленту (core/chatlog.py, событие chat);
 — в студии: написал в поле и Enter — свой пузырь справа, ответ персонажа слева с его именем; разделитель «Сегодня»;
@@ -77,15 +77,15 @@ try:
         pg.goto(url); pg.wait_for_timeout(2500)
         ok(pg.evaluate("() => document.getElementById('p-chat').classList.contains('cur')") and pg.is_visible("#ch-empty"),
            "студия открылась на «Чате» (адрес #chat); переписки нет — подсказка")
-        pg.fill("#ch-text", "Как дела у Лиры?"); pg.press("#ch-text", "Enter")
+        pg.fill("#ch-text", "Как дела у Миры?"); pg.press("#ch-text", "Enter")
         pg.wait_for_selector(".cl-m:not(.out) >> text=Отвечаю", timeout=20000); pg.wait_for_timeout(600)
         R = pg.evaluate("""() => ({ msgs: [...document.querySelectorAll('#ch-msgs .cl-m')].map(m => [m.classList.contains('out'), m.querySelector('.tx').textContent.trim()]),
                                     who: [...document.querySelectorAll('#ch-msgs .ch-who')].map(x => x.textContent.trim()),
                                     day: [...document.querySelectorAll('#ch-msgs .ch-day')].map(x => x.textContent.trim()),
                                     live: !!document.querySelector('.ch-live'), field: document.getElementById('ch-text').value })""")
-        ok(R["msgs"][:1] == [[True, "Как дела у Лиры?"]] and R["msgs"][-1][0] is False and "Отвечаю на «Как дела у Лиры?»" in R["msgs"][-1][1],
+        ok(R["msgs"][:1] == [[True, "Как дела у Миры?"]] and R["msgs"][-1][0] is False and "Отвечаю на «Как дела у Миры?»" in R["msgs"][-1][1],
            f"написал — свой пузырь справа, ответ слева: {R['msgs']}")
-        ok(R["who"] == ["Лира"] and R["day"] == ["Сегодня"] and not R["live"] and R["field"] == "", f"имя персонажа над ответом, «Сегодня», поле очищено: {R}")
+        ok(R["who"] == ["Мира"] and R["day"] == ["Сегодня"] and not R["live"] and R["field"] == "", f"имя персонажа над ответом, «Сегодня», поле очищено: {R}")
         # вопрос из виджета (команда say) тоже в ленте
         pg.evaluate("() => core.call('say', { text: 'Второй вопрос' })"); pg.wait_for_timeout(3500)
         n2 = pg.evaluate("() => document.querySelectorAll('#ch-msgs .cl-m').length")
@@ -126,7 +126,7 @@ try:
         pg.on("pageerror", lambda x: errs.append(str(x)))
         pg.goto(url); pg.wait_for_timeout(2500)
         n = pg.evaluate("() => document.querySelectorAll('#ch-msgs .cl-m').length")
-        ok(n == 80 and pg.is_visible("#ch-older") and "Как дела у Лиры?" in pg.inner_text("#ch-msgs") and pg.evaluate("() => !!document.querySelector('#ch-msgs .ch-img img')"),
+        ok(n == 80 and pg.is_visible("#ch-older") and "Как дела у Миры?" in pg.inner_text("#ch-msgs") and pg.evaluate("() => !!document.querySelector('#ch-msgs .ch-img img')"),
            f"после перезапуска — последние 80 реплик и «Показать раньше»: {n}")
         pg.click("#ch-older"); pg.wait_for_timeout(600)
         n = pg.evaluate("() => document.querySelectorAll('#ch-msgs .cl-m').length")

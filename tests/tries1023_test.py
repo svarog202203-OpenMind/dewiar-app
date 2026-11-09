@@ -33,7 +33,7 @@ try:
             core.call = (cmd, a) => { if (cmd === 'say') window._said.push(a.text); return Promise.resolve(null); }; wlcOpen(); }""")
         pg.wait_for_timeout(300)
         qs = pg.evaluate("() => [...document.querySelectorAll('#wlc .tq')].map(b => b.dataset.q)")
-        ok(len(qs) >= 5 and qs[0].startswith("Лира, "), f"в «Первых шагах» — фразы-примеры с именем персонажа: {qs}")
+        ok(len(qs) >= 5 and qs[0].startswith("Мира, "), f"в «Первых шагах» — фразы-примеры с именем персонажа: {qs}")
         pg.click("#wlc .tq >> nth=0"); pg.wait_for_timeout(200)
         ok(pg.evaluate("window._said") == [], "мозг ещё не выбран — фраза не уходит (подсказка про шаг 1)")
         pg.evaluate("() => { wlcBrainOk = true; }")

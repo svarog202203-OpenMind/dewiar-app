@@ -70,9 +70,9 @@ async def run():
     await wait_for(lambda e: e["type"] == "answer" and "Напоминание:" in e.get("text", ""), 15)
     await say("Запиши список покупок")
     await wait_for(lambda e: e["type"] == "answer" and e.get("done") and "Покупки" in e["text"], 15)
-    await say("Позови Лиру")
+    await say("Позови Миру")
     await wait_for(lambda e: e["type"] == "persona" and e.get("persona") == "lira", 15)
-    await wait_for(lambda e: e["type"] == "answer" and e.get("done") and "Я Лира" in e["text"], 15)
+    await wait_for(lambda e: e["type"] == "answer" and e.get("done") and "Я Мира" in e["text"], 15)
     rd.cancel()
 
 try:
@@ -93,8 +93,8 @@ checks = {
     "напоминание сработало и прозвучало": any(e["type"] == "reminder" for e in events) and any("Напоминание: Про чайник" in a or "Напоминание: проверить чайник" in a for a in answers),
     "«запиши…»: заметка в папке ассистента": (tmp / "ws/Заметки/Покупки.md").exists() and "молоко" in (tmp / "ws/Заметки/Покупки.md").read_text(),
     "папка создана, напоминания в Напоминания.md": (tmp / "ws/Напоминания.md").exists() and (tmp / "ws/Память/Обо мне.md").exists(),
-    "«позови Лиру»: сменился персонаж": any(e["type"] == "persona" and e.get("persona") == "lira" for e in events),
-    "Лира откликнулась сама, без «Вы: …» в виджете": any(e["type"] == "answer" and e.get("done") and "Я Лира" in e["text"] for e in events)
+    "«позови Миру»: сменился персонаж": any(e["type"] == "persona" and e.get("persona") == "lira" for e in events),
+    "Мира откликнулась сама, без «Вы: …» в виджете": any(e["type"] == "answer" and e.get("done") and "Я Мира" in e["text"] for e in events)
         and not any(e["type"] == "heard" and "позвал" in e.get("text", "") for e in events),
     "в виджет шли события инструментов": any(e["type"] == "tool" and e.get("status") == "done" for e in events),
 }

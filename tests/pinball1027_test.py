@@ -26,7 +26,7 @@ ok('id: "pinball"' in shelf and "Звёздный пинбол" in shelf, "пи�
 gj = (ARC / "pinball/game.js").read_text(encoding="utf-8")
 ok(not re.search(r"https?://", gj), "игра не ходит в интернет")
 import engine_base as EB  # noqa: E402
-for t in ("давай поиграем в пинбол", "открой пинбол", "лира, сыграем в звёздный пинбол"):
+for t in ("давай поиграем в пинбол", "открой пинбол", "мира, сыграем в звёздный пинбол"):
     ok(EB.window_phrase(t) == "play" and EB.play_game(t) == "pinball", f"«{t}» → пинбол")
 ok('"pinball": "«Звёздный пинбол»"' in (ROOT / "core/engine_commands.py").read_text(encoding="utf-8"), "ядро говорит «Открываю «Звёздный пинбол»»")
 app = (ROOT / "android/assets/www/app.js").read_text(encoding="utf-8")

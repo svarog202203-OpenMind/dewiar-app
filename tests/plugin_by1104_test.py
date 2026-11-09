@@ -1,5 +1,5 @@
-"""Кто делает плагин (04.11, пользователь: «у Лиры модель не особо мощная, а у Патрика получше; не смог сделать, чтобы
-изменением плагина занялся Патрик — менять настройки Лиры не хочется»): плагин пишет модель персонажа — того, кто
+"""Кто делает плагин (04.11, пользователь: «у Миры модель не особо мощная, а у Патрика получше; не смог сделать, чтобы
+изменением плагина занялся Патрик — менять настройки Миры не хочется»): плагин пишет модель персонажа — того, кто
 отвечает, или названного («пусть Патрик сделает», by), и выбранного в студии («Кто делает»); общий «Мозг» — только если у
 персонажа своей модели нет."""
 import os, sys, tempfile
@@ -44,12 +44,12 @@ class Host:
         return {"lira": {"base_url": "http://weak", "model": "weak"}, "patrik": {"base_url": "http://strong", "model": "strong"}}[pid]
 
     def find_persona(self, name):
-        return {"патрик": "patrik", "патрика": "patrik", "лира": "lira"}.get(name.lower())
+        return {"патрик": "patrik", "патрика": "patrik", "мира": "lira"}.get(name.lower())
 
     class personas:
         @staticmethod
         def get(pid):
-            return {"lira": {"name": "Лира"}, "patrik": {"name": "Патрик"}}.get(pid)
+            return {"lira": {"name": "Мира"}, "patrik": {"name": "Патрик"}}.get(pid)
 
 
 H = Host()
@@ -60,7 +60,7 @@ L.stream_chat = lambda prof, system, msgs: (used.append(prof["model"]), iter(["o
 PM.stream_chat = L.stream_chat
 
 M.llm("s", "u")
-ok(used[-1] == "weak", f"по умолчанию — модель того, кто отвечает (Лира): {used[-1]}")
+ok(used[-1] == "weak", f"по умолчанию — модель того, кто отвечает (Мира): {used[-1]}")
 with M.using("patrik"):
     M.llm("s", "u")
     ok(M.who() == "Патрик", "кто делает — Патрик")

@@ -32,7 +32,7 @@ function wtRender() {
       <small>${WT_KIND[x.kind]} · ${every(x)} · до ${wtT(x.until)}</small>
       <small class="wt-last">${x.last ? `смотрела в ${wtT(x.last)}: ${wtEsc(x.note || "")}` : "сейчас посмотрю…"}</small></div>
       <button class="btn small" type="button" data-stop="${wtEsc(x.id)}">Стоп</button></div>`).join("")
-    : `<p class="hint" style="margin:0">Сейчас Лира ничего не ждёт. Скажите ей: «Лира, скажи, когда Claude ответит» — или начните дозор слева.</p>`;
+    : `<p class="hint" style="margin:0">Сейчас Мира ничего не ждёт. Скажите ей: «Мира, скажи, когда Claude ответит» — или начните дозор слева.</p>`;
   $("#wt-old").innerHTML = old.length ? old.map(x => { const s = WT_ST[x.status] || [x.status, ""];
     return `<div class="wt-item ${s[1]}"><i class="wt-mark" aria-hidden="true"></i><div><b>${wtEsc(x.title)}</b><small>${s[0]}${x.done_at ? " в " + wtT(x.done_at) : ""}${x.result ? " — " + wtEsc(x.result) : ""}</small></div></div>`; }).join("")
     : `<p class="hint" style="margin:0">Здесь будет, чем кончились дозоры.</p>`;

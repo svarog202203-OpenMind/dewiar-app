@@ -1,4 +1,4 @@
-/* Студия: «Чат» — вся переписка с персонажами (просьба 14.10: «на компьютере не понятно, где наша с Лирой переписка; на
+/* Студия: «Чат» — вся переписка с персонажами (просьба 14.10: «на компьютере не понятно, где наша с Мирой переписка; на
    телефоне это есть»). Лента — из ядра (chat_list, core/chatlog.py): что человек сказал голосом или написал и что ответили,
    по дням, старые сверху; «Показать раньше» подгружает предыдущие. Новые реплики приходят событием chat; пока модель
    отвечает — живой пузырь из событий answer. Внизу — поле: написать текстом (то же, что сказать, — команда say).
@@ -23,7 +23,7 @@ function chatBubble(x, lastWho) {
   // картинки к рассказу (show_images) — миниатюры со ссылкой на источник, лентой; свои вложения — из «Входящих»
   const web = (x.att || []).filter(a => a.kind === "image" && a.url && !a.path);
   const gal = web.length && window.DewiarRich ? DewiarRich.gallery(web.map(a => ({ src: a.thumb, page: a.url, full: a.full, title: a.name, author: a.author, license: a.license, site: a.site, source: a.source }))) : "";
-  const att = (x.att || []).filter(a => !web.includes(a)).map(a => a.kind === "plugin"     // плагин, сделанный Лирой в этом ответе, — «Открыть»
+  const att = (x.att || []).filter(a => !web.includes(a)).map(a => a.kind === "plugin"     // плагин, сделанный Мирой в этом ответе, — «Открыть»
     ? `<button class="ch-plg" data-plg="${escH(a.plugin || "")}" title="Открыть страницу плагина"><i aria-hidden="true">${escH(a.icon || "🧩")}</i><span><b>${escH(a.name)}</b><small>Плагин в студии</small></span><em>Открыть</em></button>`
     : a.kind === "image" && a.thumb
     ? `<button class="ch-img" data-path="${escH(a.path || "")}" title="${escH(a.name)} — открыть"><img src="${escH(a.thumb)}" alt="${escH(a.name)}"></button>`
@@ -173,7 +173,7 @@ core.on("task", e => chatTaskQ(e.task)).on("tasks", e => { const w = (e.tasks ||
 // вопрос, заданный до открытия «Чата», — спрашиваем, только когда «Чат» открыли (лёгкая студия не грузит скрытое)
 const chatTaskQLoad = () => core.call("tasks_list").then(list => chatTaskQ((list || []).find(x => x.status === "waiting") || null)).catch(() => {});
 // текстовый режим: без микрофона и голоса (ядро запоминает прежний голос), «Выполнить?» — здесь, а не во всплывающем виджете
-/* 30.10 (владелец, №421: «Лира перестала говорить» — режим включился случайным кликом): пока режим включён — строка
+/* 30.10 (владелец, №421: «Мира перестала говорить» — режим включился случайным кликом): пока режим включён — строка
    над лентой с кнопкой «Включить голос»; включить — только после вопроса */
 function chatTmSync() {
   const c = $("#ch-tm"), on = !!(typeof S !== "undefined" && S && S.ui && S.ui.text_mode);

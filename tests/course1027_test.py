@@ -1,7 +1,7 @@
-"""Курс «Неделя с Лирой» (27.10, владелец: «обучающий курс — ОЧЕНЬ нравится»). Часть 1 — core/course.py: шаг
+"""Курс «Неделя с Мирой» (27.10, владелец: «обучающий курс — ОЧЕНЬ нравится»). Часть 1 — core/course.py: шаг
 засчитывается по фразе и по открытому разделу, урок пройден — следующий завтра (или «следующий сейчас»), предложение —
 раз в день и не после «не сегодня». Часть 2 — настоящее ядро с моком модели: фразы урока засчитываются сами, «урок дня»
-отвечает без модели, утреннее приветствие предлагает урок; студия → «Неделя с Лирой» и карточка на «Главной»."""
+отвечает без модели, утреннее приветствие предлагает урок; студия → «Неделя с Мирой» и карточка на «Главной»."""
 import asyncio, json, os, socket, subprocess, sys, tempfile, time
 from datetime import date, timedelta
 from pathlib import Path
@@ -26,8 +26,8 @@ c = C.Course(tmp / "c.json", lambda t, **k: ev.append(t))
 p = c.public()
 ok(p["lesson"]["day"] == 1 and p["lesson"]["open"] and p["done"] == 0 and len(p["days"]) == 7, "старт: урок 1 открыт, 7 дней")
 line = c.offer_line()
-ok("урок" in line and "«Лира, привет!" in line and c.offer_line() == "", "предложение урока — раз в день")
-c.heard("Лира, привет! Что ты умеешь?"); c.heard("напомни через 10 минут проверить чайник")
+ok("урок" in line and "«Мира, привет!" in line and c.offer_line() == "", "предложение урока — раз в день")
+c.heard("Мира, привет! Что ты умеешь?"); c.heard("напомни через 10 минут проверить чайник")
 ok([s["done"] for s in c.public()["lesson"]["steps"]] == [True, True, False] and "course" in ev, "фразы урока — шаги засчитаны сами")
 c.heard("какие у меня дела?")
 p = c.public()
@@ -47,22 +47,22 @@ ok(c2.offer_line() == "", "«не сегодня» — не предлагать
 c2.restart(1)
 ok(c2.public()["days"][0]["state"] != "done", "урок можно повторить")
 pf = c2.pick("family")
-ok(pf["title"] == "Лира для семьи" and pf["lesson"]["day"] == 1 and [x["id"] for x in pf["courses"]] == ["week", "family", "work", "biz", "team_ai"],
-   "курсы: «Неделя с Лирой», «Лира для семьи», «Лира для работы», «Лира для бизнеса», «Команда Лиры» — у каждого свой ход")
-ok(c2.seen("close") == 0 and c2.public()["lesson"]["steps"][0]["done"] and C.Course(tmp / "c.json").public()["course"] == "family", "«Лира для семьи»: шаг «Откройте «Близкие»»")
+ok(pf["title"] == "Мира для семьи" and pf["lesson"]["day"] == 1 and [x["id"] for x in pf["courses"]] == ["week", "family", "work", "biz", "team_ai"],
+   "курсы: «Неделя с Мирой», «Мира для семьи», «Мира для работы», «Мира для бизнеса», «Команда Миры» — у каждого свой ход")
+ok(c2.seen("close") == 0 and c2.public()["lesson"]["steps"][0]["done"] and C.Course(tmp / "c.json").public()["course"] == "family", "«Мира для семьи»: шаг «Откройте «Близкие»»")
 c2.pick("week")
 ok(c2.public()["done"] == 1, "вернулись к «Неделе» — её ход на месте")
 week_days = [L["title"] for L in C.BY_ID["week"]["lessons"]]
 ok(any("Досуг" in t for t in week_days) and any("Детский" in L["title"] for L in C.BY_ID["family"]["lessons"]),
    f"в «Неделе» — досуг (радио, музыка, игры), в «Семье» — детский режим: {week_days}")
 old = tmp / "old.json"; old.write_text('{"done": {"1": "2026-10-01"}, "steps": {"1": [0, 1, 2]}, "offer": true}')
-ok(C.Course(old).public()["done"] == 1, "старый файл курса читается как «Неделя с Лирой»")
+ok(C.Course(old).public()["done"] == 1, "старый файл курса читается как «Неделя с Мирой»")
 
 # ---------- часть 2: ядро и студия ----------
-# 0.67: «Команда Лиры» — два персонажа на разных моделях, Совет ИИ, знания для персонажа (владелец 28.10)
+# 0.67: «Команда Миры» — два персонажа на разных моделях, Совет ИИ, знания для персонажа (владелец 28.10)
 import re as _re
 tm = C.BY_ID["team_ai"]
-ok([L["title"] for L in tm["lessons"]] == ["Два персонажа — две модели", "Совет ИИ", "Знания для персонажа", "Бот персонажа в Telegram"], "«Команда Лиры»: четыре урока")
+ok([L["title"] for L in tm["lessons"]] == ["Два персонажа — две модели", "Совет ИИ", "Знания для персонажа", "Бот персонажа в Telegram"], "«Команда Миры»: четыре урока")
 ids = set(_re.findall(r'data-p="([a-z_]+)"', (ROOT / "ui/settings.html").read_text(encoding="utf-8")))
 bad = [s["open"] for c in C.COURSES for L in c["lessons"] for s in L["steps"] if s.get("open") and s["open"] not in ids]
 ok(not bad, f"каждый «Откройте…» ведёт в существующий раздел студии: {bad}")
@@ -133,7 +133,7 @@ async def run():
     events.clear()
     await call("say", text="Урок дня")
     R["lesson"] = await wait_for(lambda e: e["type"] == "answer" and "Урок 1 из 7" in (e.get("text") or ""), 10)
-    for t in ("Лира, привет! Что ты умеешь?", "Напомни через 10 минут проверить чайник"):
+    for t in ("Мира, привет! Что ты умеешь?", "Напомни через 10 минут проверить чайник"):
         events.clear()
         await call("say", text=t)
         await wait_for(lambda e: e["type"] == "answer" and e.get("done"), 20)
@@ -145,7 +145,7 @@ async def run():
 
 try:
     asyncio.run(run())
-    ok(R.get("lesson") is not None, "«урок дня» — Лира говорит, что за урок, без модели")
+    ok(R.get("lesson") is not None, "«урок дня» — Мира говорит, что за урок, без модели")
     ok([s["done"] for s in R["get"]["lesson"]["steps"]] == [True, True, False], f"фразы урока в разговоре — засчитаны: {R['get']['lesson']['steps']}")
     tok = (cfg / "token").read_text().strip()
     errs = []

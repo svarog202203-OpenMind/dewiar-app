@@ -1,11 +1,11 @@
-/* Реверси — чёрно-белая игра против Лиры (24.10, владелец: «какую-нибудь игру в чёрно-белом стиле или в нашем
+/* Реверси — чёрно-белая игра против Миры (24.10, владелец: «какую-нибудь игру в чёрно-белом стиле или в нашем
    неоморфизме»). Доска — мягкий неоморфизм на жемчужно-сером, фишки — глянцевые чёрные (ваши) и перламутровые белые
-   (Лира). Ход — поставить фишку так, чтобы зажать ряд фишек соперника: они переворачиваются. Нет хода — пропуск.
-   Лира думает на 3 хода вперёд (на «полегче» — на один и иногда ошибается). Очки — фишки к концу, победа ×2. */
+   (Мира). Ход — поставить фишку так, чтобы зажать ряд фишек соперника: они переворачиваются. Нет хода — пропуск.
+   Мира думает на 3 хода вперёд (на «полегче» — на один и иногда ошибается). Очки — фишки к концу, победа ×2. */
 (() => {
 'use strict';
 const A = Arcade;
-/* Широкое окно (лист «Досуг» на компьютере) — доска слева во всю высоту, справа название, счёт, слова Лиры и подсказка;
+/* Широкое окно (лист «Досуг» на компьютере) — доска слева во всю высоту, справа название, счёт, слова Миры и подсказка;
    узкое (телефон) — сверху вниз, как было. */
 const LAND = (() => { try { return innerWidth > (innerHeight - 110) * 1.15; } catch (e) { return false; } })();
 const W = LAND ? 1280 : 720, H = LAND ? 720 : 1280, N = 8;
@@ -18,7 +18,7 @@ const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -
 const WEIGHT = [
   [120, -20, 20, 5, 5, 20, -20, 120], [-20, -40, -5, -5, -5, -5, -40, -20], [20, -5, 15, 3, 3, 15, -5, 20], [5, -5, 3, 3, 3, 3, -5, 5],
   [5, -5, 3, 3, 3, 3, -5, 5], [20, -5, 15, 3, 3, 15, -5, 20], [-20, -40, -5, -5, -5, -5, -40, -20], [120, -20, 20, 5, 5, 20, -20, 120]];
-const ME = 1, AI = 2;                     // 1 — чёрные (человек, ходит первым), 2 — белые (Лира)
+const ME = 1, AI = 2;                     // 1 — чёрные (человек, ходит первым), 2 — белые (Мира)
 let S = null, SC = 1;
 
 function fresh(mode, easy) {
@@ -97,7 +97,7 @@ function titleScreen(g) {
   fresh('title', false); g.setPlaying(false);
   g.screen({
     kicker: A.framed ? 'Досуг' : 'Аркада', title: 'Реверси',
-    html: `<p>Вы — чёрные, Лира — белые. Ставьте фишку так, чтобы зажать ряд белых: они станут вашими. Углы — самые ценные.</p>${g.best ? `<p class="record">Рекорд: ${g.best.toLocaleString('ru-RU')}</p>` : ''}`,
+    html: `<p>Вы — чёрные, Мира — белые. Ставьте фишку так, чтобы зажать ряд белых: они станут вашими. Углы — самые ценные.</p>${g.best ? `<p class="record">Рекорд: ${g.best.toLocaleString('ru-RU')}</p>` : ''}`,
     button: 'Играть', onGo: () => start(g, false), alt: { label: 'Полегче', onGo: () => start(g, true) }
   });
 }
@@ -110,7 +110,7 @@ function finish(g) {
   const rec = win && g.submit(sc);
   if (win) for (let k = 0; k < 5; k++) g.fx.burst(BX + Math.random() * SZ, BY + Math.random() * SZ, { n: 10, colors: ['#1d1f24', '#ffffff', '#9aa0aa'], speed: 300, size: 8, life: .9, gravity: 500, shape: 'star' });
   g.screen({
-    kicker: `Вы ${me} : ${ai} Лира`, title: win ? (rec ? 'Новый рекорд!' : 'Победа!') : me === ai ? 'Ничья' : 'Лира выиграла',
+    kicker: `Вы ${me} : ${ai} Мира`, title: win ? (rec ? 'Новый рекорд!' : 'Победа!') : me === ai ? 'Ничья' : 'Мира выиграла',
     html: win ? `<div class="score">${sc.toLocaleString('ru-RU')}</div><p>${S.easy ? 'На «полегче». Попробуйте в полную силу!' : 'В полную силу — так держать!'}</p>` : `<p>${me === ai ? 'Поровну — красиво!' : 'Ещё партию? Возьмите углы — они не переворачиваются.'}</p>`,
     button: 'Ещё партию', onGo: () => start(g, S.easy), alt: { label: S.easy ? 'В полную силу' : 'Полегче', onGo: () => start(g, !S.easy) }
   });
@@ -171,9 +171,9 @@ function draw(ctx, g) {
   const t = g.t;
   ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
   A.text(ctx, 'Реверси', L.title[0], L.title[1], { size: 62, weight: 900, color: INK });
-  // счёт: вы и Лира
+  // счёт: вы и Мира
   const me = count(S.b, ME), ai = count(S.b, AI);
-  for (const [i, who, name, n] of [[0, ME, 'Вы', me], [1, AI, 'Лира', ai]]) {
+  for (const [i, who, name, n] of [[0, ME, 'Вы', me], [1, AI, 'Мира', ai]]) {
     const [x, y] = L.cards[i], cw = L.cw, on = S.turn === who && S.mode === 'play' && !S.end;
     soft(ctx, x, y, cw, 104, 30, on ? 9 : 5, false);
     if (on) { A.rr(ctx, x + 2, y + 2, cw - 4, 100, 28); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(29,31,36,.35)'; ctx.stroke(); }
@@ -209,7 +209,7 @@ function draw(ctx, g) {
     disc(ctx, cx, cy - (f ? Math.sin(A.clamp(f.t, 0, 1) * Math.PI) * 10 : 0), CELL * .38 * pl, who, sx);
   }
   if (S.last && S.mode === 'play') { ctx.beginPath(); ctx.arc(BX + (S.last.x + .5) * CELL, BY + (S.last.y + .5) * CELL, 5, 0, Math.PI * 2); ctx.fillStyle = S.b[S.last.y][S.last.x] === ME ? 'rgba(255,255,255,.7)' : 'rgba(29,31,36,.5)'; ctx.fill(); }
-  // Лира говорит — облачко внизу
+  // Мира говорит — облачко внизу
   const sb = L.say, by = sb.y, bx = sb.x + sb.w / 2;
   if (S.sayT > 0 && S.say) {
     const a = Math.min(1, S.sayT / .3, (2.4 - S.sayT) / .2);
@@ -217,7 +217,7 @@ function draw(ctx, g) {
     soft(ctx, sb.x, by, sb.w, sb.h, 34, 7, false);
     A.text(ctx, S.say, bx, by + 50, { size: L.sayT, weight: 600, color: INK });
     ctx.restore();
-  } else if (S.mode === 'play') A.text(ctx, S.turn === ME ? 'Точки — куда можно поставить фишку' : 'Лира думает…', bx, by + 50, { size: L.hintT, weight: 500, color: MUTED });
+  } else if (S.mode === 'play') A.text(ctx, S.turn === ME ? 'Точки — куда можно поставить фишку' : 'Мира думает…', bx, by + 50, { size: L.hintT, weight: 500, color: MUTED });
 }
 
 A.game({

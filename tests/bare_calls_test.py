@@ -125,7 +125,7 @@ class Host:
     def __init__(self):
         self.workspace = Workspace(None); self.s = FakeS(); self.toolbox = T.Toolbox(self.s, None); self.toolbox.hooks["workspace"] = self.workspace
         self.said, self.stopping = [], threading.Event()
-    def persona_name(self): return "Лира"
+    def persona_name(self): return "Мира"
     def memory(self): return ""
     def llm_profile(self): return dict(PROF)
     def max_steps(self): return 30

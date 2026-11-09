@@ -59,7 +59,7 @@ with sync_playwright() as p:
 
 a = R["auto"]
 ok(a[0]["voice"] in ("ru-ru-x-rud-local", "ru-ru-x-ruf-local") and a[0]["pitch"] == 1.0, f"Патрик — мужской голос устройства: {a[0]}")
-ok(a[1]["voice"] == "ru-ru-x-ruc-local" and a[1]["pitch"] == 1.0, f"Лира — женский: {a[1]}")
+ok(a[1]["voice"] == "ru-ru-x-ruc-local" and a[1]["pitch"] == 1.0, f"Мира — женский: {a[1]}")
 ok(a[2]["voice"] == a[0]["voice"], "Патрик снова — тот же мужской голос")
 c = R["chosen"]
 ok(c[0]["voice"] == "ru-ru-x-rue-network" and c[1]["voice"] in ("ru-ru-x-rud-local", "ru-ru-x-ruf-local"),

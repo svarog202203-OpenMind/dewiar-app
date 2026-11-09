@@ -1,7 +1,7 @@
 """03.11, человек: «в версии для Windows на главной странице Студии нет кнопки-жучка, непонятно, куда выслать скриншот
 ошибки»; идея №98 — «лампочка идеи и жучок возле вопросика на каждой странице». Теперь: «Сообщить о проблеме» внизу меню
 (видно и с «Главной»), а у заголовка каждого раздела — жучок (снимок экрана + форма с названием раздела) и лампочка
-(«Идеи Лиры»)."""
+(«Идеи Миры»)."""
 import os, re, sys
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -46,7 +46,7 @@ with sync_playwright() as p:
        f"жучок раздела — форма с названием раздела: {st.input_value('#rep-note')!r}")
     st.evaluate("() => document.querySelector('nav button[data-p=\"pay\"]').click()"); st.wait_for_timeout(300)
     h.locator(".hb-idea").click(); st.wait_for_timeout(500)
-    ok(st.evaluate("document.querySelector('#p-ideas').classList.contains('cur')"), "лампочка — «Идеи Лиры»")
+    ok(st.evaluate("document.querySelector('#p-ideas').classList.contains('cur')"), "лампочка — «Идеи Миры»")
     ok(st.locator("#p-about h1 .hb-bug").count() == 0, "в «О программе» жучка у заголовка нет — форма там же")
     ok(not errs, f"без ошибок: {errs}")
     b.close()

@@ -4,7 +4,7 @@
      карточками, карточка кандидата с правкой, подбор под вакансию турниром, сравнение двоих).
      Студия показывает страницу во фрейме-песочнице; связь — только window.dewiar: run(действие, аргументы) — действия
      ЭТОГО плагина (recruit_board / import / get / edit / update / vacancy / tournament / compare / add), open(путь) — файл
-     резюме, ask(фраза) — Лире в «Чат» (объяснить и сравнить словами). Всё остальное работает без модели.
+     резюме, ask(фраза) — Мире в «Чат» (объяснить и сравнить словами). Всё остальное работает без модели.
      Всё, что пришло из резюме, выводится только через esc() — текст резюме не может стать разметкой. -->
 <html lang="ru">
 <head>
@@ -267,7 +267,7 @@
     $("#list").innerHTML = cs.length ? cs.map(c => `<div class="cand ${c.id === st.cur ? "cur" : ""} ${st.cmp.includes(c.id) ? "cmp" : ""}" data-id="${esc(c.id)}" role="button" tabindex="0">
         ${ava(c.id, c.name)}<span class="who"><b>${esc(c.name)}</b><small>${esc(c.position || "должность не указана")}</small><small>${esc([c.age ? c.age + " лет" : "", c.city, c.experience ? "опыт " + c.experience : ""].filter(Boolean).join(" · "))}</small></span>
         <span class="pills"><span class="stage st-${esc(c.stage)}">${esc(c.stage)}</span>${hon(c.honesty)}${(c.tech || []).slice(0, 3).map(t => `<span class="tech">${esc(t)}</span>`).join("")}</span>
-        <span class="corner">${c.best_score != null ? `<span class="pct" style="--v:${+c.best_score}" title="Оценка Лиры">${+c.best_score}</span>` : ""}<button class="vs ${st.cmp.includes(c.id) ? "on" : ""}" data-vs="${esc(c.id)}" title="${st.cmp.includes(c.id) ? "Убрать из сравнения" : "Сравнить (нужно двое)"}" aria-label="Сравнить">⚖</button></span></div>`).join("")
+        <span class="corner">${c.best_score != null ? `<span class="pct" style="--v:${+c.best_score}" title="Оценка Миры">${+c.best_score}</span>` : ""}<button class="vs ${st.cmp.includes(c.id) ? "on" : ""}" data-vs="${esc(c.id)}" title="${st.cmp.includes(c.id) ? "Убрать из сравнения" : "Сравнить (нужно двое)"}" aria-label="Сравнить">⚖</button></span></div>`).join("")
       : `<div class="empty"><b>Никого не нашлось</b>Снимите фильтр или поменяйте слова поиска.</div>`;
     $$("#list .cand").forEach(b => { b.onclick = (e) => { if (e.target.closest(".vs")) return; st.edit = false; openCand(b.dataset.id); }; b.onkeydown = (e) => { if (e.key === "Enter") b.click(); }; });
     $$("#list .vs").forEach(b => b.onclick = () => { const id = b.dataset.vs;
@@ -287,7 +287,7 @@
       <div class="stages" role="radiogroup" aria-label="Этап">${st.board.stages.map(s => `<button class="st-${esc(s)} ${c.stage === s ? "on" : ""}" data-stage="${esc(s)}" role="radio" aria-checked="${c.stage === s}">${esc(s)}</button>`).join("")}</div>
       <div class="acts">${c.path ? `<button class="btn" id="d-open">Открыть оригинал</button>` : ""}<button class="btn" id="d-edit">${st.edit ? "Отмена" : "Поправить"}</button>
         <button class="btn ghost" id="d-reparse" title="Заново достать факты из текста резюме">Переразобрать</button><button class="btn ghost" id="d-vs">⚖ Сравнить</button>
-        <button class="btn" id="d-qs" title="Лира подготовит вопросы в «Чате»">Вопросы к собеседованию</button><button class="btn ghost" id="d-del">Удалить</button></div>
+        <button class="btn" id="d-qs" title="Мира подготовит вопросы в «Чате»">Вопросы к собеседованию</button><button class="btn ghost" id="d-del">Удалить</button></div>
       ${st.edit ? `<div class="box"><h3>Карточка</h3><div class="edit">${[["name", "Имя", c.name], ["position", "Должность", c.position], ["phone", "Телефон", c.phone], ["email", "Почта", c.email], ["telegram", "Telegram", c.telegram],
           ["city", "Город", c.city], ["age", "Возраст", c.age], ["exp_years", "Стаж, лет", c.exp_months ? +(c.exp_months / 12).toFixed(1) : ""], ["salary", "Ожидания", c.salary], ["languages", "Языки (через запятую)", (c.languages || []).join(", ")]]
           .map(([k, l, v]) => `<label>${l}<input type="text" data-f="${k}" value="${esc(v ?? "")}"></label>`).join("")}</div><div class="acts" style="margin:0"><button class="btn primary" id="d-save">Сохранить</button></div></div>` : ""}
@@ -297,7 +297,7 @@
           <div class="crit">${Object.entries(mine.breakdown).map(([k, n]) => `<span class="muted">${esc(st.tour.criteria[k] || k)}</span><div class="meter"><i style="--v:${+n}"></i></div><b>${Math.round(n)}</b>`).join("")}</div>
           ${mine.has.length ? `<p class="muted" style="margin:12px 0 0">Есть из требований</p><div class="tags has">${mine.has.map(x => `<span>${esc(x)}</span>`).join("")}</div>` : ""}
           ${mine.missing.length ? `<p class="muted" style="margin:6px 0 0">Не видно в резюме</p><div class="tags miss">${mine.missing.map(x => `<span>${esc(x)}</span>`).join("")}</div>` : ""}</div>` : ""}
-      ${Object.entries(sc).map(([vid, s]) => `<div class="box"><h3>Оценка Лиры · ${esc(vn[vid] || "вакансия")}</h3><div class="big">${esc(s.total)}<small> из 100</small></div>
+      ${Object.entries(sc).map(([vid, s]) => `<div class="box"><h3>Оценка Миры · ${esc(vn[vid] || "вакансия")}</h3><div class="big">${esc(s.total)}<small> из 100</small></div>
           <div class="crit">${Object.entries(s.breakdown || {}).map(([k, n]) => `<span class="muted">${esc((st.board.criteria || {})[k] || k)}</span><div class="meter"><i style="--v:${+n}"></i></div><b>${Math.round(n)}</b>`).join("")}</div>
           ${s.summary ? `<p style="margin:10px 0 0">${esc(s.summary)}</p>` : ""}</div>`).join("")}
       <div class="box"><h3>Заметки</h3><div class="notes">${(c.notes || []).slice(-12).reverse().map(n => `<div><small>${esc(n.at)}</small>${esc(n.text)}</div>`).join("") || `<span class="dim">Пока пусто.</span>`}</div>
@@ -350,10 +350,10 @@
       <p class="muted" style="margin:0">${t.vacancy.need_years ? `Нужен опыт от ${t.vacancy.need_years} лет. ` : ""}Оценка по пяти критериям — без модели, одинаково для всех; итог по весам: навыки 40, опыт 30, формат 13, образование 10, языки 7.</p>
       <div class="podium">${pod.map((r, i) => `<button class="pod p${i + 1}" data-id="${esc(r.id)}"><span class="medal">${i + 1}</span>${ava(r.id, r.name)}<b>${esc(r.name)}</b><small>${esc(r.position || (r.years != null ? `опыт ${r.years} г.` : ""))}</small>
           <div class="big">${r.total}</div><small>из 100 · ${hon(r.honesty)}</small></button>`).join("")}</div>
-      <div class="acts"><button class="btn" id="why">Попросить Лиру объяснить выбор</button>${pod.length > 1 ? `<button class="btn ghost" id="top2">⚖ Сравнить первых двух</button>` : ""}</div>
+      <div class="acts"><button class="btn" id="why">Попросить Миру объяснить выбор</button>${pod.length > 1 ? `<button class="btn ghost" id="top2">⚖ Сравнить первых двух</button>` : ""}</div>
       <h3 style="margin:18px 0 8px">Рейтинг <span class="dim" style="font-weight:500">${t.ranking.length}</span></h3>
       <div class="tw"><table class="rank"><thead><tr><th>#</th><th>Кандидат</th><th>Балл</th>${Object.values(t.criteria).map(c => `<th class="c">${esc(c[0].toUpperCase() + c.slice(1))}</th>`).join("")}<th class="c">Честность</th><th>Этап</th></tr></thead>
-        <tbody>${t.ranking.map((r, i) => `<tr data-id="${esc(r.id)}" class="${t.in_bracket.includes(r.id) ? "" : "out"}"><td>${i + 1}</td><td><b>${esc(r.name)}</b>${r.lira != null ? ` <span class="pct" style="--v:${r.lira}" title="Оценка Лиры">Лира ${r.lira}</span>` : ""}</td>
+        <tbody>${t.ranking.map((r, i) => `<tr data-id="${esc(r.id)}" class="${t.in_bracket.includes(r.id) ? "" : "out"}"><td>${i + 1}</td><td><b>${esc(r.name)}</b>${r.lira != null ? ` <span class="pct" style="--v:${r.lira}" title="Оценка Миры">Мира ${r.lira}</span>` : ""}</td>
           <td><div class="bar2"><div class="meter"><i style="--v:${r.total}"></i></div><b>${r.total}</b></div></td>${Object.keys(t.criteria).map(k => cell(r.breakdown[k])).join("")}<td class="c">${hon(r.honesty)}</td><td><span class="stage st-${esc(r.stage)}">${esc(r.stage)}</span></td></tr>`).join("")}</tbody></table></div>
       ${t.rounds.length ? `<h3 style="margin:18px 0 8px">Турнир лучших — попарно</h3><div class="bracket">${t.rounds.map(rd => `<div class="round"><h4>${esc(rd.name)}</h4>${rd.battles.map(b => `<div class="battle">
           <div class="s ${b.winner === b.a ? "w" : ""}"><span>${esc(cname(b.a))}</span><b>${R[b.a] ? R[b.a].total : ""}</b></div>
@@ -383,7 +383,7 @@
         ${r.parameters.map(p => `<tr><td class="muted">${esc(p.name)}</td><td class="${p.winner === "A" ? "w" : ""}">${esc(p.a_value)}</td><td class="${p.winner === "B" ? "w" : ""}">${esc(p.b_value)}</td><td class="dim">${esc(p.comment)}</td></tr>`).join("")}</tbody></table></div>
       <div class="advs"><div class="box"><h3>Где сильнее — ${esc(r.a.name)}</h3>${r.a_advantages.length ? `<ul>${r.a_advantages.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : `<span class="dim">—</span>`}</div>
         <div class="box"><h3>Где сильнее — ${esc(r.b.name)}</h3>${r.b_advantages.length ? `<ul>${r.b_advantages.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : `<span class="dim">—</span>`}</div></div>
-      <div class="acts" style="margin-top:4px"><button class="btn primary" id="cask">Попросить Лиру сравнить словами</button></div>`;
+      <div class="acts" style="margin-top:4px"><button class="btn primary" id="cask">Попросить Миру сравнить словами</button></div>`;
     $("#cask").onclick = () => dewiar.ask(`Сравни кандидатов ${r.a.name} и ${r.b.name} под вакансию «${r.vacancy.title}»: прочитай оба резюме, кого звать первым и почему`).catch(e => msg(e.message, "bad"));
   }
 

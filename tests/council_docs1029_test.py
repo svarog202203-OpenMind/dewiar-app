@@ -1,4 +1,4 @@
-"""«Совет ИИ» видит документы (29.10, человек: «подключил папку с документами — Лира их видит и по ним рассуждает, а когда
+"""«Совет ИИ» видит документы (29.10, человек: «подключил папку с документами — Мира их видит и по ним рассуждает, а когда
 собираю Совет ИИ, они эти документы не видят»). Совету — отрывки из «Документов» по вопросу (общие для всех, и ведущему
 к итогу) и знания каждого персонажа (его базы и папки) — как в разговоре; в студии строкой — какие файлы смотрит совет;
 в протоколе — «Документы: …». Документов нет — подсказка о них не добавляется."""
@@ -37,7 +37,7 @@ class KB:
 
 def host(files, kb_for=()):
     ev = []
-    ps = [{"id": "lira", "name": "Лира", "character": "тёплая"}, {"id": "patrik", "name": "Патрик", "character": "строгий",
+    ps = [{"id": "lira", "name": "Мира", "character": "тёплая"}, {"id": "patrik", "name": "Патрик", "character": "строгий",
                                                                     "knowledge": [{"kind": "folder", "label": "Право"}] if "patrik" in kb_for else []}]
     h = types.SimpleNamespace(
         personas=types.SimpleNamespace(all=lambda: ps, get=lambda pid: next((p for p in ps if p["id"] == pid), None)),
@@ -53,7 +53,7 @@ def run(files, kb_for=()):
     h, ev = host(files, kb_for)
     c = CM.Council(h)
     c.profile_for = lambda pid: ({"base_url": "http://x", "model": "m"}, "m")
-    c.members = lambda: [{"id": "lira", "name": "Лира"}, {"id": "patrik", "name": "Патрик"}]
+    c.members = lambda: [{"id": "lira", "name": "Мира"}, {"id": "patrik", "name": "Патрик"}]
     c.start("За сколько дней предупредить хозяина о выезде?", ["lira", "patrik"])
     for _ in range(100):
         if c.cur and c.cur["done"]:
@@ -67,7 +67,7 @@ r1 = [(s, u) for s, u in CALLS if "участник «Совета ИИ»" in s 
 ok(len(r1) == 2 and all("Договор аренды.pdf" in u and "14 дней" in u for s, u in r1), "мнения — с отрывками из «Документов» человека")
 ok(all("называй документ" in s for s, u in r1), "участникам сказано опираться на документы и называть их")
 pat = next((s for s, u in r1 if "Ты — Патрик" in s), "")
-lira = next((s for s, u in r1 if "Ты — Лира" in s), "")
+lira = next((s for s, u in r1 if "Ты — Мира" in s), "")
 ok("ст. 610" in pat and "ст. 610" not in lira, "свои знания персонажа — только у него (Патрик с базой «Право»)")
 summ = next((u for s, u in CALLS if "ведущий" in s), "")
 ok("Договор аренды.pdf" in summ, "ведущий подводит итог, видя документы")

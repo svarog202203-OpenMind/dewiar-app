@@ -1,4 +1,4 @@
-/* «Утро с Лирой» на главной студии (0.57; core/morning.py). С 4 до 13 часов — над карточками «Сегодня»: погода
+/* «Утро с Мирой» на главной студии (0.57; core/morning.py). С 4 до 13 часов — над карточками «Сегодня»: погода
    крупно, и по строке на каждое, что ждёт: встречи и дела, сотрудники, клиенты, почта от людей, задачи. Строка ведёт
    в свой раздел. «Расскажи утро» — та же сводка голосом (job_run brief); «Каждое утро в …» — дело по расписанию
    (job_add, preset brief — та же карточка, что в «Делах по расписанию»); «Скрыть до завтра». Нет города — поле
@@ -25,9 +25,9 @@ const mnDay = () => { const d = new Date(); return `${d.getFullYear()}-${String(
 const mnTime = () => { const h = new Date().getHours(); return h >= 4 && h < 13; };
 const mnN = (n, one, few, many) => { const a = n % 10, b = n % 100; return `${n} ${a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 12 || b > 14) ? few : many}`; };
 
-/* «с Лирой», «с Патриком», «с Эвой» — имя в творительном падеже */
+/* «с Мирой», «с Патриком», «с Эвой» — имя в творительном падеже */
 function mnWith(n) {
-  n = String(n || "Лира");
+  n = String(n || "Мира");
   if (/[жшчщц]а$/i.test(n)) return n.slice(0, -1) + "ей";
   if (/а$/i.test(n)) return n.slice(0, -1) + "ой";
   if (/я$/i.test(n)) return n.slice(0, -1) + "ей";
@@ -98,7 +98,7 @@ function mnRender() {
   const box = $("#hm-morning"); if (!box) return;
   const d = MN;
   if (!d || !mnTime() || ((d.settings || {}).hide === mnDay())) { box.hidden = true; return; }
-  const nm = typeof hmWho === "function" ? hmWho("") : "Лира", who = mnWith(nm === "Ассистент" ? "Лира" : nm);
+  const nm = typeof hmWho === "function" ? hmWho("") : "Мира", who = mnWith(nm === "Ассистент" ? "Мира" : nm);
   const daily = d.daily;
   box.hidden = false;
   box.innerHTML = `<div class="mn-head"><h2>Утро с ${mnE(who)}</h2><button class="mn-x" id="mn-hide" title="Скрыть до завтра" aria-label="Скрыть до завтра">×</button></div>`

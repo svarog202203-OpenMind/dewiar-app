@@ -135,7 +135,7 @@ ok([x["uid"] for x in box] == ["2", "1"] and box[1]["files"] == ["счёт.pdf"]
 ok([x["uid"] for x in m.inbox(unread=True)] == ["2"], "только непрочитанные")
 ok([x["uid"] for x in m.inbox(query="счёт")] == ["1"], "поиск по слову")
 full = m.read("1")
-# 30.10 (владелец: «прочитал письмо через Лиру — а оно всё равно непрочитанное»)
+# 30.10 (владелец: «прочитал письмо через Миру — а оно всё равно непрочитанное»)
 CMDS.clear(); m.read("2")
 ok(BOX[2][1] is False and "EXAMINE" in CMDS and not any(c.startswith("UID STORE") for c in CMDS), "чтение без отметки — почта не тронута (EXAMINE, без STORE)")
 CMDS.clear(); m.read("2", mark=True)

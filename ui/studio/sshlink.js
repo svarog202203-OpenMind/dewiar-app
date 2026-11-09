@@ -1,5 +1,5 @@
 /* Студия → «Dewiar.pro» → «Сеть» → «Запасной вход через SSH» (29.10, владелец: «домен не восстанавливается, а на сервер
-   Лиры по SSH захожу — можно, чтобы Лира работала через SSH?»; «только для меня»). Видно только на компьютере, который
+   Миры по SSH захожу — можно, чтобы Мира работала через SSH?»; «только для меня»). Видно только на компьютере, который
    хоть раз ходил к сайту напрямую в сети сервера (net.lan_seen), или если уже настроено. Ядро — core/sshlink.py:
    sshlink (состояние), sshlink_save (включить/выключить с полями), sshlink_test («Проверить»: туннель и подпись сайта). */
 const SSH_F = ["host", "user", "port", "target", "key"];
@@ -12,7 +12,7 @@ function sshRender(d, keepFields) {
   const r = $("#sl-res");
   if (!d.ssh) { r.className = "res bad"; r.textContent = "На этом компьютере нет программы ssh — в Windows: «Параметры» → «Дополнительные компоненты» → «Клиент OpenSSH»."; return; }
   r.className = "res" + (d.state === "error" ? " bad" : d.state === "up" ? " ok" : "");
-  r.textContent = d.state === "up" ? "Сейчас Лира работает через SSH: домен не отвечает. Вернётся — туннель закроется сам."
+  r.textContent = d.state === "up" ? "Сейчас Мира работает через SSH: домен не отвечает. Вернётся — туннель закроется сам."
     : d.state === "error" ? d.error : d.on ? "Включено: домен отвечает — туннель не нужен. Проверяю раз в 30 секунд." : "";
 }
 async function sshLoad() { try { sshRender(await core.call("sshlink")); } catch (e) { } }
@@ -27,7 +27,7 @@ $("#sl-test").onclick = async (ev) => {
   try { const d = await core.call("sshlink_test", sshVals());
     if (d.ok) { await core.call("sshlink_save", Object.assign(sshVals(), { on: $("#sl-on").checked })).catch(() => { }); }
     sshRender(d, true); r.className = "res " + (d.ok ? "ok" : "bad");
-    r.textContent = d.ok ? "Работает: сервер пустил по ключу, за туннелем — наш сайт." + ($("#sl-on").checked ? "" : " Включите переключатель — и при сбое домена Лира перейдёт сама.") : d.error; }
+    r.textContent = d.ok ? "Работает: сервер пустил по ключу, за туннелем — наш сайт." + ($("#sl-on").checked ? "" : " Включите переключатель — и при сбое домена Мира перейдёт сама.") : d.error; }
   catch (e) { r.className = "res bad"; r.textContent = e.message; }
   ev.target.disabled = false;
 };

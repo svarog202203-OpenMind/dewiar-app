@@ -27,12 +27,12 @@ async function wlcRefresh() {
   if (tg && tg.paired) wlcSet(3, true, `Подключён: @${tg.bot}.`);
   const n = $$(".wst.ok").length; $("#wlc-chip").textContent = `✨ Первые шаги · ${n} из 3`;
 }
-/* облик и имя текущего персонажа (Лира — с живым лицом) */
+/* облик и имя текущего персонажа (Мира — с живым лицом) */
 function wlcPersona() {
   const p = (typeof personas !== "undefined" && personas || []).find(x => x.id === S.persona) || {};
-  $$("#wlc .wn").forEach(el => el.textContent = p.name || "Лира");
-  wlcTries(p.name || "Лира");
-  if (!$('.wst[data-s="2"]').classList.contains("ok")) $("#wlc-s2").textContent = `Скажите: «${p.name || "Лира"}, привет». Не откликается — научите имени.`;
+  $$("#wlc .wn").forEach(el => el.textContent = p.name || "Мира");
+  wlcTries(p.name || "Мира");
+  if (!$('.wst[data-s="2"]').classList.contains("ok")) $("#wlc-s2").textContent = `Скажите: «${p.name || "Мира"}, привет». Не откликается — научите имени.`;
   return p;
 }
 function wlcOpen() {

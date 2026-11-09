@@ -1,5 +1,5 @@
 """Студия → «Устройства» (0.56; письмо пользователя 28.10 — «хрен найдёшь, где эта синхронизация»): раздел в меню
-(«Связи и данные»), карта — Лира и все устройства (на связи — яркая линия), это устройство с именем и «Синхронизировать
+(«Связи и данные»), карта — Мира и все устройства (на связи — яркая линия), это устройство с именем и «Синхронизировать
 сейчас», «Подключить ещё устройство» — 6 цифр, QR и обратный отсчёт; подключилось новое — «Подключилось: …» и код
 прячется; «Ввести код» — 6 цифр (меньше — подсказка), «Своя модель осталась главной»; список с видом, версией и «на связи
 сейчас / был … назад»; «Переименовать», «Убрать». Без входа — «Показать код» приглушена, нажали — сказано, что делать."""
@@ -52,7 +52,7 @@ with sync_playwright() as p:
     ok("был 2 ч назад" in rows[2][1] and "on" not in rows[2][2] and rows[2][3], f"рабочий — был 2 ч назад, можно убрать: {rows[2][1]}")
     ok(not rows[3][3] and "Облако Dewiar" in rows[3][1], "облако Dewiar — без «Убрать»")
     m = pg.evaluate("() => [document.querySelectorAll('#dv-map .dv-node').length, document.querySelectorAll('#dv-map .dv-ln.on').length, document.querySelector('#dv-map .dv-orbt').textContent]")
-    ok(m[0] == 4 and m[1] == 3, f"карта: четыре устройства вокруг Лиры, на связи — три яркие линии: {m}")
+    ok(m[0] == 4 and m[1] == 3, f"карта: четыре устройства вокруг Миры, на связи — три яркие линии: {m}")
     st = pg.evaluate("() => [document.querySelector('#dv-myname').textContent, document.querySelector('#dv-sync-st').textContent, document.querySelector('#dv-via').textContent, document.querySelector('#dv-count').textContent]")
     ok(st[0] == "Домашний" and st[1].startswith("Синхронизировано в") and "по аккаунту misha" in st[2] and "на связи сейчас: 2" in st[3], f"это устройство и синхронизация: {st}")
     if os.environ.get("DEWIAR_SHOTS"): pg.screenshot(path=str(Path(os.environ["DEWIAR_SHOTS"]) / "studio-devices.png"), full_page=True)

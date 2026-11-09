@@ -32,7 +32,7 @@ with sync_playwright() as p:
         pg.route("https://**", lambda r: r.abort())
         pg.goto((www / "index.html").as_uri()); pg.wait_for_timeout(800)
         for skin in ("snow", "brand"):
-            pg.evaluate("(k) => { S.skin = k; saveS(); applyLook(); showYou('Лира привет'); showBot('Чтобы думать, мне нужен «мозг»: своя модель, ключ любимого сервиса или Dewiar.'); }", skin)
+            pg.evaluate("(k) => { S.skin = k; saveS(); applyLook(); showYou('Мира привет'); showBot('Чтобы думать, мне нужен «мозг»: своя модель, ключ любимого сервиса или Dewiar.'); }", skin)
             pg.wait_for_timeout(500)
             g = pg.evaluate(GEOM)
             mic_c = (g["mic"][0] + g["mic"][1]) / 2

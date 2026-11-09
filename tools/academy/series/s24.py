@@ -64,7 +64,7 @@ HTML = """
       <div class="row" id="w1"><i>🖥</i>Рабочий компьютер · вчера<em>в запасе</em></div>
       <div class="row" id="w2"><i>📱</i>Телефон<em>в запасе</em></div>
       <div class="line" id="wl">Отвечает: <b>Ноутбук (этот компьютер)</b> · запасные: Рабочий, Телефон</div></div>
-    <div class="say" id="q1">«Лира, напомни завтра позвонить маме»</div>
+    <div class="say" id="q1">«Мира, напомни завтра позвонить маме»</div>
     <div id="one">✉️ Одно сообщение <em>→</em> один ответ <em>· без дублей</em></div>
     <div id="steps">
       <div class="stp" id="st0"><small>Компьютер включён</small><div class="ic"><span>💻</span><span class="off">🖥</span></div><b>Отвечает ноутбук</b><p>С ним вы говорили последним</p></div>
@@ -76,7 +76,7 @@ HTML = """
       <div class="row"><i>🎙</i>На голосовые — отвечать и голосом<span class="tgl on"><i></i></span></div></div>
   </div>
   <div class="layer" id="L-phone"><div class="phone"><div class="scr tgc">
-    <div class="tgh"><img src="../../../../data/avatars/lira.webp" alt=""><div><b>Лира</b><small id="tgs">в сети</small></div></div>
+    <div class="tgh"><img src="../../../../data/avatars/lira.webp" alt=""><div><b>Мира</b><small id="tgs">в сети</small></div></div>
     <div class="tgm"><div class="bub me" id="m1">Что у меня завтра?</div><div class="typing" id="ty"><i></i><i></i><i></i></div>
       <div class="bub" id="m2">Завтра:<br>🦷 10:00 — стоматолог<br>📞 15:00 — созвон с Анной<small>ответил телефон · ноутбук выключен</small></div></div></div></div></div>
 """

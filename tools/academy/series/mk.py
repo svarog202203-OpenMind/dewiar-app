@@ -17,13 +17,13 @@ html = f"""<!doctype html>
 {R('css_tail')}</style></head>
 <body><div id="film">
   <div id="bg"></div><div class="blob" id="b1"></div><div class="blob" id="b2"></div>
-  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Лиры</b><span>{sp['TITLE']}</span></div></div>
+  <div id="brand"><img src="../../../../ui/assets/logo.png" alt=""><div><b>ИИ Академия Миры</b><span>{sp['TITLE']}</span></div></div>
   <div class="layer" id="L-title"><div id="plane">{sp['ICON']}</div>
     <div id="t-title"><h1>{sp['H1']}</h1><p>{sp['TAG']}</p></div></div>
 {sp['HTML']}
   <div class="layer" id="L-end"><div id="end"><h1>dewiar.pro</h1><p>Бесплатно · Windows, Linux, Android и браузер</p><span class="next">{sp['NEXT']}</span></div></div>
 
-  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Лира</b></div>
+  <div class="seat" id="s-lira" style="--c:var(--lira)"><div class="orb"><canvas id="e-lira" width="600" height="600"></canvas></div><b>Мира</b></div>
   <div class="seat" id="s-patrik" style="--c:var(--patrik)"><div class="orb"><canvas id="e-patrik" width="600" height="600"></canvas></div><b>Патрик</b></div>
   <div id="sub"></div>
 </div>

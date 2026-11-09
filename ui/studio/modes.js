@@ -1,6 +1,6 @@
-/* Режимы Лиры (0.58; владелец 28.10: «быстрые режимы — детский, для пожилых и обычный… исходя из режима понятно, что
+/* Режимы Миры (0.58; владелец 28.10: «быстрые режимы — детский, для пожилых и обычный… исходя из режима понятно, что
    для детей и пожилых работа и клиенты не нужны… чтобы это легко делалось, понятно, чётко»).
-   «Главная» → «Лира — для меня ▾»: три карточки — «Для меня», «Для ребёнка» (раздел «Дети», нужен PIN), «Для старших»
+   «Главная» → «Мира — для меня ▾»: три карточки — «Для меня», «Для ребёнка» (раздел «Дети», нужен PIN), «Для старших»
    (раздел «Для старших»: кто будет говорить, лекарства, кто присматривает; «Включить режим»).
    Ядро: mode_get, mode_set {mode}, senior_set {...}, senior_med_add {text, times}, senior_test, reminders, reminder_cancel
    (core/engine_senior.py, core/senior.py). Событие ядра «mode» — то же, что mode_get. */
@@ -10,7 +10,7 @@ const MD_NAME = { me: "для меня", kid: "для ребёнка", senior: "
    пока однообразно и нечитаемо»): у каждого режима свой мир — картинка на своём небе, обещание одной строкой и три
    коротких пункта вместо абзаца. Рисунки — белые линии на цвете (как значки «Главной», только крупно). */
 const MD_CARDS = [
-  { id: "me", t: "Для меня", p: "Всё, что умеет Лира, — для вас",
+  { id: "me", t: "Для меня", p: "Всё, что умеет Мира, — для вас",
     li: ["Дела, календарь и заметки", "Документы, работа и клиенты", "Музыка, игры и всё остальное"],
     art: `<rect class="f" x="38" y="22" width="96" height="74" rx="12"/><rect x="38" y="22" width="96" height="74" rx="12"/><path d="M38 40h96M58 14v14M114 14v14"/>
       <g class="t"><path d="M52 54h10M70 54h10M88 54h10M106 54h10M52 66h10M70 66h10M88 66h10M52 78h10M70 78h10"/></g>
@@ -45,15 +45,15 @@ async function mdLoad() {
 function mdChip() {
   const b = $("#hm-mode"); if (!b || !MD.st) return;
   if (window.hmRender && $("#p-home") && $("#p-home").classList.contains("cur")) try { hmRender(); } catch (e) { }   // плитка «Режимы»: «сейчас: …»
-  b.dataset.mode = MD.st.mode; $("span", b).textContent = "Лира — " + (MD_NAME[MD.st.mode] || MD_NAME.me);
+  b.dataset.mode = MD.st.mode; $("span", b).textContent = "Мира — " + (MD_NAME[MD.st.mode] || MD_NAME.me);
   document.documentElement.classList.toggle("md-senior", MD.st.mode === "senior");
 }
 function mdOpen(first) {
   let d = $("#md-dlg");
   if (!d) { d = document.createElement("dialog"); d.className = "md-dlg"; d.id = "md-dlg"; d.setAttribute("aria-labelledby", "md-t"); document.body.appendChild(d); }
   const cur = (MD.st && MD.st.mode) || "me";
-  d.innerHTML = `<div class="md-head"><h2 id="md-t">Для кого эта Лира?</h2>
-      <p>Выберите — и Лира сама подстроит вид, голос и то, что умеет. Поменять можно в любой момент.</p></div>
+  d.innerHTML = `<div class="md-head"><h2 id="md-t">Для кого эта Мира?</h2>
+      <p>Выберите — и Мира сама подстроит вид, голос и то, что умеет. Поменять можно в любой момент.</p></div>
     <div class="md-cards">${MD_CARDS.map(c => `<button type="button" class="md-card" data-m="${c.id}" aria-pressed="${c.id === cur}">
       <span class="md-art"><svg viewBox="0 0 200 120" aria-hidden="true">${c.art}</svg>${c.id === cur ? '<em>сейчас</em>' : ""}</span>
       <span class="md-txt"><b>${c.t}</b><strong>${c.p}</strong><ul>${c.li.map(x => `<li>${x}</li>`).join("")}</ul>
@@ -68,7 +68,7 @@ function mdOpen(first) {
     if (m === "kid") { mdGo("kids"); toast("Задайте имя ребёнка и PIN — и включите режим", 4000); return; }
     if (m === "senior") { mdGo("senior"); return; }
     if (cur === "kid") { mdGo("kids"); toast("Детский режим выключается в «Детях» — с PIN родителя", 4500); return; }
-    try { MD.st = await core.call("mode_set", { mode: "me" }); mdChip(); toast("Лира — снова для вас: всё как было", 3500); } catch (e) { toast(e.message, 4000); }
+    try { MD.st = await core.call("mode_set", { mode: "me" }); mdChip(); toast("Мира — снова для вас: всё как было", 3500); } catch (e) { toast(e.message, 4000); }
   });
   d.showModal();
   setTimeout(() => { const f = $(".md-card", d); if (f) f.focus(); }, 30);
@@ -92,7 +92,7 @@ function srRender() {
     : `<div><b>${kid ? "Сейчас включён детский режим" : "Режим выключен"}</b><span>${kid ? "Сначала выключите его в «Детях» — с PIN родителя." : "Заполните, кто будет говорить и кто присматривает, — и включите. Всё, что было, вернётся одной кнопкой."}</span></div>
        <button class="btn primary" type="button" id="sr-on"${kid ? " disabled" : ""}>Включить режим</button>`;
   if ($("#sr-on")) $("#sr-on").onclick = async () => {
-    try { await srSaveName(); MD.st = await core.call("mode_set", { mode: "senior" }); srRender(); mdChip(); toast("Готово: Лира стала проще и крупнее", 3500); } catch (e) { toast(e.message, 4000); } };
+    try { await srSaveName(); MD.st = await core.call("mode_set", { mode: "senior" }); srRender(); mdChip(); toast("Готово: Мира стала проще и крупнее", 3500); } catch (e) { toast(e.message, 4000); } };
   if ($("#sr-off")) $("#sr-off").onclick = async () => {
     try { MD.st = await core.call("mode_set", { mode: "me" }); srRender(); mdChip(); toast("Вернула обычный режим — всё как было", 3500); } catch (e) { toast(e.message, 4000); } };
   const nm = $("#sr-name"); if (document.activeElement !== nm) nm.value = c.name || "";
@@ -107,11 +107,11 @@ function srRender() {
     .then(r => { MD.st = r; }).catch(e => toast(e.message)));
   $("#sr-meds").innerHTML = srMeds.length ? srMeds.map(m => `<div class="sr-med"><b>${escH(m.at_hm || "")}</b><span>${escH(m.text)}</span><small>${escH(m.repeat_text || "")}</small>
       <button class="btn small" type="button" data-rm="${escH(m.id)}" title="Больше не напоминать">Убрать</button></div>`).join("")
-    : `<p class="hint" style="margin:0">Пока ничего. Добавьте, что и во сколько принимать, — или скажите Лире: «напоминай пить таблетку от давления в девять утра».</p>`;
+    : `<p class="hint" style="margin:0">Пока ничего. Добавьте, что и во сколько принимать, — или скажите Мире: «напоминай пить таблетку от давления в девять утра».</p>`;
   $$("#sr-meds [data-rm]").forEach(b => b.onclick = async () => { try { await core.call("reminder_cancel", { id: b.dataset.rm }); srLoad(); } catch (e) { toast(e.message); } });
   const t = (c.today || {}), talk = t.talk || [], meds = t.meds || [], al = t.alerts || [];
   const W2 = { taken: ["выпито", "ok"], missed: ["нет ответа", "bad"], snooze: ["отложено", ""], again: ["спросит ещё раз", ""] };
-  $("#sr-today").innerHTML = (talk.length ? `<p class="sr-line ok">Говорили с Лирой${talk[0] === talk[1] ? " в " + srT(talk[0]) : ` — с ${srT(talk[0])} до ${srT(talk[1])}`}</p>`
+  $("#sr-today").innerHTML = (talk.length ? `<p class="sr-line ok">Говорили с Мирой${talk[0] === talk[1] ? " в " + srT(talk[0]) : ` — с ${srT(talk[0])} до ${srT(talk[1])}`}</p>`
       : `<p class="sr-line">Сегодня ещё не говорили</p>`)
     + meds.map(m => `<p class="sr-line ${(W2[m.res] || [])[1] || ""}">${escH(m.at || "")} · ${escH(m.text)} — ${(W2[m.res] || ["?"])[0]}</p>`).join("")
     + al.map(a => `<p class="sr-line bad">${srT(a.ts)} · похоже на мошенников: «${escH(String(a.text).slice(0, 80))}»</p>`).join("");
@@ -128,7 +128,7 @@ $("#sr-madd").onclick = async () => {
   const text = $("#sr-mtext").value.trim(), times = $("#sr-mtimes").value.split(/[,;\s]+/).map(x => x.trim()).filter(Boolean);
   if (!text) { toast("Напишите, что принять"); $("#sr-mtext").focus(); return; }
   if (!times.length) { toast("Напишите время, например 09:00"); $("#sr-mtimes").focus(); return; }
-  try { await core.call("senior_med_add", { text, times }); $("#sr-mtext").value = ""; $("#sr-mtimes").value = ""; toast("Добавлено — Лира напомнит и спросит «выпили?»", 3500); srLoad(); }
+  try { await core.call("senior_med_add", { text, times }); $("#sr-mtext").value = ""; $("#sr-mtimes").value = ""; toast("Добавлено — Мира напомнит и спросит «выпили?»", 3500); srLoad(); }
   catch (e) { toast(e.message, 4000); }
 };
 $("#sr-test").onclick = async () => {

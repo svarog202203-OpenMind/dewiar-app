@@ -104,7 +104,7 @@ try:
         MODE["down"] = True
         pg.fill("#rp-q", "Минск"); pg.press("#rp-q", "Enter"); pg.wait_for_timeout(1500)
         ok("Каталог радиостанций сейчас не отвечает" in pg.inner_text("#radio-body"), "каталог молчит — понятно")
-        # название станции над Лирой — открывает «Радио»
+        # название станции над Мирой — открывает «Радио»
         pg.evaluate("() => closeSheets()"); pg.wait_for_timeout(300)
         pg.click("#rchip > b"); pg.wait_for_timeout(500)
         ok(pg.is_visible("#sh-radio"), "нажать название станции — открывается «Радио»")

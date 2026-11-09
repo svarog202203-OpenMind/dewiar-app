@@ -2,7 +2,7 @@
 человек видел, мог включить и сразу посмотреть, как работает; в будущем — видео к каждому»):
 — одна карточка: ещё не включённый плагин, каждый день другой, стрелка — следующий;
 — «Включить» — сразу; плагину нужны настройки (required) — «Настроить и включить» открывает его панель;
-— включили — «Спросить Лиру» задаёт его фразу в чате (видно, как работает);
+— включили — «Спросить Миру» задаёт его фразу в чате (видно, как работает);
 — ролик: свой (поле video — урок Академии или адрес) или общий урок «Плагины»;
 — «×» — скрыть на две недели; все включены — карточки нет; мобильная ширина — без вылезания."""
 import json, os, re, sys, tempfile
@@ -75,17 +75,17 @@ with sync_playwright() as p:
     ok(st.evaluate("document.querySelector('#p-skills').classList.contains('cur')") and st.evaluate("document.querySelector('#pld').classList.contains('open')")
        and "Тендеры" in st.inner_text("#pld-name"), "— открыта панель «Тендеров» в «Плагинах»")
     ok(not [c for c in st.evaluate("calls") if c[0] == "plugin_install"], "без настроек не установлен")
-    # «Кухня» — включается сразу; после — «Спросить Лиру»
+    # «Кухня» — включается сразу; после — «Спросить Миру»
     st.evaluate("() => { document.querySelector('nav button[data-p=\"home\"]').click(); HM.tryI = hmTryList().findIndex(p => p.id === 'kitchen'); hmTry(); }")
     st.wait_for_timeout(200)
     ok(st.inner_text("#ht-on") == "Включить", "настройки не обязательны — просто «Включить»")
     st.click("#ht-on"); st.wait_for_timeout(400)
     ok(["plugin_install", {"id": "kitchen", "values": {}}] in st.evaluate("calls"), "«Включить» — установка одной кнопкой")
-    ok("Плагин включён" in st.inner_text("#hm-try") and st.evaluate("!!document.querySelector('#ht-ask')"), "включили — «Плагин включён», «Спросить Лиру»")
+    ok("Плагин включён" in st.inner_text("#hm-try") and st.evaluate("!!document.querySelector('#ht-ask')"), "включили — «Плагин включён», «Спросить Миру»")
     ok(st.evaluate("!!document.querySelector('#hm-apps [data-app=\"plg:kitchen\"]')"), "и значок плагина появился среди приложений")
     st.evaluate("() => { window._asked = null; qaAsk = (t) => { _asked = t; }; }")
     st.click("#ht-ask"); st.wait_for_timeout(200)
-    ok(st.evaluate("_asked") == next(x for x in cat["plugins"] if x["id"] == "kitchen")["try"], "«Спросить Лиру» — его фраза в чате: видно, как работает")
+    ok(st.evaluate("_asked") == next(x for x in cat["plugins"] if x["id"] == "kitchen")["try"], "«Спросить Миру» — его фраза в чате: видно, как работает")
     st.evaluate("() => { document.querySelector('nav button[data-p=\"home\"]').click(); hmTry(); }"); st.wait_for_timeout(200)
     ok(vis() and "Попробуйте плагин" in st.inner_text("#hm-try") and name() != "Кухня", "дальше — снова не включённые")
     # 05.11 (владелец: «блок в студии ты должен был выровнять — без изменений»): это <section>, а общее «section

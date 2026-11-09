@@ -48,7 +48,7 @@ class E(IntroMixin):
     def __init__(self, ui):
         self.s, self.said, self.events = S(ui), [], []
         self.turn, self.state, self.stopping, self.mic_voice_t = None, "idle", threading.Event(), 0.0
-        self.personas = types.SimpleNamespace(get=lambda pid: {"name": "Лира"})
+        self.personas = types.SimpleNamespace(get=lambda pid: {"name": "Мира"})
         self.wav_input = None
 
     def emit(self, kind, **k):
@@ -64,7 +64,7 @@ orig = e.stopping.wait
 e.stopping.wait = lambda t: orig(0.1)
 e.intro_auto()
 time.sleep(1.5)
-ok(len(e.said) == 1 and "Спросите что угодно" in e.said[0] and "Лира" in e.said[0] and e.s.get("ui", "first_nudged"),
+ok(len(e.said) == 1 and "Спросите что угодно" in e.said[0] and "Мира" in e.said[0] and e.s.get("ui", "first_nudged"),
    f"познакомились и молчат — один раз мягко напомнила: {e.said}")
 ok(("first_ask", {"on": True, "phrases": e.first_try()}) in e.events, "и снова показала фразы-кнопки")
 e.intro_auto(); time.sleep(1.0)

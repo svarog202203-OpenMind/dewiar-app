@@ -32,7 +32,7 @@ with sync_playwright() as p:
     pg = b.new_page(viewport={"width": 393, "height": 820}); pg.on("pageerror", lambda e: errs.append(str(e))); pg.on("dialog", lambda d: d.accept())
     pg.route("https://**", lambda r: r.abort())
     pg.goto((www / "index.html").as_uri()); pg.wait_for_timeout(900)
-    r = pg.evaluate("""async () => { fileSave('notes.json', '[]'); await ask('Лира, запиши в заметки настроенный умный дом с компьютера не синхронизируется с телефоном');
+    r = pg.evaluate("""async () => { fileSave('notes.json', '[]'); await ask('Мира, запиши в заметки настроенный умный дом с компьютера не синхронизируется с телефоном');
       await new Promise(r => setTimeout(r, 200)); return [notes().map(x => [x.title, x.text]), document.querySelector('#bot').textContent]; }""")
     ok(len(r[0]) == 1 and r[0][0][1].startswith("Настроенный умный дом") and r[1].strip() == "Записала в заметки.", f"«запиши в заметки …» — сразу и без модели; вслух — без оборванного пересказа: {r}")
     r = pg.evaluate("() => [noteQuick('что у меня в заметках'), noteQuick('запиши расход 450'), noteQuick('заметка: позвонить Ольге в пять'), notes().length, notes().slice(-1)[0].text]")
@@ -55,18 +55,18 @@ with sync_playwright() as p:
     r = pg.evaluate(f"""async () => {{ turnAtt = [{{ kind: 'image', name: 'доска.jpg', url: '{PIX}' }}]; const t = await runTool('save_note', {{ title: 'Доска', text: 'схема' }});
       return [t, (notes().find(n => n.title === 'Доска').att || []).length]; }}""")
     ok("вложений: 1" in r[0] and r[1] == 1, f"модель записала заметку — фото этого хода с ней: {r}")
-    # «Лира, открой сканер» — сразу сканер (имя не мешает); «Открыла сканер» без scan_code — ловится (заметка 11.10)
+    # «Мира, открой сканер» — сразу сканер (имя не мешает); «Открыла сканер» без scan_code — ловится (заметка 11.10)
     r = pg.evaluate("""async () => { let opened = 0; const s0 = scanCode; scanCode = () => { opened++; };
-      const a = await quick('Лира, открой сканер'), b = await quick('лира открой сканер'); await new Promise(r => setTimeout(r, 400)); scanCode = s0;
+      const a = await quick('Мира, открой сканер'), b = await quick('мира открой сканер'); await new Promise(r => setTimeout(r, 400)); scanCode = s0;
       return [a && a.say, b && b.say, opened, !!claimedAction('Открыла сканер, наведи камеру.', new Set(), 'сканер'), !!claimedAction('Открыла сканер.', new Set(['scan_code']), 'сканер')]; }""")
-    ok(r == ["Наведите камеру на код.", "Наведите камеру на код.", 2, True, False], f"«Лира, открой сканер» — сканер открывается; «открыла» без открытия — ловится: {r}")
+    ok(r == ["Наведите камеру на код.", "Наведите камеру на код.", 2, True, False], f"«Мира, открой сканер» — сканер открывается; «открыла» без открытия — ловится: {r}")
     # «стоп» ослышан («Вы: Ctop.» → «Хорошо, я слушаю.», отзыв 11.10) — всё равно стоп, без модели; «стол» — нет
     r = pg.evaluate("""async () => { const out = [];
-      for (const t of ['Ctop.', 'Сстоп!', 'Стоб', 'Паузу.', 'Pauza', 'Лира, Ctop', 'ну всё, хватить']) { const q = await quick(t); out.push(q && q.say); }
+      for (const t of ['Ctop.', 'Сстоп!', 'Стоб', 'Паузу.', 'Pauza', 'Мира, Ctop', 'ну всё, хватить']) { const q = await quick(t); out.push(q && q.say); }
       return [out, ['Стол', 'Стопа болит', 'Топ', 'сто'].map(stopPhrase)]; }""")
     ok(r[0] == ["Хорошо."] * 7 and r[1] == [None] * 4, f"телефон: ослышанное «стоп/пауза» — стоп без модели, похожие слова — нет: {r}")
     # «покажи заметки» — открывает заметки; поиск «заметки», «все» — последние, а не «заметок нет» (отзыв 11.10)
-    r = pg.evaluate("""async () => { const a = await quick('Покажи заметки'), b = await quick('Лира, что у меня в заметках');
+    r = pg.evaluate("""async () => { const a = await quick('Покажи заметки'), b = await quick('Мира, что у меня в заметках');
       await new Promise(r => setTimeout(r, 400)); const open = document.querySelector('#sh-day').classList.contains('on') && dayTab === 'notes';
       closeSheets(); const t1 = await runTool('find_notes', { query: 'заметки' }), t2 = await runTool('find_notes', { query: '' }), t3 = await runTool('find_notes', { query: 'Ольге' }),
       t4 = await runTool('find_notes', { query: 'квантовый телепорт' });
@@ -92,7 +92,7 @@ with sync_playwright() as p:
     r = pg.evaluate("() => { const x = notes().find(n => n.title === 'Ремонт'); return x && [x.text, (x.att || []).length, fileGet('natt-' + x.att[0].id).slice(0, 11)]; }")
     ok(r == ["обои в спальню", 1, "data:image/"], f"«Новая заметка» с фото: {r}")
     r = pg.evaluate("""async () => { const a0 = D.alarms; D.alarms = () => JSON.stringify([{ id: 'r1', at: Date.now() + 3600e3, title: 'позвонить маме' }]);
-      const a = await quick('Лира, какие у меня напоминания'), t = await runTool('list_reminders', {}); D.alarms = a0;
+      const a = await quick('Мира, какие у меня напоминания'), t = await runTool('list_reminders', {}); D.alarms = a0;
       await new Promise(r => setTimeout(r, 400)); const open = dayTab === 'rem'; closeSheets(); return [a && a.say, t.includes('позвонить маме'), open]; }""")
     ok(r[0].startswith("Напоминаний: 1.") and "позвонить маме" in r[0] and r[1] and r[2], f"«какие у меня напоминания» — сразу, без модели, и открыты: {r}")
     # удалить — только из открытой заметки, с вопросом; «Вернуть» возвращает и вложения

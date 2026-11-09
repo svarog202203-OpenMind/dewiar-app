@@ -1,6 +1,6 @@
 /* «Для старших» на телефоне (0.62; план: «крупно и просто: лекарства с „выпили?“, „всё хорошо“ близким и защита от
    мошенников — прямо на телефоне бабушки»). Как core/senior.py на компьютере, только своими силами телефона:
-   • Крупно и просто: класс body.senior — крупнее текст и кнопки; во «Всё» — только нужное; Лира говорит коротко и тепло.
+   • Крупно и просто: класс body.senior — крупнее текст и кнопки; во «Всё» — только нужное; Мира говорит коротко и тепло.
    • Лекарства: «Добавить лекарство» — ежедневные напоминания; в окне напоминания кнопка «Выпил(а) ✓» (AlarmActivity) или
      голосом «выпила» — отмечено. Через 40 минут не отмечено — присматривающим сообщение через «Близкие».
    • «Всё хорошо» вечером (по умолчанию в 20:00) — сводка дня присматривающим; днём (с 12:00), если с утра тишина, — «может,
@@ -85,7 +85,7 @@ function srHeard(text) {
   if (c.scam && !SR_NOT.test(s) && SR_SCAM.some(rx => rx.test(s))) {
     const ws = srWatchers(), names = ws.map(p => p.name).join(", ");
     d.alerts.push({ ts: t, kind: "scam", text: s.slice(0, 200) }); srDaySave(d);
-    if (ws.length) srSend(`⚠️ Это Лира, помощница. ${srWho()} ${srG("рассказала", "рассказал")}: «${s.trim().slice(0, 160)}». Похоже на мошенников — я сказала ничего не переводить и не называть коды. Позвоните ${srG("ей", "ему")}, пожалуйста.`);
+    if (ws.length) srSend(`⚠️ Это Мира, помощница. ${srWho()} ${srG("рассказала", "рассказал")}: «${s.trim().slice(0, 160)}». Похоже на мошенников — я сказала ничего не переводить и не называть коды. Позвоните ${srG("ей", "ему")}, пожалуйста.`);
     plog("info", "🛡 Для старших: похоже на мошенников" + (ws.length ? " — написала близким" : ""));
     const lead = c.name ? `${c.name}, стоп.` : "Стоп.";
     return `${lead} Это очень похоже на мошенников. Никому не называйте коды из СМС и данные карты и никуда не переводите деньги. Банк, полиция и врачи так не звонят. Если торопят и пугают — просто положите трубку.`
@@ -107,7 +107,7 @@ function srSummary(d) {
   const meds = srMedsToday().filter(x => x.at <= new Date());
   const med = meds.map(x => `${x.time} ${x.med.text} — ${x.taken ? srG("выпила", "выпил") : srG("не отметила", "не отметил")}`).join("; ");
   const ok = talk.length && meds.every(x => x.taken);
-  return "Это Лира, помощница. " + (ok ? "Всё хорошо. " : "") + line + "." + (med ? ` Лекарства: ${med}.` : "") + (ok ? "" : " Может, позвоните?");
+  return "Это Мира, помощница. " + (ok ? "Всё хорошо. " : "") + line + "." + (med ? ` Лекарства: ${med}.` : "") + (ok ? "" : " Может, позвоните?");
 }
 async function srTick() {
   if (!srOn() || !srWatchers().length || !syncCred()) return;
@@ -116,12 +116,12 @@ async function srTick() {
     const key = "late:" + x.rid + ":" + x.time;
     if (!x.taken && now - x.at > SR_LATE * 6e4 && now - x.at < 6 * 3600e3 && !d.sent.includes(key)) {
       d.sent.push(key); srDaySave(d);
-      await srSend(`Это Лира, помощница: ${srWho()} не ${srG("отметила", "отметил")} «${x.med.text}» в ${x.time} — я напомнила. Может, позвоните?`);
+      await srSend(`Это Мира, помощница: ${srWho()} не ${srG("отметила", "отметил")} «${x.med.text}» в ${x.time} — я напомнила. Может, позвоните?`);
     }
   }
   if (c.noon && hm >= 12 * 60 && hm < 18 * 60 && !d.sent.includes("noon")) {
     d.sent.push("noon"); srDaySave(d);
-    if (!d.talk.length && !srMedsToday().some(x => x.taken)) await srSend(`Это Лира, помощница: ${srWho()} сегодня ещё не ${srG("говорила", "говорил")} со мной. Может, позвоните?`);
+    if (!d.talk.length && !srMedsToday().some(x => x.taken)) await srSend(`Это Мира, помощница: ${srWho()} сегодня ещё не ${srG("говорила", "говорил")} со мной. Может, позвоните?`);
   }
   const ck = srTodayAt(c.checkin || "20:00");
   if (ck && now >= ck && !d.sent.includes("eve")) { d.sent.push("eve"); srDaySave(d); await srSend(srSummary(d)); }
@@ -131,7 +131,7 @@ async function srTick() {
    заранее, пока приложение живо, готовим эти сообщения — уже зашифрованные для устройств присматривающих (тем же
    encryptFor, что clSend) — и отдаём плану телефона (D.srPlan → SeniorGuard.java): он сам проснётся в нужное время,
    проверит, нужно ли ещё (лекарство отмечено «Выпил(а) ✓» — очередь done_inbox; уже отправлено, человек говорил с
-   Лирой — senior_day), и отправит в облако ?p=/close/send. Тексты телефону не видны: они зашифрованы.
+   Мирой — senior_day), и отправит в облако ?p=/close/send. Тексты телефону не видны: они зашифрованы.
    Пункты: «late» — лекарство не отмечено (сегодня и завтра), «noon» — с утра тишина. Вечернее «всё хорошо» зависит от
    дня — его по-прежнему собирает приложение (откроют позже — уйдёт тогда). План пересобирается, только когда меняется. */
 let srPlanSig = "";
@@ -145,13 +145,13 @@ function srPlanItems() {
       const rid = (m.ids || [])[i] || "", key = "late:" + rid + ":" + t, fire = at.getTime() + SR_LATE * 6e4;
       if (fire < now - 60e3 || (day === 0 && (d.sent.includes(key) || taken.includes(rid + ":" + t)))) return;
       out.push({ at: fire, med: at.getTime(), day: dk(at), key, rid, kind: "late",
-        text: `Это Лира, помощница: ${srWho()} не ${srG("отметила", "отметил")} «${m.text}» в ${t} — я напомнила. Может, позвоните?` });
+        text: `Это Мира, помощница: ${srWho()} не ${srG("отметила", "отметил")} «${m.text}» в ${t} — я напомнила. Может, позвоните?` });
     }));
     if (c.noon) {
       const at = new Date(); at.setHours(12, 0, 0, 0); at.setDate(at.getDate() + day);
       if (at.getTime() >= now - 60e3 && !(day === 0 && d.sent.includes("noon")))
         out.push({ at: at.getTime(), med: 0, day: dk(at), key: "noon", rid: "", kind: "noon",
-          text: `Это Лира, помощница: ${srWho()} сегодня ещё не ${srG("говорила", "говорил")} со мной. Может, позвоните?` });
+          text: `Это Мира, помощница: ${srWho()} сегодня ещё не ${srG("говорила", "говорил")} со мной. Может, позвоните?` });
     }
   }
   return out.sort((a, b) => a.at - b.at);
@@ -178,16 +178,16 @@ setInterval(() => { srTick().catch(e => plog("warn", "для старших: " +
 function srHtml() {
   const c = srConf(), st = clLoad(), today = srMedsToday();
   return `<p class="hint" style="margin-top:0">Для мамы, папы, бабушки: крупно и просто, лекарства с «выпили?», вечером — «всё хорошо» вам, и защита от мошенников. Обычно включают дети — прямо на телефоне родителей.</p>
-    <div class="card"><div class="sw"><div>Включить «Для старших»<small>${c.on ? "крупнее, проще, Лира говорит неторопливо" : "сейчас обычный режим"}</small></div><label class="tg"><input type="checkbox" id="sr-on" ${c.on ? "checked" : ""}><i></i></label></div></div>
+    <div class="card"><div class="sw"><div>Включить «Для старших»<small>${c.on ? "крупнее, проще, Мира говорит неторопливо" : "сейчас обычный режим"}</small></div><label class="tg"><input type="checkbox" id="sr-on" ${c.on ? "checked" : ""}><i></i></label></div></div>
     <h3>Кто пользуется</h3><div class="card">
       <input id="sr-name" class="grname" maxlength="30" placeholder="Как обращаться — например, Мария Ивановна" value="${esc(c.name)}">
       <div class="tabs" id="sr-g" style="margin-top:10px"><button data-g="f" class="${c.gender !== "m" ? "on" : ""}">Она</button><button data-g="m" class="${c.gender === "m" ? "on" : ""}">Он</button></div></div>
     <h3>Кто присматривает</h3><div class="card">${st.people.length ? `<div class="grpick" style="margin:0">${st.people.map(p => `<label class="grpk${(c.watchers || []).includes(p.pid) ? " on" : ""}"><input type="checkbox" data-w="${esc(p.pid)}" ${(c.watchers || []).includes(p.pid) ? "checked" : ""}>${clAvaH(p.pid, p.name, p.face)}<span>${esc(p.name)}</span><i class="grck"></i></label>`).join("")}</div>
-      <p class="hint" style="margin:10px 2px 0">Им Лира напишет через «Близкие»: не отмеченное лекарство, тишина с утра, «всё хорошо» вечером, мошенники.</p>
+      <p class="hint" style="margin:10px 2px 0">Им Мира напишет через «Близкие»: не отмеченное лекарство, тишина с утра, «всё хорошо» вечером, мошенники.</p>
       <button class="btn w" id="sr-test" style="margin-top:10px" ${(c.watchers || []).length ? "" : "disabled"}>Проверить — отправить пробное сообщение</button>`
-      : `<p class="hint" style="margin:0">Сначала добавьте сына или дочь в «Близкие» — им Лира будет писать.</p><button class="btn w" id="sr-close" style="margin-top:10px">Открыть «Близкие»</button>`}</div>
+      : `<p class="hint" style="margin:0">Сначала добавьте сына или дочь в «Близкие» — им Мира будет писать.</p><button class="btn w" id="sr-close" style="margin-top:10px">Открыть «Близкие»</button>`}</div>
     <h3>Лекарства</h3><div class="card">
-      ${c.meds.length ? c.meds.map(m => `<div class="srmed"><span><b>${esc(m.text)}</b><small>каждый день в ${m.times.join(", ")}</small>${today.filter(x => x.med.id === m.id && x.at <= new Date()).map(x => `<em class="${x.taken ? "ok" : ""}">сегодня в ${x.time}: ${x.taken ? "✓ " + srG("выпила", "выпил") : "не отмечено"}</em>`).join("")}</span><button class="btn sm ghost" data-md="${esc(m.id)}">Убрать</button></div>`).join("") : `<p class="hint" style="margin:0 0 8px">Лира напомнит и спросит «выпили?» — в окне напоминания будет кнопка «Выпил(а) ✓». Можно и сказать: «выпила».</p>`}
+      ${c.meds.length ? c.meds.map(m => `<div class="srmed"><span><b>${esc(m.text)}</b><small>каждый день в ${m.times.join(", ")}</small>${today.filter(x => x.med.id === m.id && x.at <= new Date()).map(x => `<em class="${x.taken ? "ok" : ""}">сегодня в ${x.time}: ${x.taken ? "✓ " + srG("выпила", "выпил") : "не отмечено"}</em>`).join("")}</span><button class="btn sm ghost" data-md="${esc(m.id)}">Убрать</button></div>`).join("") : `<p class="hint" style="margin:0 0 8px">Мира напомнит и спросит «выпили?» — в окне напоминания будет кнопка «Выпил(а) ✓». Можно и сказать: «выпила».</p>`}
       <input id="sr-mt" class="grname" maxlength="80" placeholder="Лекарство — например, Таблетка от давления" style="margin-top:8px"><div class="row2" style="margin-top:8px"><input id="sr-mh" class="grname" placeholder="Время: 9:00, 21:00"><button class="btn" id="sr-madd">Добавить</button></div></div>
     <h3>Присмотр</h3><div class="card">
       <div class="sw"><div>Вечером — «всё хорошо»<small>сводка дня присматривающим в <input id="sr-ck" class="srck" value="${esc(c.checkin)}" maxlength="5" inputmode="numeric" aria-label="Время сводки"></small></div><label class="tg"><input type="checkbox" checked disabled><i></i></label></div>
@@ -209,7 +209,7 @@ function srRender() {
   $$("#sr-g [data-g]").forEach(b => b.onclick = () => { srSave({ gender: b.dataset.g }); srRender(); });
   $$("#sr-body input[data-w]").forEach(x => x.onchange = () => { const w = new Set(srConf().watchers); x.checked ? w.add(x.dataset.w) : w.delete(x.dataset.w); srSave({ watchers: [...w] }); srRender(); });
   if ($("#sr-close")) $("#sr-close").onclick = () => openClose("");
-  if ($("#sr-test")) $("#sr-test").onclick = async () => { const n = await srSend(`Это Лира, помощница. ${srWho()} ${srG("включила", "включил")} режим «Для старших» — сюда я буду писать, если что-то не так, и вечером — «всё хорошо».`); toast(n ? `Отправлено: ${n}` : "Не отправилось — проверьте интернет", 3500); };
+  if ($("#sr-test")) $("#sr-test").onclick = async () => { const n = await srSend(`Это Мира, помощница. ${srWho()} ${srG("включила", "включил")} режим «Для старших» — сюда я буду писать, если что-то не так, и вечером — «всё хорошо».`); toast(n ? `Отправлено: ${n}` : "Не отправилось — проверьте интернет", 3500); };
   $("#sr-madd").onclick = () => { try { const m = srMedAdd($("#sr-mt").value, $("#sr-mh").value); toast(`Напомню: ${m.text} — в ${m.times.join(", ")}`, 3500); srRender(); } catch (e) { toast(e.message, 4500); } };
   $$("#sr-body [data-md]").forEach(b => b.onclick = () => { if (confirm("Убрать лекарство и его напоминания?")) { srMedDel(b.dataset.md); srRender(); } });
   $("#sr-ck").onchange = () => { const v = $("#sr-ck").value.trim().replace(".", ":"); if (/^\d{1,2}:\d{2}$/.test(v)) srSave({ checkin: v.padStart(5, "0") }); else toast("Время — например 20:00"); };

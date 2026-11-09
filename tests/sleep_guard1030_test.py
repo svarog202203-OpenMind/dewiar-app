@@ -36,7 +36,7 @@ ok(SG.parse_standby(RU, True) == 0 and SG.parse_standby(RU, False) == 600, "ру
 ok(SG.parse_standby("", True) == 0, "не прочитали — считаем «никогда» (микрофон не трогаем)")
 ok(SG.release_due(1750, 1800, 1800, False), "до сна меньше минуты, голоса не было — отпустить")
 ok(not SG.release_due(1000, 1800, 1800, False), "до сна ещё далеко — держать")
-ok(not SG.release_due(1750, 1800, 30, False), "только что говорили с Лирой — держать")
+ok(not SG.release_due(1750, 1800, 30, False), "только что говорили с Мирой — держать")
 ok(not SG.release_due(1750, 1800, 1800, True), "ассистент занят (разговор, будильник, радио) — держать")
 ok(not SG.release_due(99999, 0, 99999, False), "«Сон: никогда» — держать всегда")
 ok(not SG.release_due(None, 1800, 1800, False), "не Windows — ничего не меняется")

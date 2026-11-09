@@ -77,7 +77,7 @@ public class MainActivity extends Activity implements Net.Sink {
                 if (fileCb != null) fileCb.onReceiveValue(null);       // прежний выбор не закрыт: без ответа WebView больше не откроет выбор
                 fileCb = cb;
                 try {
-                    // что просит страница (accept): снимок оплаты — только картинки, вложение для Лиры — фото и текстовые файлы
+                    // что просит страница (accept): снимок оплаты — только картинки, вложение для Миры — фото и текстовые файлы
                     java.util.ArrayList<String> types = new java.util.ArrayList<>();
                     for (String t : p.getAcceptTypes()) for (String x : (t == null ? "" : t).split(","))
                         if (x.trim().contains("/")) types.add(x.trim());

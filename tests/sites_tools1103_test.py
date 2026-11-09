@@ -1,4 +1,4 @@
-"""«Сайты» (03.11): Лира делает и переделывает сайт одной фразой. Инструменты модели site_create / site_edit / site_show /
+"""«Сайты» (03.11): Мира делает и переделывает сайт одной фразой. Инструменты модели site_create / site_edit / site_show /
 site_publish (с «Выполнить?» и адресом) / site_review; «сделай сайт для моей кофейни…» узнаётся (SITE_ASK) — подсказка
 модели и действия «Сайтов» не выбрасываются даже на маленькой модели; создание — шаблон по делу, тексты моделью под
 человека (без выдуманных отзывов и людей), сразу открыт в браузере; правка — быстрыми правилами («тёмная шапка», «строгий
@@ -55,13 +55,13 @@ class Sett:
 
 
 # узнаём просьбы о сайте
-for t in ("сделай сайт для моей кофейни на Садовой, 5", "Лира, создай мне сайт-визитку", "нужен лендинг для онлайн-курса", "хочу сайт для салона красоты",
+for t in ("сделай сайт для моей кофейни на Садовой, 5", "Мира, создай мне сайт-визитку", "нужен лендинг для онлайн-курса", "хочу сайт для салона красоты",
           "можешь сделать сайт моей клиники?", "сделай простой сайт для юриста"):
     ok(bool(SITE_ASK.search(t)), f"«{t}» — просьба сделать сайт")
 for t in ("сделай шапку сайта тёмной", "на моём сайте поменяй телефон", "опубликуй мой сайт", "оцени мой сайт", "как продвигать мой сайт"):
     ok(bool(SITE_ASK.search(t) or SITE_EDIT_ASK.search(t)), f"«{t}» — о своём сайте")
 for t in ("открой сайт яндекса", "какая погода", "что у вас на сайте", "сделай страницу с рецептами", "на сайте госуслуг"):
-    ok(not SITE_ASK.search(t) and not SITE_EDIT_ASK.search(t), f"«{t}» — не про сайты Лиры")
+    ok(not SITE_ASK.search(t) and not SITE_EDIT_ASK.search(t), f"«{t}» — не про сайты Миры")
 ok("site_create" in SITE_NOTE and "НЕ пиши HTML" in SITE_NOTE and "show_page" in SITE_NOTE, "подсказка модели: инструментом, не HTML и не show_page")
 import engine_answer  # noqa: E402
 keep = engine_answer.AnswerMixin._plugin_keep(type("X", (), {})(), "сделай сайт для моей кофейни") if hasattr(engine_answer, "AnswerMixin") else None
@@ -120,14 +120,14 @@ r = tb.run("site_review", {})
 ok("из 100" in r and "Что улучшить" in r and "не опубликован" in r and "советов" in r, f"site_review: проверка и просьба дать советы ({r[:80]})")
 au = S.audit(sid)
 bad = [x for x in au["items"] if not x["ok"]]
-ok(all(x["fix"] for x in bad) and any(x["title"] == "Цены" for x in bad), f"у каждого «что улучшить» — фраза для Лиры; пустая цена замечена ({[x['title'] for x in bad]})")
+ok(all(x["fix"] for x in bad) and any(x["title"] == "Цены" for x in bad), f"у каждого «что улучшить» — фраза для Миры; пустая цена замечена ({[x['title'] for x in bad]})")
 q = tb.describe("site_publish", {"name": "zerno"})
 ok("zerno.dewiar.pro" in q and "виден всем" in q, f"«Выполнить?» с адресом: {q}")
 try:
     tb.run("site_publish", {"name": "www"})
     ok(False, "служебное имя — отказ")
 except T.ToolError as e:
-    ok("не подходит" in str(e) and "предложи" in str(e).lower(), f"служебное имя — Лира предложит другие: {str(e)[:70]}")
+    ok("не подходит" in str(e) and "предложи" in str(e).lower(), f"служебное имя — Мира предложит другие: {str(e)[:70]}")
 r = tb.run("site_show", {})
 ok("ещё не опубликован" in r, "site_show — открыть и сказать, что не опубликован")
 

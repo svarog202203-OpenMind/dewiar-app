@@ -18,7 +18,7 @@ def ok(c, m):
 
 CORE = r"""(() => { const ready = () => { if (!window.core) return setTimeout(ready, 5);
   core.retry = () => {}; core.connect = () => {}; if (core.ws) { core.ws.onclose = null; try { core.ws.close(); } catch (e) {} } core.connected = true;
-  core.call = async () => ({}); setTimeout(() => { core.emit("hello", { settings: { ui: { skin: "neon" }, llm: { active: "m" }, features: {} }, status: {}, persona: "lira", personas: [{ id: "lira", name: "Лира" }], reminders: [], state: "idle" }); }, 150); }; ready(); })();"""
+  core.call = async () => ({}); setTimeout(() => { core.emit("hello", { settings: { ui: { skin: "neon" }, llm: { active: "m" }, features: {} }, status: {}, persona: "lira", personas: [{ id: "lira", name: "Мира" }], reminders: [], state: "idle" }); }, 150); }; ready(); })();"""
 errs = []
 with sync_playwright() as p:
     b = p.chromium.launch()

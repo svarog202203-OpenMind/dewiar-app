@@ -57,7 +57,7 @@ function snPop() {
   if (typing) return;                                  // пароль вписывают — не перерисовываем под рукой
   const dir = i.dir || "", folder = dir.split(/[\\/]/).filter(Boolean).pop() || "Dewiar — копии";
   p.innerHTML = `<h3 class="sn-h">Слепок знаний<button class="hbtn" id="sn-help" title="Как работают слепки" aria-label="Как работают слепки">?</button></h3>
-    <p class="sn-lead">Всё, что знает Лира, одним файлом: заметки, платежи, дела, календарь, память, персонажи и настройки.</p>
+    <p class="sn-lead">Всё, что знает Мира, одним файлом: заметки, платежи, дела, календарь, память, персонажи и настройки.</p>
     <div class="sn-last${old ? " old" : ""}"><i></i><div><b>${x ? "Последний — " + snEsc(snWhen(x.time)) : "Слепков ещё не было"}</b>
       <small>${x ? snEsc(x.size_text) + " · " : ""}${i.auto === false ? "автокопия выключена" : "сам — раз в неделю, хранятся 4 последних"}</small></div></div>
     <div class="sn-kind" role="radiogroup" aria-label="Какой слепок">

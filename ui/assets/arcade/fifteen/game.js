@@ -5,7 +5,7 @@
 'use strict';
 const A = Arcade;
 /* Широкое окно (лист «Досуг» на компьютере) — своя раскладка 1280×720: поле посередине во всю высоту, слева —
-   название, ходы, время и «Лира-значок», справа — образец «как собрать» и подсказка. Книжная — как была. */
+   название, ходы, время и «Мира-значок», справа — образец «как собрать» и подсказка. Книжная — как была. */
 const LAND = (() => { try { return innerWidth > (innerHeight - 110) * 1.15; } catch (e) { return false; } })();
 const W = LAND ? 1280 : 720, H = LAND ? 720 : 1280;
 const CL = 165, CR = W - 150;                   // широкая: середины левой и правой колонок (правая — чуть к краю, мимо карточки меню)
@@ -186,7 +186,7 @@ function draw(ctx, g) {
   // подсказка снизу
   const tip = S.mode === 'title' ? '' : S.done ? 'Собрано!' : A.isTouch ? 'Коснитесь плитки рядом с пустым местом' : 'Стрелки или щелчок по плитке';
   if (tip && !LAND) A.text(ctx, tip, W / 2, gg.y0 + gg.size + 70, { size: 24, weight: 500, color: MUTED });
-  // маленький «Лира-значок»: мягкий кружок с улыбкой (широкая — внизу левой колонки)
+  // маленький «Мира-значок»: мягкий кружок с улыбкой (широкая — внизу левой колонки)
   const bx = LAND ? CL : W / 2, by = (LAND ? 560 : H - 150) + Math.sin(t * 2) * 5;
   if (LAND) { ctx.save(); ctx.translate(bx, by); ctx.scale(1.3, 1.3); ctx.translate(-bx, -by); }
   ctx.save(); ctx.shadowColor = DARK; ctx.shadowBlur = 18 * SC; ctx.shadowOffsetX = 6 * SC; ctx.shadowOffsetY = 6 * SC;
@@ -194,7 +194,7 @@ function draw(ctx, g) {
   ctx.shadowColor = LIGHT; ctx.shadowOffsetX = -6 * SC; ctx.shadowOffsetY = -6 * SC; ctx.fill(); ctx.restore();
   ctx.fillStyle = INK; for (const ex of [-14, 14]) { ctx.beginPath(); ctx.ellipse(bx + ex, by - 6, 4, Math.sin(t * 1.3) > .97 ? 1 : 6, 0, 0, Math.PI * 2); ctx.fill(); }
   ctx.beginPath(); ctx.arc(bx, by + 6, 12, .15 * Math.PI, .85 * Math.PI); ctx.lineWidth = 3.5; ctx.lineCap = 'round'; ctx.strokeStyle = INK; ctx.stroke();
-  if (LAND) { ctx.restore(); A.text(ctx, S.done ? 'Ура, собрано!' : 'Лира болеет за вас', CL, 652, { size: 21, weight: 500, color: MUTED }); }
+  if (LAND) { ctx.restore(); A.text(ctx, S.done ? 'Ура, собрано!' : 'Мира болеет за вас', CL, 652, { size: 21, weight: 500, color: MUTED }); }
 }
 
 A.game({
