@@ -6889,7 +6889,7 @@ function renderSoul() {
 const UPD_URL = "https://dewiar.pro/dwrapp/latest.json";
 const CLOUD = {
   openrouter: { name: "OpenRouter", url: "https://openrouter.ai/api/v1", model: "google/gemini-2.5-flash", key: "https://openrouter.ai/settings/keys" },
-  openai: { name: "OpenAI", url: "https://api.openai.com/v1", model: "gpt-4.1-mini", key: "https://platform.openai.com/api-keys" },
+  openai: { name: "OpenAI (ChatGPT)", url: "https://api.openai.com/v1", model: "gpt-4.1-mini", key: "https://platform.openai.com/api-keys" },
   deepseek: { name: "DeepSeek", url: "https://api.deepseek.com/v1", model: "deepseek-chat", key: "https://platform.deepseek.com/api_keys" },
   anthropic: { name: "Claude (Anthropic)", url: "https://api.anthropic.com/v1", model: "claude-sonnet-5-5", key: "https://platform.claude.com/settings/keys" },
   // признанные поставщики напрямую (20.10): официальные OpenAI-совместимые адреса; модель — первая из rec, что есть у сервиса
@@ -6906,6 +6906,11 @@ const CLOUD = {
   opencode: { name: "OpenCode Go", url: "https://opencode.ai/zen/go/v1", model: "", key: "https://opencode.ai" },
   xai: { name: "Grok (xAI)", url: "https://api.x.ai/v1", model: "grok-4-fast-non-reasoning", key: "https://console.x.ai",
          rec: ["grok-4-fast-non-reasoning", "grok-4-fast-reasoning", "grok-3-mini", "grok-4"] },
+  // 08.11: Venice и WildWest — OpenAI-совместимые, адреса из их документации; модель — первая из rec, что есть у сервиса
+  venice: { name: "Venice", url: "https://api.venice.ai/api/v1", model: "venice-uncensored-1-2", key: "https://venice.ai/settings/api",
+            rec: ["venice-uncensored-1-2", "zai-org-glm-5"] },
+  wildwest: { name: "WildWest", url: "https://wildwestapi.com/v1", model: "glm-5.3-outlaw", key: "https://wildwestapi.com/signup/",
+              rec: ["glm-5.3-outlaw", "kimi-k3.1-pro-outlaw", "deepseek-v4.1-flash-1017-outlaw", "hy4-outlaw"] },
   // российские агрегаторы — оплата картой РФ (№141). Только давно работающие (AITunnel и Polza.ai убраны 20.10)
   proxyapi: { name: "ProxyAPI", url: "https://api.proxyapi.ru/openai/v1", model: "gpt-4.1-mini", key: "https://console.proxyapi.ru/keys" },
   vsegpt: { name: "VseGPT", url: "https://api.vsegpt.ru/v1", model: "openai/gpt-4.1-mini", key: "https://vsegpt.ru" },
@@ -6924,6 +6929,114 @@ async function svcModels(url, key) {
 function svcUrl(raw) {
   let u = String(raw || "").trim().replace(/\/+$/, "").replace(/\/chat\/completions$/, "").replace(/\/models$/, "");
   return !u ? "" : /^https?:\/\//i.test(u) ? u : "https://" + u;
+}
+/* ---------- «Ключи сервисов»: свои ключи Claude, ChatGPT, Gemini, Grok, Venice, WildWest и любых OpenAI-совместимых сервисов —
+   добавить, изменить, включить, удалить. Лежат в S.keys на телефоне (память приложения; на компьютер и в облако сами не
+   уходят), так что телефон работает автономно, без компьютера. Новый сервис — строка в CLOUD или «Другой — по адресу»
+   (у каждой записи свои название, адрес, ключ и модель, поэтому записей может быть сколько угодно). ---------- */
+const vaultList = () => Array.isArray(S.keys) ? S.keys : (S.keys = []);
+const keyMask = (k) => k ? "…" + String(k).slice(-4) : "без ключа";
+const vaultNorm = (u) => svcUrl(u).toLowerCase();
+function vaultActive() {
+  const l = S.llm; if (!l || l.cloud || !l.base_url) return null;
+  return vaultList().find(v => v.id === l.pid) || vaultList().find(v => vaultNorm(v.url) === vaultNorm(l.base_url) && v.key === l.api_key) || null;
+}
+/* Записать (новая — без id; с id — правка). Тот же адрес и тот же ключ второй раз не плодим. -> запись */
+function vaultSave(v) {
+  const list = vaultList(), url = svcUrl(v.url);
+  let cur = v.id ? list.find(x => x.id === v.id) : list.find(x => vaultNorm(x.url) === vaultNorm(url) && x.key === v.key);
+  const f = { preset: v.preset || "custom", name: String(v.name || "").trim() || "Сервис", url, key: String(v.key || "").trim(), model: String(v.model || "").trim() };
+  if (cur) Object.assign(cur, f);
+  else { cur = Object.assign({ id: uid("k"), ts: Date.now() }, f); list.push(cur); }
+  if (S.llm && S.llm.pid === cur.id) Object.assign(S.llm, { name: cur.name, base_url: cur.url, api_key: cur.key, model: cur.model || S.llm.model });
+  return cur;
+}
+/* Сделать запись мозгом: если имя модели не задано или стоит по умолчанию — берём то, что у сервиса есть сейчас; пробный
+   ответ проверяет ключ. Не вышло — прежний мозг остаётся, наружу ошибка. */
+async function vaultUse(v) {
+  const old = S.llm, c = CLOUD[v.preset];
+  let model = v.model;
+  if (!model || (c && c.rec && model === c.model)) {
+    const ms = await svcModels(v.url, v.key);
+    if (ms.length && (!model || !ms.includes(model))) model = (c && c.rec && c.rec.find(m => ms.includes(m))) || ms.slice().sort()[0];
+  }
+  if (!model) throw new Error("Впишите имя модели — этот сервис не отдал их список");
+  S.llm = Object.assign({}, DEF.llm, { kind: "openai", name: v.name, base_url: svcUrl(v.url), api_key: v.key, model, disable_thinking: false, pid: v.id });
+  try { await llmStream([{ role: "user", content: "Ответь одним словом: готово" }], null, null); }
+  catch (e) { S.llm = old; throw e; }
+  v.model = model; saveS();
+}
+/* Удалить ключ совсем: из хранилища и из «Прежних мозгов» (иначе он остался бы там). Включённый — мозг отключается. */
+function vaultDelete(id) {
+  const v = vaultList().find(x => x.id === id); if (!v) return;
+  const same = (x) => x && x.api_key && x.api_key === v.key && vaultNorm(x.base_url || "") === vaultNorm(v.url);
+  S.keys = vaultList().filter(x => x.id !== id);
+  if (S.llm && (S.llm.pid === id || same(S.llm))) S.llm = Object.assign({}, DEF.llm);
+  saveS();
+  S.llmSaved = (S.llmSaved || []).filter(x => !same(x) && x.pid !== id);
+  saveS();
+}
+let vaultEd = null;                                  // null | "new" | id записи, которую правят
+function vaultHtml() {
+  const list = vaultList(), act = vaultActive();
+  const rows = list.map(v => { const on = act && act.id === v.id;
+    return `<div class="vk" style="margin-top:10px"><div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(v.name)}${on ? " · думает" : ""}</div>
+      <small class="hint" style="margin:2px 0 6px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(v.model || "модель — из списка сервиса")} · ключ ${esc(keyMask(v.key))}</small>
+      <div class="row2">${on ? "" : `<button class="btn p" style="flex:1" data-vk-use="${esc(v.id)}">Включить</button>`}<button class="btn" style="flex:1" data-vk-edit="${esc(v.id)}">Изменить</button><button class="btn" style="flex:1" data-vk-del="${esc(v.id)}">Удалить</button></div></div>`; }).join("");
+  let form = "";
+  if (vaultEd) {
+    const v = vaultEd === "new" ? { preset: "openai", name: "", url: "", key: "", model: "" } : list.find(x => x.id === vaultEd);
+    if (v) { const p = CLOUD[v.preset] ? v.preset : "custom";
+      form = `<div class="vkform" style="margin-top:12px"><label class="f"><span>Сервис</span><select id="vk-prov">${Object.entries(CLOUD).map(([k, c]) => `<option value="${k}"${k === p ? " selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label>
+        <label class="f"><span>Название</span><input id="vk-name" value="${esc(v.name)}" autocapitalize="off" spellcheck="false"></label>
+        <label class="f"><span>Адрес (OpenAI-совместимый, обычно …/v1)</span><input id="vk-url" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" value="${esc(v.url)}" placeholder="https://api.example.com/v1"></label>
+        <label class="f"><span>Ключ</span><input id="vk-key" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(v.key)}" placeholder="sk-…"></label>
+        <label class="hint" style="display:block;margin:-4px 0 8px"><input type="checkbox" id="vk-show"> показать ключ</label>
+        <label class="f"><span>Модель</span><input id="vk-model" autocapitalize="off" spellcheck="false" value="${esc(v.model)}" placeholder="пусто — возьму из списка сервиса"></label>
+        <p class="hint" id="vk-hint"></p>
+        <div class="row2"><button class="btn p" style="flex:1" id="vk-go">Сохранить и включить</button><button class="btn" style="flex:1" id="vk-save">Сохранить</button></div>
+        <button class="btn w" id="vk-cancel" style="margin-top:8px">Отмена</button></div>`; }
+  }
+  return `<div class="card" id="vault"><b>Ключи сервисов</b><p class="hint" style="margin:4px 0 0">Свои ключи Claude, ChatGPT, Gemini, Grok, Venice, WildWest и других сервисов. Хранятся только на этом телефоне — с ними Dewiar работает и без компьютера.</p>
+    ${rows || `<p class="hint" style="margin:10px 0 0">Пока ни одного ключа.</p>`}${form}
+    ${vaultEd ? "" : `<button class="btn w" id="vk-add" style="margin-top:12px">Добавить ключ</button>`}<div class="res" id="vk-msg"></div></div>`;
+}
+function vaultWire() {
+  if (!$("#vault")) return;
+  const msg = (t, cls) => { const r = $("#vk-msg"); if (r) { r.className = "res " + (cls || ""); r.textContent = t; } };
+  const find = (id) => vaultList().find(x => x.id === id);
+  if ($("#vk-add")) $("#vk-add").onclick = () => { vaultEd = "new"; renderSettings(); };
+  $$("#vault [data-vk-edit]").forEach(b => b.onclick = () => { vaultEd = b.dataset.vkEdit; renderSettings(); });
+  $$("#vault [data-vk-use]").forEach(b => b.onclick = async () => {
+    const v = find(b.dataset.vkUse); if (!v) return;
+    b.disabled = true; msg("проверяю ключ…");
+    try { await vaultUse(v); toast(`Думает «${v.name}»`); renderSettings(); }
+    catch (e) { b.disabled = false; msg(e.message, "bad"); }
+  });
+  $$("#vault [data-vk-del]").forEach(b => b.onclick = () => {      // два нажатия: первое спрашивает, второе удаляет
+    if (!b.dataset.ask) { $$("#vault [data-vk-del]").forEach(x => { x.dataset.ask = ""; x.textContent = "Удалить"; }); b.dataset.ask = "1"; b.textContent = "Точно удалить?";
+      clearTimeout(b._t); b._t = setTimeout(() => { b.dataset.ask = ""; b.textContent = "Удалить"; }, 4000); return; }
+    const v = find(b.dataset.vkDel); vaultDelete(b.dataset.vkDel); toast(v ? `Ключ «${v.name}» удалён` : "Удалён"); renderSettings();
+  });
+  if (!$("#vk-prov")) return;
+  const fill = (force) => { const k = $("#vk-prov").value, c = CLOUD[k] || CLOUD.custom;
+    if (force) { $("#vk-name").value = k === "custom" ? "" : c.name; $("#vk-url").value = c.url; $("#vk-model").value = k === "custom" ? "" : c.model; }
+    $("#vk-hint").innerHTML = c.key ? `Ключ — на <a href="${esc(c.key)}">${esc(c.key.replace("https://", ""))}</a>.` : "Любой сервис, который говорит «как OpenAI»: адрес и имя модели — в его документации."; };
+  $("#vk-prov").onchange = () => fill(true);
+  fill(vaultEd === "new");
+  $("#vk-show").onchange = (e) => { $("#vk-key").type = e.target.checked ? "text" : "password"; };
+  $("#vk-cancel").onclick = () => { vaultEd = null; renderSettings(); };
+  const collect = () => ({ id: vaultEd === "new" ? "" : vaultEd, preset: $("#vk-prov").value, name: $("#vk-name").value, url: $("#vk-url").value, key: $("#vk-key").value, model: $("#vk-model").value });
+  const store = (use) => async () => {
+    const f = collect(); if (!svcUrl(f.url)) { msg("Впишите адрес сервиса", "bad"); return; }
+    const v = vaultSave(f); saveS();
+    if (!use) { vaultEd = null; toast("Ключ сохранён"); renderSettings(); return; }
+    $("#vk-go").disabled = $("#vk-save").disabled = true; msg("проверяю ключ…");
+    try { await vaultUse(v); vaultEd = null; toast(`Думает «${v.name}»`); renderSettings(); }
+    catch (e) { $("#vk-go").disabled = $("#vk-save").disabled = false; msg(e.message + " — ключ сохранён, можно поправить", "bad"); }
+  };
+  $("#vk-save").onclick = store(false);
+  $("#vk-go").onclick = store(true);
 }
 const ICON = {
   dewiar: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3"/><path d="M12 3.5v5M12 15.5v5M3.5 12h5M15.5 12h5"/></svg>',
@@ -7145,6 +7258,7 @@ function renderSettings() {
     // первое нажатие спрашивает («Убрать»), второе убирает из списка. Ключ слуха (restore: "key") не убираем — им слышит телефон.
     if (back.length) h.push(`<div class="card" id="br-back"><small class="hint" style="margin:0">${back.some(l => l.got) ? "Другие мозги — включить одной кнопкой или убрать из списка" : "Прежние мозги — вернуть одной кнопкой или убрать из списка"}</small>${back.map((l, i) =>
       `<div class="row2 brb" style="margin-top:8px"><div style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(brainNameOf(l))}</div><button class="btn" data-back="${i}">${l.got ? "Включить" : "Вернуть"}</button>${l.restore ? "" : `<button class="btn brdel" data-forget="${i}" title="Убрать из списка" aria-label="Убрать «${esc(brainNameOf(l))}» из списка"><svg viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2M6.5 7l1 12.5a1.5 1.5 0 0 0 1.5 1.4h6a1.5 1.5 0 0 0 1.5-1.4L17.5 7"/></svg><span>Убрать</span></button>`}</div>`).join("")}<div class="res" id="br-back-res"></div></div>`);
+    h.push(vaultHtml());                                  // «Ключи сервисов»: свои ключи, хранятся на телефоне
     // экономный режим (0.63): свой ключ сервиса — простое отвечает недорогая модель того же сервиса (econModel)
     if (on && !S.llm.cloud) h.push(`<div class="card" id="br-econ"><div class="sw" style="margin:0"><div>Экономный режим<small>${S.llm.economy
       ? `Простые вопросы — ${esc(S.llm.economy)}, поручения и сложное — ${esc(S.llm.model || "основной модели")}.`
@@ -7403,6 +7517,7 @@ function wireSettings(info) {
   if (g("br-net-on")) g("br-net-on").addEventListener("change", () => { S.netShare = g("br-net-on").checked; saveS();
     toast(S.netShare ? "Общие вопросы иногда ответит Сеть Лиры — похожие на личные только сервер Dewiar" : "Всё отвечает сервер Dewiar", 3000); });
   if (setTab === "brain") {
+    vaultWire();
     $$("#br-back [data-forget]").forEach(b => b.onclick = () => {
       if (!b.classList.contains("ask")) { $$("#br-back .brdel.ask").forEach(x => x.classList.remove("ask")); b.classList.add("ask"); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove("ask"), 4000); return; }
       const l = llmBack()[+b.dataset.forget]; if (!l) return;
@@ -9218,6 +9333,7 @@ function wizard(kind) {
       try {
         try { await ping(); }
         catch (e) { if (k !== "custom" || /\/v1$/.test(url)) throw e; S.llm = mk(url + "/v1"); await ping(); }      // забыли /v1 — частая ошибка
+        const ent = vaultSave({ preset: k, name, url: S.llm.base_url, key: S.llm.api_key, model: S.llm.model }); S.llm.pid = ent.id;
         saveS(); r.className = "res ok"; r.textContent = "Готово — мозг подключён."; setTimeout(renderSettings, 1400); }
       catch (e) { S.llm = old; r.className = "res bad"; r.textContent = e.message; } };
   } else {
